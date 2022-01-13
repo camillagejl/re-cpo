@@ -1,11 +1,11 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar app clipped-left>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
-      <v-container  >
+      <v-container class="main">
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -15,13 +15,11 @@
 <script>
 export default {
   name: "App",
-
-  data: () => ({
-    items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Photos", icon: "mdi-image" },
-      { title: "About", icon: "mdi-help-box" },
-    ],
-  }),
 };
 </script>
+
+<style lang="scss">
+.main {
+  max-width: 1250px !important;
+}
+</style>
