@@ -91,9 +91,10 @@ export default new Vuex.Store({
             id: 2,
             title: "Veggie lasagnette",
             date: "2022/01/15",
+            image: 'veggie_lasagna.jpg',
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: "dinner",
+            category: "Dinner",
             servingtype: "Main course",
             worktime: 20,
             downtime: 90,

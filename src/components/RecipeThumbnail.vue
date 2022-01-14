@@ -7,7 +7,9 @@
           size="230"
           tile
         >
-          <v-img :src="'https://tmbidigitalassetsazure.blob.core.windows.net/rms3-prod/attachments/37/1200x1200/Vegetable-Lasagna_exps21267_TH143191D11__12_5b_RMS.jpg'"></v-img>
+          <v-img
+            :src="require('../assets/placeholders/' + latest.image)"
+          ></v-img>
         </v-avatar>
 
         <v-container class="pt-3 pl-0">

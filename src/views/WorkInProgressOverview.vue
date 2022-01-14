@@ -18,36 +18,10 @@
           :key="recipe.id"
           :recipe="recipe"
         />
-        <RecipeThumbnail
-          v-for="recipe in recipes"
-          :key="recipe.id"
-          :recipe="recipe"
-        />
-        <RecipeThumbnail
-          v-for="recipe in recipes"
-          :key="recipe.id"
-          :recipe="recipe"
-        />
-        <RecipeThumbnail
-          v-for="recipe in recipes"
-          :key="recipe.id"
-          :recipe="recipe"
-        />
       </v-row>
     </v-container>
 
-<!--    <v-btn-->
-<!--      elevation="2"-->
-<!--      fab-->
-<!--      color="pink"-->
-<!--      dark-->
-<!--      absolute-->
-<!--      bottom-->
-<!--      right-->
-<!--    >-->
-<!--      mdi-pencil-->
-<!--    </v-btn>-->
-
+    <!--  Add recip button in bottom corner  -->
     <v-speed-dial
       v-model="fab"
       :direction="direction"
@@ -74,7 +48,8 @@
         small
         color="secondary"
       >
-        <v-icon left>mdi-pencil</v-icon> New from template
+        <v-icon left>mdi-pencil</v-icon>
+        New from template
       </v-btn>
 
       <v-btn
@@ -82,7 +57,8 @@
         small
         color="secondary"
       >
-        <v-icon left>mdi-plus</v-icon> New from scratch
+        <v-icon left>mdi-plus</v-icon>
+        New from scratch
       </v-btn>
     </v-speed-dial>
 
@@ -101,15 +77,15 @@ export default {
   },
   computed: {
     ...mapState([
-      'recipes'
+      "recipes"
     ])
   },
   data: () => ({
-    direction: 'left',
+    direction: "left",
     fab: false,
     hover: true,
-    transition: 'slide-x-reverse-transition',
-  }),
+    transition: "slide-x-reverse-transition"
+  })
 
 };
 </script>
