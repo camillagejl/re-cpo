@@ -13,7 +13,7 @@
         <div>
           <v-card-title
             class="text-h5"
-            v-text="recipeTitle"
+            v-text="recipe.versions[1].title"
           ></v-card-title>
 
           <v-row>
@@ -22,63 +22,67 @@
               class="d-flex flex-column justify-space-between"
             >
               <v-container class="d-flex align-start pt-0">
-              <v-simple-table dense>
-                <template v-slot:default>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <v-icon
-                          color="black"
-                        >
-                          mdi-plus
-                        </v-icon>
-                      </td>
-                      <td>Created:</td>
-                      <td class="font-weight-bold">{{ created }}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <v-icon
-                          color="black"
-                        >
-                          mdi-pencil
-                        </v-icon>
-                      </td>
-                      <td>Last edited:</td>
-                      <td class="font-weight-bold">{{lastEdit }}</td>
-                    </tr>
-                    <tr>
-                      <td>
+                <v-simple-table dense>
+                  <template v-slot:default>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <v-icon
+                            color="black"
+                          >
+                            mdi-plus
+                          </v-icon>
+                        </td>
+                        <td>Created:</td>
+                        <td class="font-weight-bold">{{ recipe.created }}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <v-icon
+                            color="black"
+                          >
+                            mdi-pencil
+                          </v-icon>
+                        </td>
+                        <td>Last edited:</td>
+                        <td class="font-weight-bold">{{ recipe.versions[1].date }}</td>
+                      </tr>
+                      <tr>
+                        <td>
 
-                        <v-icon
-                          color="black"
-                        >
-                          mdi-content-copy
-                        </v-icon>
-                      </td>
-                      <td>Versions:</td>
-                      <td class="font-weight-bold">{{ versions }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+                          <v-icon
+                            color="black"
+                          >
+                            mdi-content-copy
+                          </v-icon>
+                        </td>
+                        <td>Versions:</td>
+                        <td class="font-weight-bold">{{ recipe.versions.length }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
               </v-container>
 
               <v-container class="d-flex justify-end pt-0">
-              <v-btn
-                color="primary"
-                plain
-              >
-                <v-icon left>
-                  mdi-chevron-down
-                </v-icon>
-                View iterations
-              </v-btn>
+                <v-btn
+                  color="primary"
+                  plain
+                  @click="showIterations = !showIterations"
+                >
+                  <v-icon left>
+                    {{ showIterations ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                  </v-icon>
+                  View iterations
+                </v-btn>
               </v-container>
             </v-col>
 
-            <v-col cols="6"
-                   class="d-flex flex-column justify-space-between align-end"
+            <v-spacer></v-spacer>
+
+            <v-col
+              cols="6"
+              class="d-flex flex-column justify-space-between align-end"
             >
               <v-card-text
                 class="pt-0"
@@ -90,7 +94,7 @@
 
               <v-card-text
                 class="pt-0"
-                v-text="comment"
+                v-text="recipe.versions[1].comment"
               ></v-card-text>
 
               <v-btn
@@ -108,6 +112,43 @@
           </v-row>
         </div>
       </div>
+
+      <v-expand-transition>
+        <div v-show="showIterations">
+          <v-simple-table dense class="iteration_table">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-uppercase">
+                    Recipe name
+                  </th>
+                  <th class="text-uppercase">
+                    Iteration date
+                  </th>
+                  <th class="text-uppercase">
+                    Changes
+                  </th>
+                  <th class="text-uppercase">
+                    Change comment
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="version in recipe.versions"
+                  :key="version.id"
+                >
+                  <td>{{ version.title }}</td>
+                  <td>{{ version.date }}</td>
+                  <td>Changes...</td>
+                  <td>{{ version.comment }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+        </div>
+      </v-expand-transition>
     </v-card>
   </v-col>
 </template>
@@ -117,17 +158,22 @@
 export default {
   name: "RecipeThumbnail",
   props: {
-    recipeTitle: String,
-    created: String,
-    lastEdit: String,
-    versions: Number,
-    comment: String
-  }
+    recipe: Object
+  },
+  data: () => ({
+    showIterations: false
+  })
 };
 </script>
 
 <style lang="scss">
-td {
-  padding: 0;
+
+thead {
+  background-color: #9A7F6B;
 }
+
+.iteration_table tr:nth-child(even) {
+  background-color: #EFE5DE;
+}
+
 </style>

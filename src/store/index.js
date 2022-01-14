@@ -24,7 +24,7 @@ export default new Vuex.Store({
             id: 1,
             title: "Veggie lasagna",
             date: "2022/01/13",
-            comment: `Comment: Removed the courgette because it got too soft
+            comment: `Removed the courgette because it got too soft
             compared to the other ...`,
             category: "dinner",
             servingtype: "Main course",
@@ -91,7 +91,7 @@ export default new Vuex.Store({
             id: 2,
             title: "Veggie lasagnette",
             date: "2022/01/14",
-            comment: `Comment: Removed the courgette because it got too soft
+            comment: `Removed the courgette because it got too soft
             compared to the other ...`,
             category: "dinner",
             servingtype: "Main course",

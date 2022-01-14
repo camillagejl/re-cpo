@@ -16,11 +16,7 @@
         <RecipeThumbnail
           v-for="recipe in recipes"
           :key="recipe.id"
-          :recipeTitle="recipe.versions[1].title"
-          :created="recipe.created"
-          :lastEdit="recipe.versions[1].date"
-          :versions="recipe.versions.length"
-          :comment="recipe.versions[1].comment"
+          :recipe="recipe"
         />
       </v-row>
     </v-container>
