@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12">
-    <v-card>
-      <div class="d-flex flex-nowrap">
+    <v-card class="pa-6">
+      <v-container class="d-flex flex-nowrap">
         <v-avatar
           class="ma-3"
           size="230"
@@ -10,23 +10,23 @@
           <v-img :src="'https://tmbidigitalassetsazure.blob.core.windows.net/rms3-prod/attachments/37/1200x1200/Vegetable-Lasagna_exps21267_TH143191D11__12_5b_RMS.jpg'"></v-img>
         </v-avatar>
 
-        <div>
+        <v-container class="pt-3 pl-0">
           <v-card-title
-            class="text-h5"
-            v-text="recipe.versions[1].title"
+            class="text-h5 pa-0"
+            v-text="latest.title"
           ></v-card-title>
 
-          <v-row>
+          <v-row class="fill-height justify-end">
             <v-col
               cols="6"
               class="d-flex flex-column justify-space-between"
             >
-              <v-container class="d-flex align-start pt-0">
-                <v-simple-table dense>
+              <v-container class="d-flex align-start pa-0">
+                <v-simple-table dense class="pt-3">
                   <template v-slot:default>
                     <tbody>
                       <tr>
-                        <td>
+                        <td class="pl-0">
                           <v-icon
                             color="black"
                           >
@@ -37,7 +37,7 @@
                         <td class="font-weight-bold">{{ recipe.created }}</td>
                       </tr>
                       <tr>
-                        <td>
+                        <td class="pl-0">
                           <v-icon
                             color="black"
                           >
@@ -45,11 +45,10 @@
                           </v-icon>
                         </td>
                         <td>Last edited:</td>
-                        <td class="font-weight-bold">{{ recipe.versions[1].date }}</td>
+                        <td class="font-weight-bold">{{ latest.date }}</td>
                       </tr>
                       <tr>
-                        <td>
-
+                        <td class="pl-0">
                           <v-icon
                             color="black"
                           >
@@ -63,22 +62,7 @@
                   </template>
                 </v-simple-table>
               </v-container>
-
-              <v-container class="d-flex justify-end pt-0">
-                <v-btn
-                  color="primary"
-                  plain
-                  @click="showIterations = !showIterations"
-                >
-                  <v-icon left>
-                    {{ showIterations ? "mdi-chevron-up" : "mdi-chevron-down" }}
-                  </v-icon>
-                  View iterations
-                </v-btn>
-              </v-container>
             </v-col>
-
-            <v-spacer></v-spacer>
 
             <v-col
               cols="6"
@@ -94,27 +78,42 @@
 
               <v-card-text
                 class="pt-0"
-                v-text="recipe.versions[1].comment"
+                v-text="'Comment: ' + latest.comment"
               ></v-card-text>
+            </v-col>
+
+            <v-card-actions
+            class="d-flex justify-end d-block"
+            >
+              <v-btn
+                color="primary"
+                plain
+                @click="showIterations = !showIterations"
+              >
+                <v-icon>
+                  {{ showIterations ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                </v-icon>
+                View iterations
+              </v-btn>
 
               <v-btn
                 color="primary"
                 elevation="2"
+                class="pr-4"
               >
-                <v-icon left>
+                <v-icon>
                   mdi-chevron-right
                 </v-icon>
                 Go to recipe
               </v-btn>
-
-            </v-col>
+            </v-card-actions>
 
           </v-row>
-        </div>
-      </div>
+        </v-container>
+      </v-container>
 
       <v-expand-transition>
-        <div v-show="showIterations">
+        <v-container v-show="showIterations">
           <v-simple-table dense class="iteration_table">
             <template v-slot:default>
               <thead>
@@ -131,6 +130,7 @@
                   <th class="text-uppercase">
                     Change comment
                   </th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -142,12 +142,23 @@
                   <td>{{ version.date }}</td>
                   <td>Changes...</td>
                   <td>{{ version.comment }}</td>
+                  <td>
+                    <v-btn
+                      color="primary"
+                      plain
+                    >
+                      <v-icon left>
+                        mdi-chevron-right
+                      </v-icon>
+                      Open iteration
+                    </v-btn>
+                  </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
 
-        </div>
+        </v-container>
       </v-expand-transition>
     </v-card>
   </v-col>
@@ -162,18 +173,38 @@ export default {
   },
   data: () => ({
     showIterations: false
-  })
+  }),
+  computed: {
+    latest() {
+      let versionsLength = this.recipe.versions.length;
+
+      return this.recipe.versions[versionsLength-1];
+
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 
+table {
+  border: none;
+}
+
+table, th, td {
+  border: none !important;
+}
+
 thead {
-  background-color: #9A7F6B;
+  background-color: var(--secondary-color);
+}
+
+th {
+  color: white !important;
 }
 
 .iteration_table tr:nth-child(even) {
-  background-color: #EFE5DE;
+  background-color: var(--secondary-color-lighten-3)
 }
 
 </style>

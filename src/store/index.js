@@ -90,7 +90,7 @@ export default new Vuex.Store({
           {
             id: 2,
             title: "Veggie lasagnette",
-            date: "2022/01/14",
+            date: "2022/01/15",
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
             category: "dinner",
