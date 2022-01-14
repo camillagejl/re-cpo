@@ -22,9 +22,77 @@ export default new Vuex.Store({
         versions: [
           {
             id: 1,
-            name: "Veggie lasagna",
+            title: "Veggie lasagna",
             date: "2022/01/13",
-            comment: "Tried the first recipe, inspired by Carrie.",
+            comment: `Comment: Removed the courgette because it got too soft
+            compared to the other ...`,
+            category: "dinner",
+            servingtype: "Main course",
+            worktime: 20,
+            downtime: 90,
+            shelftime: 5,
+            calories: 320,
+            protein: 320,
+            carbohydrates: 320,
+            fat: 320,
+            salt: 320,
+            nutrition_unit: "serving",
+            servings: 4,
+            description: "I'm a lasagna",
+            servingsuggestion: "Eat me",
+            storage: "In the fridge, please",
+            ingredients: {
+              no_header: {
+                order: 1,
+                ingredients: [
+                  {
+                    id: 1,
+                    order_number: 1,
+                    name: "Carrots",
+                    amount: 300,
+                    unit_id: 2
+                  },
+                  {
+                    id: 2,
+                    order_number: 2,
+                    name: "Tomatoes",
+                    amount: 2,
+                    unit_id: 1
+                  }
+                ]
+              }
+            },
+            steps: [
+              {
+                id: 1,
+                order_number: 1,
+                description: "Peel the carrots.",
+                images: [
+                  {
+                    id: 1,
+                    image_url: "url1"
+                  },
+                  {
+                    id: 2,
+                    image_url: "url2"
+                  }
+                ]
+              }
+            ],
+            notes: [
+              {
+                id: 1,
+                date: "2021/11/04",
+                note: "This is a note"
+              }
+            ]
+          },
+          {
+            id: 2,
+            title: "Veggie lasagnette",
+            date: "2022/01/14",
+            comment: `Comment: Removed the courgette because it got too soft
+            compared to the other ...`,
             category: "dinner",
             servingtype: "Main course",
             worktime: 20,
