@@ -60,11 +60,116 @@
               </v-row>
 
               <v-row>
-                <v-col cols="4">
-                  <IconHeader
-                    :icon="'mdi-clock-outline'"
-                    :text="'Work time'"
+                <v-col cols="5">
+
+                  <v-container class="pa-0">
+                    <IconHeader
+                      :icon="'mdi-clock-outline'"
+                      :text="'Work time'"
                     ></IconHeader>
+
+                    <v-container class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="workHours"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + hours
+                      </p>
+
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="workMinutes"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        oninput="if (this.value < 0) this.value = 0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + minutes
+                      </p>
+
+                    </v-container>
+                  </v-container>
+
+                  <v-container class="pa-0">
+                    <IconHeader
+                      :icon="'mdi-clock-outline'"
+                      :text="'Idle time'"
+                    ></IconHeader>
+
+                    <v-container class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="idleHours"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + hours
+                      </p>
+
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="idleMinutes"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        oninput="if (this.value < 0) this.value = 0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + minutes
+                      </p>
+
+                    </v-container>
+                  </v-container>
+
+                  <v-container class="pa-0">
+                    <IconHeader
+                      :icon="'mdi-clock-outline'"
+                      :text="'Overall time'"
+                    ></IconHeader>
+
+                    {{ overallTime }} timetime
+
+                  </v-container>
+
 
                 </v-col>
               </v-row>
@@ -123,6 +228,11 @@ export default {
     tags: [],
     servingType: null,
 
+    workHours: 0,
+    workMinutes: 20,
+    idleHours: 1,
+    idleMinutes: 30,
+
     breadcrumbs: [
       {
         text: "Home",
@@ -173,6 +283,16 @@ export default {
       });
 
       return servingTypes;
+    },
+    overallTime() {
+      const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);
+      const totalIdleMinutes = parseInt(this.idleHours) * 60 + parseInt(this.idleMinutes);
+
+      const totalMinutes = (totalWorkMinutes + totalIdleMinutes) / 60;
+      const actualHours = Math.floor(totalMinutes);
+      const actualMinutes = Math.round(60 * (((totalWorkMinutes + totalIdleMinutes) / 60) - actualHours));
+
+      return `${actualHours} hours ${actualMinutes} minutes`;
     }
   }
 };
