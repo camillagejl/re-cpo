@@ -69,47 +69,54 @@
                       :text="'Work time'"
                     ></IconHeader>
 
-                    <v-container class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
+                    <v-row>
+                      <v-col cols="6" class="d-flex align-center">
+                        <p class="mx-3 mb-0">
+                          -
+                        </p>
 
-                      <v-text-field
-                        v-model="workHours"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        hide-details
-                      >
-                      </v-text-field>
+                        <v-text-field
+                          v-model="workHours"
+                          style="width: 10%"
+                          outlined
+                          dense
+                          type="number"
+                          min="0"
+                          hide-details
+                        >
+                        </v-text-field>
 
-                      <p class="mx-3 mb-0">
-                        + hours
-                      </p>
+                        <p class="mx-3 mb-0">
+                          + hours
+                        </p>
 
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
+                      </v-col>
 
-                      <v-text-field
-                        v-model="workMinutes"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        oninput="if (this.value < 0) this.value = 0"
-                        hide-details
-                      >
-                      </v-text-field>
+                      <v-col cols="6" class="d-flex align-center">
 
-                      <p class="mx-3 mb-0">
-                        + minutes
-                      </p>
+                        <p class="mx-3 mb-0">
+                          -
+                        </p>
 
-                    </v-container>
+                        <v-text-field
+                          v-model="workMinutes"
+                          style="width: 10%"
+                          outlined
+                          dense
+                          type="number"
+                          min="0"
+                          oninput="if (this.value < 0) this.value = 0"
+                          hide-details
+                        >
+                        </v-text-field>
+
+                        <p class="mx-3 mb-0">
+                          + minutes
+                        </p>
+
+                      </v-col>
+
+                    </v-row>
                   </v-container>
 
                   <v-container class="pa-0">
@@ -118,47 +125,51 @@
                       :text="'Idle time'"
                     ></IconHeader>
 
-                    <v-container class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
+                    <v-row>
+                      <v-col cols="6" class="d-flex align-center">
+                        <p class="mx-3 mb-0">
+                          -
+                        </p>
 
-                      <v-text-field
-                        v-model="idleHours"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        hide-details
-                      >
-                      </v-text-field>
+                        <v-text-field
+                          v-model="idleHours"
+                          style="width: 10%"
+                          outlined
+                          dense
+                          type="number"
+                          min="0"
+                          hide-details
+                        >
+                        </v-text-field>
 
-                      <p class="mx-3 mb-0">
-                        + hours
-                      </p>
+                        <p class="mx-3 mb-0">
+                          + hours
+                        </p>
+                      </v-col>
 
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
+                      <v-col cols="6" class="d-flex align-center">
+                        <p class="mx-3 mb-0">
+                          -
+                        </p>
 
-                      <v-text-field
-                        v-model="idleMinutes"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        oninput="if (this.value < 0) this.value = 0"
-                        hide-details
-                      >
-                      </v-text-field>
+                        <v-text-field
+                          v-model="idleMinutes"
+                          style="width: 10%"
+                          outlined
+                          dense
+                          type="number"
+                          min="0"
+                          oninput="if (this.value < 0) this.value = 0"
+                          hide-details
+                        >
+                        </v-text-field>
 
-                      <p class="mx-3 mb-0">
-                        + minutes
-                      </p>
+                        <p class="mx-3 mb-0">
+                          + minutes
+                        </p>
 
-                    </v-container>
+                      </v-col>
+                    </v-row>
                   </v-container>
 
                   <v-container class="pa-0">
@@ -170,6 +181,7 @@
                     {{ overallTime }}
 
                   </v-container>
+
                 </v-col>
 
                 <v-spacer></v-spacer>
@@ -186,43 +198,96 @@
                     v-model="nutritionUnit"
                   ></v-select>
 
-                  <!--                  <v-container class="d-flex align-center pa-0">-->
-                  <!--                    <v-text-field-->
-                  <!--                      v-model="calories"-->
-                  <!--                      style="max-width: 100px"-->
-                  <!--                      outlined-->
-                  <!--                      dense-->
-                  <!--                      type="number"-->
-                  <!--                      min="0"-->
-                  <!--                      hide-details-->
-                  <!--                    >-->
-                  <!--                      <p-->
-                  <!--                        class="pt-1 ma-0"-->
-                  <!--                        slot="append"-->
-                  <!--                      >-->
-                  <!--                        g-->
-                  <!--                      </p>-->
-                  <!--                    </v-text-field>-->
-
-                  <!--                    <p class="mx-3 mb-0">-->
-                  <!--                      calories-->
-                  <!--                    </p>-->
-
-                  <!--                  </v-container>-->
-
                   <NutritionInput
                     v-model="calories"
+                    :name="'calories'"
                   ></NutritionInput>
+                  <NutritionInput
+                    v-model="protein"
+                    :name="'protein'"
+                  ></NutritionInput>
+                  <NutritionInput
+                    v-model="carbohydrates"
+                    :name="'carbohydrates'"
+                  ></NutritionInput>
+                  <NutritionInput
+                    v-model="fat"
+                    :name="'fat'"
+                  ></NutritionInput>
+                  <NutritionInput
+                    v-model="salt"
+                    :name="'salt'"
+                  ></NutritionInput>
+                </v-col>
+              </v-row>
 
-                  <!--                  calories: 320,-->
-                  <!--                  protein: 320,-->
-                  <!--                  carbohydrates: 320,-->
-                  <!--                  fat: 320,-->
-                  <!--                  salt: 320,-->
+              <v-row>
+                <v-col cols="5">
+                  <IconHeader
+                    :icon="'mdi-flower'"
+                    :text="'Shelf time'"
+                  ></IconHeader>
+
+                  <v-row>
+                    <v-col cols="6" class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="shelfTime"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + days
+                      </p>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="6">
+
+                    <v-text-field
+                      v-model="description"
+                      label="Description"
+                      outlined
+                      dense
+                      hide-details
+                      class="pb-3"
+                    >
+                    </v-text-field>
+
+                    <v-text-field
+                      v-model="servingSuggestions"
+                      label="Serving suggestions"
+                      outlined
+                      dense
+                      hide-details
+                      class="pb-3"
+                    >
+                    </v-text-field>
+
+                    <v-text-field
+                      v-model="storage"
+                      label="Storage"
+                      outlined
+                      dense
+                      hide-details
+                    >
+                    </v-text-field>
 
                 </v-col>
-
               </v-row>
+
 
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -283,13 +348,18 @@ export default {
     workMinutes: 20,
     idleHours: 1,
     idleMinutes: 30,
+    shelfTime: 7,
+
+    description: null,
+    servingSuggestions: null,
+    storage: null,
 
     nutritionUnit: "Per 100 g",
-    calories: 320,
-    protein: 320,
-    carbohydrates: 320,
-    fat: 320,
-    salt: 320,
+    calories: "320",
+    protein: "320",
+    carbohydrates: "320",
+    fat: "320",
+    salt: "320",
 
     breadcrumbs: [
       {

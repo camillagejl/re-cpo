@@ -20,7 +20,7 @@
     </v-text-field>
 
     <p class="mx-3 mb-0">
-      calories
+      {{ name }}
     </p>
 
   </v-container>
@@ -29,18 +29,10 @@
 <script>
 export default {
   name: "NutritionInput",
-  // data: () => ({
-  //   value: 1001
-  // }),
   props:
     {
-      value: String
+      value: String,
+      name: String
   },
-  methods: {
-    oninput(e) {
-      console.log(e)
-      // $emit('input', $event.target.value)
-    }
-  }
 };
 </script>
