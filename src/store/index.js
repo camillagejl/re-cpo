@@ -168,16 +168,45 @@ export default new Vuex.Store({
         unit: "g"
       }
     ],
-    tags: [
+    categories: [
       {
         id: 1,
         user_id: null,
-        tag: "Danish"
+        name: "Dinner"
       },
       {
         id: 2,
         user_id: null,
-        tag: "Vegan"
+        name: "Lunch"
+      },
+      {
+        id: 3,
+        user_id: null,
+        name: "Breakfast"
+      }
+    ],
+    recipeTags: [
+      {
+        id: 1,
+        user_id: null,
+        name: "Danish"
+      },
+      {
+        id: 2,
+        user_id: null,
+        name: "Vegan"
+      }
+    ],
+    servingTypes: [
+      {
+        id: 1,
+        user_id: null,
+        name: "Main course"
+      },
+      {
+        id: 2,
+        user_id: null,
+        name: "Side dish"
       }
     ]
   },

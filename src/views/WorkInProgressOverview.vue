@@ -1,15 +1,18 @@
 <template>
   <v-container>
+
     <v-breadcrumbs
+      :items="breadcrumbs"
       divider=">"
     ></v-breadcrumbs>
+
     <h1 class="display-1">
-      Work in progress loaded!
+      Work in progress
     </h1>
 
-    <v-contanier v-if="!recipes">
+    <v-container v-if="!recipes">
       Loading
-    </v-contanier>
+    </v-container>
 
     <v-container v-else>
       <v-row dense>
@@ -24,9 +27,9 @@
     <!--  Add recip button in bottom corner  -->
     <v-speed-dial
       v-model="fab"
-      :direction="direction"
-      :open-on-hover="hover"
-      :transition="transition"
+      :direction="'left'"
+      :transition="'slide-x-reverse-transition'"
+      open-on-hover
       bottom
       right
       fixed
@@ -56,6 +59,7 @@
         dark
         small
         color="secondary"
+        to="/edit-recipe"
       >
         <v-icon left>mdi-plus</v-icon>
         New from scratch
@@ -81,11 +85,22 @@ export default {
     ])
   },
   data: () => ({
-    direction: "left",
     fab: false,
-    hover: true,
-    transition: "slide-x-reverse-transition"
-  })
+
+    breadcrumbs: [
+      {
+        text: 'Home',
+        disabled: false,
+        href: '/',
+      },
+      {
+        text: '',
+        disabled: true,
+        href: '',
+      },
+    ],
+  }),
+
 
 };
 </script>

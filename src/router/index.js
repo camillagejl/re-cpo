@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import WorkInProgressOverview from "../views/WorkInProgressOverview";
+import EditRecipe from "../views/EditRecipe";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/wip-overview",
     name: "WorkInProgressOverview",
     component: WorkInProgressOverview,
+  },
+  {
+    path: "/edit-recipe",
+    name: "EditRecipe",
+    component: EditRecipe,
   }
 ];
 

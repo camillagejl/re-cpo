@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    Hi! You're home!
+    <router-link to="/wip-overview">WIP</router-link>
   </v-container>
 </template>
 

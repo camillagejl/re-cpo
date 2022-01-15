@@ -102,6 +102,7 @@
                 color="primary"
                 elevation="2"
                 class="pr-4"
+                to="/edit-recipe"
               >
                 <v-icon>
                   mdi-chevron-right
