@@ -45,6 +45,7 @@
                     chips
                     multiple
                     small-chips
+                    deletable-chips
                   ></v-combobox>
                 </v-col>
 
@@ -166,12 +167,61 @@
                       :text="'Overall time'"
                     ></IconHeader>
 
-                    {{ overallTime }} timetime
+                    {{ overallTime }}
 
                   </v-container>
+                </v-col>
 
+                <v-spacer></v-spacer>
+
+                <v-col cols="5">
+                  <IconHeader
+                    :icon="'mdi-silverware-fork-knife'"
+                    :text="'Nutrition facts'"
+                  ></IconHeader>
+
+                  <v-select
+                    :items="nutritionUnitNames"
+                    filled
+                    v-model="nutritionUnit"
+                  ></v-select>
+
+                  <!--                  <v-container class="d-flex align-center pa-0">-->
+                  <!--                    <v-text-field-->
+                  <!--                      v-model="calories"-->
+                  <!--                      style="max-width: 100px"-->
+                  <!--                      outlined-->
+                  <!--                      dense-->
+                  <!--                      type="number"-->
+                  <!--                      min="0"-->
+                  <!--                      hide-details-->
+                  <!--                    >-->
+                  <!--                      <p-->
+                  <!--                        class="pt-1 ma-0"-->
+                  <!--                        slot="append"-->
+                  <!--                      >-->
+                  <!--                        g-->
+                  <!--                      </p>-->
+                  <!--                    </v-text-field>-->
+
+                  <!--                    <p class="mx-3 mb-0">-->
+                  <!--                      calories-->
+                  <!--                    </p>-->
+
+                  <!--                  </v-container>-->
+
+                  <NutritionInput
+                    v-model="calories"
+                  ></NutritionInput>
+
+                  <!--                  calories: 320,-->
+                  <!--                  protein: 320,-->
+                  <!--                  carbohydrates: 320,-->
+                  <!--                  fat: 320,-->
+                  <!--                  salt: 320,-->
 
                 </v-col>
+
               </v-row>
 
             </v-expansion-panel-content>
@@ -216,10 +266,11 @@
 
 import { mapState } from "vuex";
 import IconHeader from "../components/IconHeader";
+import NutritionInput from "../components/NutritionInput";
 
 export default {
   name: "EditRecipe",
-  components: { IconHeader },
+  components: { NutritionInput, IconHeader },
   data: () => ({
     panel: [0],
 
@@ -232,6 +283,13 @@ export default {
     workMinutes: 20,
     idleHours: 1,
     idleMinutes: 30,
+
+    nutritionUnit: "Per 100 g",
+    calories: 320,
+    protein: 320,
+    carbohydrates: 320,
+    fat: 320,
+    salt: 320,
 
     breadcrumbs: [
       {
@@ -255,7 +313,8 @@ export default {
     ...mapState([
       "categories",
       "recipeTags",
-      "servingTypes"
+      "servingTypes",
+      "nutritionUnits"
     ]),
     categoryNames() {
       let categories = [];
@@ -283,6 +342,15 @@ export default {
       });
 
       return servingTypes;
+    },
+    nutritionUnitNames() {
+      let nutritionUnits = [];
+
+      this.nutritionUnits.forEach(unit => {
+        nutritionUnits.push(unit.name);
+      });
+
+      return nutritionUnits;
     },
     overallTime() {
       const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);

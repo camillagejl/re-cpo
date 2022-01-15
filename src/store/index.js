@@ -31,11 +31,11 @@ export default new Vuex.Store({
             worktime: 20,
             downtime: 90,
             shelftime: 5,
-            calories: 320,
-            protein: 320,
-            carbohydrates: 320,
-            fat: 320,
-            salt: 320,
+            calories: "320",
+            protein: "320",
+            carbohydrates: "320",
+            fat: "320",
+            salt: "320",
             nutrition_unit: "serving",
             servings: 4,
             description: "I'm a lasagna",
@@ -99,11 +99,11 @@ export default new Vuex.Store({
             worktime: 20,
             downtime: 90,
             shelftime: 5,
-            calories: 320,
-            protein: 320,
-            carbohydrates: 320,
-            fat: 320,
-            salt: 320,
+            calories: "320",
+            protein: "320",
+            carbohydrates: "320",
+            fat: "320",
+            salt: "320",
             nutrition_unit: "serving",
             servings: 4,
             description: "I'm a lasagna",
@@ -207,6 +207,18 @@ export default new Vuex.Store({
         id: 2,
         user_id: null,
         name: "Side dish"
+      }
+    ],
+    nutritionUnits: [
+      {
+        id: 1,
+        user_id: null,
+        name: "Per 100 g"
+      },
+      {
+        id: 2,
+        user_id: null,
+        name: "Per serving"
       }
     ]
   },

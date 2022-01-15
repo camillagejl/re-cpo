@@ -1,7 +1,9 @@
 <template>
 
   <h5 class="subtitle-1 d-flex align-center mb-3">
-    <v-icon class="pr-2">
+    <v-icon
+      class="pr-2"
+    >
       {{ icon }}
     </v-icon>
     {{ text }}
