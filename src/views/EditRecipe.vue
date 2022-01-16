@@ -305,10 +305,127 @@
               </h2>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.
+              <v-row>
+                <v-col cols="5">
+
+                  <v-row v-for="(ingredient) in ingredients" :key="ingredient.name">
+                    <v-col cols="7" class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        <v-icon>
+                          mdi-menu
+                        </v-icon>
+                      </p>
+
+                      <v-text-field
+                        v-model="ingredient.name"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        hide-details
+                      >
+                      </v-text-field>
+
+                    </v-col>
+
+                    <v-col cols="5" class="d-flex align-center">
+
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="ingredient.amount"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        oninput="if (this.value < 0) this.value = 0"
+                        hide-details
+                      >
+                        <p
+                          class="pt-1 ma-0"
+                          slot="append"
+                        >
+                          {{ measuring_units[ingredient.unit_id].unit }}
+                        </p>
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        +
+                      </p>
+
+                    </v-col>
+
+                  </v-row>
+
+                </v-col>
+
+                <v-spacer></v-spacer>
+
+                <v-col cols="6">
+
+                  <v-row v-for="(step) in steps" :key="step.id">
+                    <v-col cols="12" class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        <v-icon>
+                          mdi-menu
+                        </v-icon>
+                      </p>
+
+                      <v-text-field
+                        v-model="step.description"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        <v-img
+                          v-if="step.images.length > 0"
+                          :src="require('../assets/placeholders/' + step.images[0].image_url)"
+                          height="40"
+                          width="40"
+                          @click="showImages = !showImages"
+                        ></v-img>
+
+                        <v-img
+                          v-else
+                          :src="require('../assets/placeholders/placeholder_add.png')"
+                          height="40"
+                          width="40"
+                        ></v-img>
+
+                      </p>
+                    </v-col>
+
+                    <v-expand-transition>
+                      <v-row v-show="showImages">
+
+                        <v-col
+                          class="ml-15 d-flex"
+                        >
+                        <v-img
+                          v-for="image in step.images" :key="image.id"
+                          :src="require('../assets/placeholders/' + image.image_url)"
+                          height="60"
+                          max-width="60"
+                          contain
+                        ></v-img>
+                        </v-col>
+
+                      </v-row>
+                    </v-expand-transition>
+
+                  </v-row>
+                  <v-row>
+                  </v-row>
+
+                </v-col>
+
+              </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -343,7 +460,9 @@ export default {
   name: "EditRecipe",
   components: { NutritionInput, IconHeader },
   data: () => ({
-    panel: [0],
+    panel: [1],
+
+    showImages: false,
 
     valid: false,
     category: null,
@@ -366,6 +485,9 @@ export default {
     carbohydrates: "320",
     fat: "320",
     salt: "320",
+
+    ingredients: [],
+    steps: [],
 
     breadcrumbs: [
       {
@@ -391,7 +513,8 @@ export default {
       "recipeTags",
       "servingTypes",
       "nutritionUnits",
-      "recipes"
+      "recipes",
+      "measuring_units"
     ]),
     categoryNames() {
       let categories = [];
@@ -451,7 +574,6 @@ export default {
   mounted() {
     // ----- Populating data() with data from store -----
 
-    // const recipe = this.recipes[0];
     const recipeVersion = this.recipes[0].versions[0];
 
     this.category = recipeVersion.category;
@@ -477,6 +599,9 @@ export default {
     const actualIdleTime = this.getHoursAndMinutes(recipeVersion.idle_time)
     this.idleHours = actualIdleTime.hours;
     this.idleMinutes = actualIdleTime.minutes;
+
+    this.ingredients = recipeVersion.ingredients.no_header.ingredients;
+    this.steps = recipeVersion.steps;
 
 
   }

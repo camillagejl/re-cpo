@@ -69,13 +69,20 @@ export default new Vuex.Store({
                 order_number: 1,
                 description: "Peel the carrots.",
                 images: [
+                ]
+              },
+              {
+                id: 2,
+                order_number: 2,
+                description: "boop.",
+                images: [
                   {
                     id: 1,
-                    image_url: "url1"
+                    image_url: "veggie_lasagna.jpg"
                   },
                   {
                     id: 2,
-                    image_url: "url2"
+                    image_url: "veggie_lasagna.jpg"
                   }
                 ]
               }
@@ -159,16 +166,14 @@ export default new Vuex.Store({
         ]
       }
     ],
-    measuring_units: [
-      {
-        id: 1,
-        unit: null
+    measuring_units: {
+      1: {
+        unit: "pcs"
       },
-      {
-        id: 2,
+      2: {
         unit: "g"
       }
-    ],
+    },
     categories: [
       {
         id: 1,
