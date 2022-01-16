@@ -256,34 +256,40 @@
               <v-row>
                 <v-col cols="6">
 
-                    <v-text-field
+                    <v-textarea
                       v-model="description"
                       label="Description"
                       outlined
                       dense
                       hide-details
+                      rows="3"
+                      auto-grow
                       class="pb-3"
                     >
-                    </v-text-field>
+                    </v-textarea>
 
-                    <v-text-field
+                    <v-textarea
                       v-model="servingSuggestions"
                       label="Serving suggestions"
                       outlined
                       dense
                       hide-details
+                      rows="3"
+                      auto-grow
                       class="pb-3"
                     >
-                    </v-text-field>
+                    </v-textarea>
 
-                    <v-text-field
+                    <v-textarea
                       v-model="storage"
                       label="Storage"
                       outlined
                       dense
                       hide-details
+                      rows="3"
+                      auto-grow
                     >
-                    </v-text-field>
+                    </v-textarea>
 
                 </v-col>
               </v-row>
@@ -344,11 +350,11 @@ export default {
     tags: [],
     servingType: null,
 
-    workHours: 0,
-    workMinutes: 20,
-    idleHours: 1,
-    idleMinutes: 30,
-    shelfTime: 7,
+    workHours: 7,
+    workMinutes: 27,
+    idleHours: 5,
+    idleMinutes: 35,
+    shelfTime: 57,
 
     description: null,
     servingSuggestions: null,
@@ -384,7 +390,8 @@ export default {
       "categories",
       "recipeTags",
       "servingTypes",
-      "nutritionUnits"
+      "nutritionUnits",
+      "recipes"
     ]),
     categoryNames() {
       let categories = [];
@@ -426,12 +433,52 @@ export default {
       const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);
       const totalIdleMinutes = parseInt(this.idleHours) * 60 + parseInt(this.idleMinutes);
 
-      const totalMinutes = (totalWorkMinutes + totalIdleMinutes) / 60;
-      const actualHours = Math.floor(totalMinutes);
-      const actualMinutes = Math.round(60 * (((totalWorkMinutes + totalIdleMinutes) / 60) - actualHours));
+      const actualTime = this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
 
-      return `${actualHours} hours ${actualMinutes} minutes`;
+      return `${actualTime.hours} hours ${actualTime.minutes} minutes`;
+    },
+  },
+  methods: {
+    getHoursAndMinutes(totalMinutes) {
+
+      const actualHours = Math.floor(totalMinutes / 60);
+      const actualMinutes = Math.round(totalMinutes - actualHours * 60);
+
+      return {hours: actualHours, minutes: actualMinutes}
+
     }
+  },
+  mounted() {
+    // ----- Populating data() with data from store -----
+
+    // const recipe = this.recipes[0];
+    const recipeVersion = this.recipes[0].versions[0];
+
+    this.category = recipeVersion.category;
+    this.tags = recipeVersion.tags;
+    this.servingType = recipeVersion.serving_type;
+
+    this.nutritionUnit = recipeVersion.nutrition_unit;
+    this.calories = recipeVersion.calories;
+    this.protein = recipeVersion.protein;
+    this.carbohydrates = recipeVersion.carbohydrates;
+    this.fat = recipeVersion.fat;
+    this.salt = recipeVersion.salt;
+
+    this.shelfTime = recipeVersion.shelf_time;
+    this.description = recipeVersion.description;
+    this.servingSuggestions = recipeVersion.serving_suggestions;
+    this.storage = recipeVersion.storage;
+
+    const actualWorkTime = this.getHoursAndMinutes(recipeVersion.work_time)
+    this.workHours = actualWorkTime.hours;
+    this.workMinutes = actualWorkTime.minutes;
+
+    const actualIdleTime = this.getHoursAndMinutes(recipeVersion.idle_time)
+    this.idleHours = actualIdleTime.hours;
+    this.idleMinutes = actualIdleTime.minutes;
+
+
   }
 };
 </script>
