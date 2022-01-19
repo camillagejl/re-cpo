@@ -62,15 +62,12 @@ import { mapState } from "vuex";
 
 export default {
   name: "RecipeStep",
-
   data: () => ({
     showImages: false
   }),
-
   props: {
     step: Object
   },
-
   computed: {
     ...mapState([
       "categories",

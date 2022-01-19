@@ -69,22 +69,6 @@ export default new Vuex.Store({
                 order_number: 1,
                 description: "Peel the carrots.",
                 images: [
-                  {
-                    id: 3,
-                    image_url: "veggie_lasagna.jpg"
-                  },
-                  {
-                    id: 4,
-                    image_url: "veggie_lasagna.jpg"
-                  },
-                  {
-                    id: 5,
-                    image_url: "veggie_lasagna.jpg"
-                  },
-                  {
-                    id: 6,
-                    image_url: "veggie_lasagna.jpg"
-                  },
                 ]
               },
               {

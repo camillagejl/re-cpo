@@ -308,56 +308,13 @@
               <v-row>
                 <v-col cols="5">
 
-                  <v-row v-for="(ingredient) in ingredients" :key="ingredient.name">
-                    <v-col cols="7" class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        <v-icon>
-                          mdi-menu
-                        </v-icon>
-                      </p>
-
-                      <v-text-field
-                        v-model="ingredient.name"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        hide-details
-                      >
-                      </v-text-field>
-
-                    </v-col>
-
-                    <v-col cols="5" class="d-flex align-center">
-
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
-
-                      <v-text-field
-                        v-model="ingredient.amount"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        oninput="if (this.value < 0) this.value = 0"
-                        hide-details
-                      >
-                        <p
-                          class="pt-1 ma-0"
-                          slot="append"
-                        >
-                          {{ measuring_units[ingredient.unit_id].unit }}
-                        </p>
-                      </v-text-field>
-
-                      <p class="mx-3 mb-0">
-                        +
-                      </p>
-
-                    </v-col>
-
-                  </v-row>
+                  <RecipeIngredient
+                    v-for="ingredient in ingredients.no_header.ingredients"
+                    :key="ingredient.id"
+                    :ingredient="ingredient"
+                    :measurinUnit="measuring_units[ingredient.unit_id].unit"
+                  >
+                  </RecipeIngredient>
 
                 </v-col>
 
@@ -404,10 +361,11 @@ import { mapState } from "vuex";
 import IconHeader from "../components/IconHeader";
 import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/recipeStep";
+import RecipeIngredient from "../components/RecipeIngredient";
 
 export default {
   name: "EditRecipe",
-  components: { RecipeStep, NutritionInput, IconHeader },
+  components: { RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     panel: [1],
 
@@ -549,7 +507,7 @@ export default {
     this.idleHours = actualIdleTime.hours;
     this.idleMinutes = actualIdleTime.minutes;
 
-    this.ingredients = recipeVersion.ingredients.no_header.ingredients;
+    this.ingredients = recipeVersion.ingredients;
     this.steps = recipeVersion.steps;
 
 
