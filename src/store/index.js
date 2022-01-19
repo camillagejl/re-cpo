@@ -44,7 +44,9 @@ export default new Vuex.Store({
             storage: "In the fridge, please",
             ingredients: {
               no_header: {
+                id: 1,
                 order: 1,
+                name: null,
                 ingredients: [
                   {
                     id: 1,
@@ -57,6 +59,27 @@ export default new Vuex.Store({
                     id: 2,
                     order_number: 2,
                     name: "Tomatoes",
+                    amount: 2,
+                    unit_id: 1
+                  }
+                ]
+              },
+              sauce: {
+                id: 2,
+                order: 2,
+                name: "Sauce",
+                ingredients: [
+                  {
+                    id: 3,
+                    order_number: 1,
+                    name: "Cauliflower",
+                    amount: 300,
+                    unit_id: 2
+                  },
+                  {
+                    id: 4,
+                    order_number: 2,
+                    name: "Water",
                     amount: 2,
                     unit_id: 1
                   }

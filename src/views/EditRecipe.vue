@@ -256,40 +256,40 @@
               <v-row>
                 <v-col cols="6">
 
-                    <v-textarea
-                      v-model="description"
-                      label="Description"
-                      outlined
-                      dense
-                      hide-details
-                      rows="3"
-                      auto-grow
-                      class="pb-3"
-                    >
-                    </v-textarea>
+                  <v-textarea
+                    v-model="description"
+                    label="Description"
+                    outlined
+                    dense
+                    hide-details
+                    rows="3"
+                    auto-grow
+                    class="pb-3"
+                  >
+                  </v-textarea>
 
-                    <v-textarea
-                      v-model="servingSuggestions"
-                      label="Serving suggestions"
-                      outlined
-                      dense
-                      hide-details
-                      rows="3"
-                      auto-grow
-                      class="pb-3"
-                    >
-                    </v-textarea>
+                  <v-textarea
+                    v-model="servingSuggestions"
+                    label="Serving suggestions"
+                    outlined
+                    dense
+                    hide-details
+                    rows="3"
+                    auto-grow
+                    class="pb-3"
+                  >
+                  </v-textarea>
 
-                    <v-textarea
-                      v-model="storage"
-                      label="Storage"
-                      outlined
-                      dense
-                      hide-details
-                      rows="3"
-                      auto-grow
-                    >
-                    </v-textarea>
+                  <v-textarea
+                    v-model="storage"
+                    label="Storage"
+                    outlined
+                    dense
+                    hide-details
+                    rows="3"
+                    auto-grow
+                  >
+                  </v-textarea>
 
                 </v-col>
               </v-row>
@@ -308,13 +308,32 @@
               <v-row>
                 <v-col cols="5">
 
+                  <v-container
+                    v-for="header in ingredients"
+                    :key="header.id"
+                    class="pa-0"
+                  >
+
+                    <h5
+                      v-if="header.name !== null"
+                      class="subtitle-1 d-flex align-center pt-6 pb-3"
+                    >
+                      {{ header.name }}
+                    </h5>
+
+<!-- Make it properly draggable!
+https://betterprogramming.pub/create-a-sortable-list-with-draggable-items-
+using-javascript-9ef38f96b258 -->
                   <RecipeIngredient
-                    v-for="ingredient in ingredients.no_header.ingredients"
+                    draggable="true"
+                    v-for="ingredient in header.ingredients"
                     :key="ingredient.id"
                     :ingredient="ingredient"
                     :measurinUnit="measuring_units[ingredient.unit_id].unit"
                   >
                   </RecipeIngredient>
+
+                  </v-container>
 
                 </v-col>
 
@@ -360,7 +379,7 @@
 import { mapState } from "vuex";
 import IconHeader from "../components/IconHeader";
 import NutritionInput from "../components/NutritionInput";
-import RecipeStep from "../components/recipeStep";
+import RecipeStep from "../components/RecipeStep";
 import RecipeIngredient from "../components/RecipeIngredient";
 
 export default {
@@ -466,7 +485,7 @@ export default {
       const actualTime = this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
 
       return `${actualTime.hours} hours ${actualTime.minutes} minutes`;
-    },
+    }
   },
   methods: {
     getHoursAndMinutes(totalMinutes) {
@@ -474,7 +493,7 @@ export default {
       const actualHours = Math.floor(totalMinutes / 60);
       const actualMinutes = Math.round(totalMinutes - actualHours * 60);
 
-      return {hours: actualHours, minutes: actualMinutes}
+      return { hours: actualHours, minutes: actualMinutes };
 
     }
   },
@@ -499,11 +518,11 @@ export default {
     this.servingSuggestions = recipeVersion.serving_suggestions;
     this.storage = recipeVersion.storage;
 
-    const actualWorkTime = this.getHoursAndMinutes(recipeVersion.work_time)
+    const actualWorkTime = this.getHoursAndMinutes(recipeVersion.work_time);
     this.workHours = actualWorkTime.hours;
     this.workMinutes = actualWorkTime.minutes;
 
-    const actualIdleTime = this.getHoursAndMinutes(recipeVersion.idle_time)
+    const actualIdleTime = this.getHoursAndMinutes(recipeVersion.idle_time);
     this.idleHours = actualIdleTime.hours;
     this.idleMinutes = actualIdleTime.minutes;
 
