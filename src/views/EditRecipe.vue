@@ -360,10 +360,25 @@ using-javascript-9ef38f96b258 -->
               </h2>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.
+              <v-row>
+                <v-col cols="6">
+
+                <v-textarea
+                  v-for="(note, i) in notes"
+                  :key="note.id"
+                  v-model="notes[i].note"
+                  :label="note.date"
+                  outlined
+                  dense
+                  hide-details
+                  rows="3"
+                  auto-grow
+                  class="pb-3"
+                >
+                </v-textarea>
+
+                </v-col>
+              </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -386,7 +401,7 @@ export default {
   name: "EditRecipe",
   components: { RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
-    panel: [1],
+    panel: [2],
 
     showImages: false,
 
@@ -414,6 +429,7 @@ export default {
 
     ingredients: [],
     steps: [],
+    notes: [],
 
     breadcrumbs: [
       {
@@ -528,8 +544,12 @@ export default {
 
     this.ingredients = recipeVersion.ingredients;
     this.steps = recipeVersion.steps;
+    this.notes = recipeVersion.notes;
 
-
+    // Removes extra spaces in notes. Might need to be deleted.
+    this.notes.forEach(note => {
+      note.note = note.note.replace(/\s+/g,' ').trim()
+    })
   }
 };
 </script>

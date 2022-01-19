@@ -115,6 +115,16 @@ export default new Vuex.Store({
                 id: 1,
                 date: "2021/11/04",
                 note: "This is a note"
+              },
+              {
+                id: 2,
+                date: "2021/11/04",
+                note: `This is a note. This is a note. This is a note.
+                This is a note. This is a note. This is a note.
+                This is a note. This is a note. This is a note.
+                This is a note. This is a note. This is a note.
+                This is a note. This is a note. This is a note.
+                This is a long, long, long note.`
               }
             ]
           },
