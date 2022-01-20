@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <v-app
+  style="background-color: #FAF7F7">
 
     <v-main v-if="currentRouteName === 'Login'">
     <Login></Login>
@@ -56,6 +57,7 @@ export default {
   // https://vuetifyjs.com/en/styles/colors/#material-colors
 
   --primary-color: #699A7A;
+  --primary-color-darken-4: #04371d;
 
   --secondary-color: #9A7F6B;
   --secondary-color-lighten-3: #EECFB9;
