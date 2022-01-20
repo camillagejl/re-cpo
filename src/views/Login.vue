@@ -4,7 +4,11 @@
   >
     <v-col
       cols="6"
-      style="background-color: var(--primary-color); color: var(--primary-color-darken-4)"
+      style="
+      color: var(--primary-color-darken-4);
+      background-color: var(--primary-color);
+      background-image: url('../assets/placeholders/tapas.jpg');
+"
       class="d-flex align-center justify-center pa-12"
     >
       <v-row>
@@ -21,16 +25,16 @@
         >
           <p>Welcome back to...</p>
           <v-container
-          class="pa-0"
+            class="pa-0"
           >
-          <h2
-            class="text-h4 font-weight-medium"
-          >
-            RE-CPO
-          </h2>
-          <h3 class="text-h5">
-            Your recipe companion
-          </h3>
+            <h2
+              class="text-h4 font-weight-medium"
+            >
+              RE-CPO
+            </h2>
+            <h3 class="text-h5">
+              Your recipe companion
+            </h3>
           </v-container>
           <v-container></v-container>
         </v-col>
@@ -38,9 +42,29 @@
     </v-col>
     <v-col
       cols="6"
-      class="d-flex align-center justify-center"
+      class="d-flex flex-column align-center justify-center"
     >
-      Hi there yo hi
+      <v-container
+      style="max-width: 350px">
+        <h1 class="text-h4 mb-8">
+          Log in
+        </h1>
+        <v-text-field
+          filled
+          label="email"
+          type="email"
+          prepend-inner-icon="mdi-chef-hat"
+        ></v-text-field>
+        <v-text-field
+          filled
+          label="password"
+          :type="showPassword ? 'text' : 'password'"
+          prepend-inner-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+      </v-container>
+
     </v-col>
   </v-row>
 </template>
@@ -48,6 +72,9 @@
 <script>
 
 export default {
-  name: "Login"
+  name: "Login",
+  data: () => ({
+    showPassword: false
+  })
 };
 </script>
