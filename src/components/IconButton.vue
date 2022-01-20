@@ -1,7 +1,8 @@
 <template>
   <v-btn
-    color="primary"
-    elevation="2"
+    :color="color"
+    :plain="plain"
+    :elevation="elevation"
     class="pr-4"
     :to="to"
     @click="$emit('clickEvent')"
@@ -20,6 +21,9 @@ export default {
   props: {
     icon: String,
     text: String,
+    color: String,
+  plain: Boolean,
+    elevation: Number,
     to: String
   }
 };

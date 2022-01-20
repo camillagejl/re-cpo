@@ -85,23 +85,22 @@
             </v-col>
 
             <v-card-actions
-            class="d-flex justify-end d-block"
+              class="d-flex justify-end d-block"
             >
-              <v-btn
-                color="primary"
-                plain
-                @click="showIterations = !showIterations"
-              >
-                <v-icon>
-                  {{ showIterations ? "mdi-chevron-up" : "mdi-chevron-down" }}
-                </v-icon>
-                View iterations
-              </v-btn>
+              <IconButton
+                :icon="showIterations ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                :text="'View iteration'"
+                :color="'primary'"
+                :plain="true"
+                @clickEvent="showIterations = !showIterations"
+              ></IconButton>
 
               <IconButton
                 :icon="'mdi-chevron-right'"
                 :text="'Go to recipe'"
-              :to="'/edit-recipe'"
+                :color="'primary'"
+                :elevation="2"
+                :to="'/edit-recipe'"
               ></IconButton>
             </v-card-actions>
 
@@ -164,6 +163,7 @@
 <script>
 
 import IconButton from "./IconButton";
+
 export default {
   name: "RecipeThumbnail",
   components: { IconButton },
@@ -177,7 +177,7 @@ export default {
     latest() {
       let versionsLength = this.recipe.versions.length;
 
-      return this.recipe.versions[versionsLength-1];
+      return this.recipe.versions[versionsLength - 1];
 
     }
   }

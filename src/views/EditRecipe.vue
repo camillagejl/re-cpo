@@ -11,218 +11,59 @@
         Veggie lasagna
       </h1>
 
-        <v-expansion-panels
-          v-model="panel"
-          multiple
-        >
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              <h2 class="text-h5">
-                Recipe information
-              </h2>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
+      <v-expansion-panels
+        v-model="panel"
+        multiple
+      >
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h2 class="text-h5">
+              Recipe information
+            </h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-row>
 
-                <v-col cols="4">
-                  <v-combobox
-                    v-model="category"
-                    label="Category"
-                    :items="categoryNames"
-                    outlined
-                  ></v-combobox>
-                </v-col>
+              <v-col cols="4">
+                <v-combobox
+                  v-model="category"
+                  label="Category"
+                  :items="categoryNames"
+                  outlined
+                ></v-combobox>
+              </v-col>
 
-                <v-col cols="4">
-                  <v-combobox
-                    v-model="tags"
-                    label="Tags"
-                    :items="tagNames"
-                    outlined
-                    chips
-                    multiple
-                    small-chips
-                    deletable-chips
-                  ></v-combobox>
-                </v-col>
+              <v-col cols="4">
+                <v-combobox
+                  v-model="tags"
+                  label="Tags"
+                  :items="tagNames"
+                  outlined
+                  chips
+                  multiple
+                  small-chips
+                  deletable-chips
+                ></v-combobox>
+              </v-col>
 
-                <v-col cols="4">
-                  <v-combobox
-                    v-model="servingType"
-                    label="Serving type"
-                    :items="servingTypeNames"
-                    outlined
-                  ></v-combobox>
-                </v-col>
+              <v-col cols="4">
+                <v-combobox
+                  v-model="servingType"
+                  label="Serving type"
+                  :items="servingTypeNames"
+                  outlined
+                ></v-combobox>
+              </v-col>
 
-              </v-row>
+            </v-row>
 
-              <v-row>
-                <v-col cols="5">
+            <v-row>
+              <v-col cols="5">
 
-                  <v-container class="pa-0">
-                    <IconHeader
-                      :icon="'mdi-clock-outline'"
-                      :text="'Work time'"
-                    ></IconHeader>
-
-                    <v-row>
-                      <v-col cols="6" class="d-flex align-center">
-                        <p class="mx-3 mb-0">
-                          -
-                        </p>
-
-                        <v-text-field
-                          v-model="workHours"
-                          style="width: 10%"
-                          outlined
-                          dense
-                          type="number"
-                          min="0"
-                          hide-details
-                        >
-                        </v-text-field>
-
-                        <p class="mx-3 mb-0">
-                          + hours
-                        </p>
-
-                      </v-col>
-
-                      <v-col cols="6" class="d-flex align-center">
-
-                        <p class="mx-3 mb-0">
-                          -
-                        </p>
-
-                        <v-text-field
-                          v-model="workMinutes"
-                          style="width: 10%"
-                          outlined
-                          dense
-                          type="number"
-                          min="0"
-                          oninput="if (this.value < 0) this.value = 0"
-                          hide-details
-                        >
-                        </v-text-field>
-
-                        <p class="mx-3 mb-0">
-                          + minutes
-                        </p>
-
-                      </v-col>
-
-                    </v-row>
-                  </v-container>
-
-                  <v-container class="pa-0">
-                    <IconHeader
-                      :icon="'mdi-clock-outline'"
-                      :text="'Idle time'"
-                    ></IconHeader>
-
-                    <v-row>
-                      <v-col cols="6" class="d-flex align-center">
-                        <p class="mx-3 mb-0">
-                          -
-                        </p>
-
-                        <v-text-field
-                          v-model="idleHours"
-                          style="width: 10%"
-                          outlined
-                          dense
-                          type="number"
-                          min="0"
-                          hide-details
-                        >
-                        </v-text-field>
-
-                        <p class="mx-3 mb-0">
-                          + hours
-                        </p>
-                      </v-col>
-
-                      <v-col cols="6" class="d-flex align-center">
-                        <p class="mx-3 mb-0">
-                          -
-                        </p>
-
-                        <v-text-field
-                          v-model="idleMinutes"
-                          style="width: 10%"
-                          outlined
-                          dense
-                          type="number"
-                          min="0"
-                          oninput="if (this.value < 0) this.value = 0"
-                          hide-details
-                        >
-                        </v-text-field>
-
-                        <p class="mx-3 mb-0">
-                          + minutes
-                        </p>
-
-                      </v-col>
-                    </v-row>
-                  </v-container>
-
-                  <v-container class="pa-0">
-                    <IconHeader
-                      :icon="'mdi-clock-outline'"
-                      :text="'Overall time'"
-                    ></IconHeader>
-
-                    {{ overallTime }}
-
-                  </v-container>
-
-                </v-col>
-
-                <v-spacer></v-spacer>
-
-                <v-col cols="5">
+                <v-container class="pa-0">
                   <IconHeader
-                    :icon="'mdi-silverware-fork-knife'"
-                    :text="'Nutrition facts'"
-                  ></IconHeader>
-
-                  <v-select
-                    :items="nutritionUnitNames"
-                    filled
-                    v-model="nutritionUnit"
-                  ></v-select>
-
-                  <NutritionInput
-                    v-model="calories"
-                    :name="'calories'"
-                  ></NutritionInput>
-                  <NutritionInput
-                    v-model="protein"
-                    :name="'protein'"
-                  ></NutritionInput>
-                  <NutritionInput
-                    v-model="carbohydrates"
-                    :name="'carbohydrates'"
-                  ></NutritionInput>
-                  <NutritionInput
-                    v-model="fat"
-                    :name="'fat'"
-                  ></NutritionInput>
-                  <NutritionInput
-                    v-model="salt"
-                    :name="'salt'"
-                  ></NutritionInput>
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col cols="5">
-                  <IconHeader
-                    :icon="'mdi-flower'"
-                    :text="'Shelf time'"
+                    :icon="'mdi-clock-outline'"
+                    :text="'Work time'"
                   ></IconHeader>
 
                   <v-row>
@@ -232,7 +73,7 @@
                       </p>
 
                       <v-text-field
-                        v-model="shelfTime"
+                        v-model="workHours"
                         style="width: 10%"
                         outlined
                         dense
@@ -243,83 +84,242 @@
                       </v-text-field>
 
                       <p class="mx-3 mb-0">
-                        + days
+                        + hours
+                      </p>
+
+                    </v-col>
+
+                    <v-col cols="6" class="d-flex align-center">
+
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="workMinutes"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        oninput="if (this.value < 0) this.value = 0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + minutes
+                      </p>
+
+                    </v-col>
+
+                  </v-row>
+                </v-container>
+
+                <v-container class="pa-0">
+                  <IconHeader
+                    :icon="'mdi-clock-outline'"
+                    :text="'Idle time'"
+                  ></IconHeader>
+
+                  <v-row>
+                    <v-col cols="6" class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="idleHours"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + hours
                       </p>
                     </v-col>
+
+                    <v-col cols="6" class="d-flex align-center">
+                      <p class="mx-3 mb-0">
+                        -
+                      </p>
+
+                      <v-text-field
+                        v-model="idleMinutes"
+                        style="width: 10%"
+                        outlined
+                        dense
+                        type="number"
+                        min="0"
+                        oninput="if (this.value < 0) this.value = 0"
+                        hide-details
+                      >
+                      </v-text-field>
+
+                      <p class="mx-3 mb-0">
+                        + minutes
+                      </p>
+
+                    </v-col>
                   </v-row>
-                </v-col>
-              </v-row>
+                </v-container>
 
-              <v-row>
-                <v-col cols="6">
+                <v-container class="pa-0">
+                  <IconHeader
+                    :icon="'mdi-clock-outline'"
+                    :text="'Overall time'"
+                  ></IconHeader>
 
-                  <v-textarea
-                    v-model="description"
-                    label="Description"
-                    outlined
-                    dense
-                    hide-details
-                    rows="3"
-                    auto-grow
-                    class="pb-3"
-                  >
-                  </v-textarea>
+                  {{ overallTime }}
 
-                  <v-textarea
-                    v-model="servingSuggestions"
-                    label="Serving suggestions"
-                    outlined
-                    dense
-                    hide-details
-                    rows="3"
-                    auto-grow
-                    class="pb-3"
-                  >
-                  </v-textarea>
+                </v-container>
 
-                  <v-textarea
-                    v-model="storage"
-                    label="Storage"
-                    outlined
-                    dense
-                    hide-details
-                    rows="3"
-                    auto-grow
-                  >
-                  </v-textarea>
+              </v-col>
 
-                </v-col>
-              </v-row>
+              <v-spacer></v-spacer>
 
+              <v-col cols="5">
+                <IconHeader
+                  :icon="'mdi-silverware-fork-knife'"
+                  :text="'Nutrition facts'"
+                ></IconHeader>
 
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              <h2 class="text-h5">
-                Recipe
-              </h2>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col cols="5">
+                <v-select
+                  :items="nutritionUnitNames"
+                  filled
+                  v-model="nutritionUnit"
+                ></v-select>
 
-                  <v-container
-                    v-for="header in ingredients"
-                    :key="header.id"
-                    class="pa-0"
-                  >
+                <NutritionInput
+                  v-model="calories"
+                  :name="'calories'"
+                ></NutritionInput>
+                <NutritionInput
+                  v-model="protein"
+                  :name="'protein'"
+                ></NutritionInput>
+                <NutritionInput
+                  v-model="carbohydrates"
+                  :name="'carbohydrates'"
+                ></NutritionInput>
+                <NutritionInput
+                  v-model="fat"
+                  :name="'fat'"
+                ></NutritionInput>
+                <NutritionInput
+                  v-model="salt"
+                  :name="'salt'"
+                ></NutritionInput>
+              </v-col>
+            </v-row>
 
-                    <h5
-                      v-if="header.name !== null"
-                      class="subtitle-1 d-flex align-center pt-6 pb-3"
+            <v-row>
+              <v-col cols="5">
+                <IconHeader
+                  :icon="'mdi-flower'"
+                  :text="'Shelf time'"
+                ></IconHeader>
+
+                <v-row>
+                  <v-col cols="6" class="d-flex align-center">
+                    <p class="mx-3 mb-0">
+                      -
+                    </p>
+
+                    <v-text-field
+                      v-model="shelfTime"
+                      style="width: 10%"
+                      outlined
+                      dense
+                      type="number"
+                      min="0"
+                      hide-details
                     >
-                      {{ header.name }}
-                    </h5>
+                    </v-text-field>
 
-<!-- Make it properly draggable!
-https://betterprogramming.pub/create-a-sortable-list-with-draggable-items-
-using-javascript-9ef38f96b258 -->
+                    <p class="mx-3 mb-0">
+                      + days
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="6">
+
+                <v-textarea
+                  v-model="description"
+                  label="Description"
+                  outlined
+                  dense
+                  hide-details
+                  rows="3"
+                  auto-grow
+                  class="pb-3"
+                >
+                </v-textarea>
+
+                <v-textarea
+                  v-model="servingSuggestions"
+                  label="Serving suggestions"
+                  outlined
+                  dense
+                  hide-details
+                  rows="3"
+                  auto-grow
+                  class="pb-3"
+                >
+                </v-textarea>
+
+                <v-textarea
+                  v-model="storage"
+                  label="Storage"
+                  outlined
+                  dense
+                  hide-details
+                  rows="3"
+                  auto-grow
+                >
+                </v-textarea>
+
+              </v-col>
+            </v-row>
+
+
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h2 class="text-h5">
+              Recipe
+            </h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-row>
+              <v-col cols="5">
+
+                <v-container
+                  v-for="header in ingredients"
+                  :key="header.id"
+                  class="pa-0"
+                >
+
+                  <h5
+                    v-if="header.name !== null"
+                    class="subtitle-1 d-flex align-center pt-6 pb-3"
+                  >
+                    {{ header.name }}
+                  </h5>
+
+                  <!-- Make it properly draggable!
+                  https://betterprogramming.pub/create-a-sortable-list-with-draggable-items-
+                  using-javascript-9ef38f96b258 -->
                   <RecipeIngredient
                     draggable="true"
                     v-for="ingredient in header.ingredients"
@@ -329,34 +329,34 @@ using-javascript-9ef38f96b258 -->
                   >
                   </RecipeIngredient>
 
-                  </v-container>
+                </v-container>
 
-                </v-col>
+              </v-col>
 
-                <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
 
-                <v-col cols="6">
+              <v-col cols="6">
 
-                  <RecipeStep
-                    v-for="step in steps"
-                    :key="step.id"
-                    :step="step"
-                  ></RecipeStep>
+                <RecipeStep
+                  v-for="step in steps"
+                  :key="step.id"
+                  :step="step"
+                ></RecipeStep>
 
-                </v-col>
+              </v-col>
 
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              <h2 class="text-h5">
-                Private notes
-              </h2>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col cols="6">
+            </v-row>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h2 class="text-h5">
+              Private notes
+            </h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-row>
+              <v-col cols="6">
 
                 <v-textarea
                   v-for="(note, i) in notes"
@@ -372,18 +372,33 @@ using-javascript-9ef38f96b258 -->
                 >
                 </v-textarea>
 
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
+      <v-container
+        class="d-flex justify-end mt-12 pr-0"
+        >
+
+      <IconButton
+        :icon="'mdi-close'"
+        :text="'Discard changes'"
+        :color="'error'"
+        :plain="true"
+        @clickEvent="logme"
+      ></IconButton>
 
       <IconButton
         :icon="'mdi-content-save'"
         :text="'Save recipe'"
+        :color="'primary'"
+        :elevation="2"
         @clickEvent="logme"
-        ></IconButton>
+      ></IconButton>
+
+      </v-container>
 
     </v-form>
   </v-container>
@@ -506,7 +521,7 @@ export default {
   },
   methods: {
     logme() {
-      console.log("hi there")
+      console.log("hi there");
     },
     getHoursAndMinutes(totalMinutes) {
 
@@ -552,8 +567,8 @@ export default {
 
     // Removes extra spaces in notes. Might need to be deleted.
     this.notes.forEach(note => {
-      note.note = note.note.replace(/\s+/g,' ').trim()
-    })
+      note.note = note.note.replace(/\s+/g, " ").trim();
+    });
   }
 };
 </script>
