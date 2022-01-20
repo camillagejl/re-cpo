@@ -401,7 +401,7 @@ export default {
   name: "EditRecipe",
   components: { RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
-    panel: [2],
+    panel: [],
 
     showImages: false,
 

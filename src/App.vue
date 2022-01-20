@@ -1,7 +1,16 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left>
-      <v-toolbar-title>Application</v-toolbar-title>
+    <v-app-bar
+      app
+      clipped-left
+    color="primary lighten-1"
+    class="d-flex justify-center"
+    >
+      <v-toolbar-title
+      class="white--text"
+      >
+        RE-CPO
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -9,12 +18,15 @@
         <router-view></router-view>
       </v-container>
     </v-main>
+    <Footer></Footer>
   </v-app>
 </template>
 
 <script>
+import Footer from "./components/Footer";
 export default {
   name: "App",
+  components: { Footer },
 };
 </script>
 
