@@ -2,8 +2,9 @@
   <v-btn
     :color="color"
     :plain="plain"
-    :elevation="elevation"
-    class="pr-4"
+    :elevation="plain ? 0 : 2"
+    :class="!dense ? 'pr-4' : 'pa-0'"
+    :block="block"
     :to="to"
     @click="$emit('clickEvent')"
   >
@@ -22,8 +23,9 @@ export default {
     icon: String,
     text: String,
     color: String,
-  plain: Boolean,
-    elevation: Number,
+    plain: Boolean,
+    block: Boolean,
+    dense: Boolean,
     to: String
   }
 };

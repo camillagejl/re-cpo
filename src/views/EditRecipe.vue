@@ -398,7 +398,6 @@
         :icon="'mdi-content-save'"
         :text="'Save recipe'"
         :color="'primary'"
-        :elevation="2"
         @clickEvent="logme"
       ></IconButton>
 

@@ -99,7 +99,6 @@
                 :icon="'mdi-chevron-right'"
                 :text="'Go to recipe'"
                 :color="'primary'"
-                :elevation="2"
                 :to="'/edit-recipe'"
               ></IconButton>
             </v-card-actions>
