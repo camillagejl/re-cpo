@@ -3,10 +3,16 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import WorkInProgressOverview from "../views/WorkInProgressOverview";
 import EditRecipe from "../views/EditRecipe";
+import Login from "../views/Login";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
   {
     path: "/",
     name: "Home",

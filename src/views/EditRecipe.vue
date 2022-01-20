@@ -7,7 +7,7 @@
         divider=">"
       ></v-breadcrumbs>
 
-      <h1 class="text-h4">
+      <h1 class="text-h4 mb-8">
         Veggie lasagna
       </h1>
 

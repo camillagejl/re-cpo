@@ -6,7 +6,7 @@
       divider=">"
     ></v-breadcrumbs>
 
-    <h1 class="display-1">
+    <h1 class="text-h4 mb-8">
       Work in progress
     </h1>
 

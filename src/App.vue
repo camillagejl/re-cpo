@@ -1,6 +1,12 @@
 <template>
   <v-app>
+
+    <v-main v-if="currentRouteName === 'Login'">
+    <Login></Login>
+    </v-main>
+
     <v-app-bar
+      v-if="currentRouteName !== 'Login'"
       app
       clipped-left
       color="primary lighten-1"
@@ -13,21 +19,32 @@
       </v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main
+      v-if="currentRouteName !== 'Login'"
+    >
       <v-container class="main">
         <router-view></router-view>
       </v-container>
     </v-main>
-    <Footer></Footer>
+    <Footer
+      v-if="currentRouteName !== 'Login'"
+    ></Footer>
+
   </v-app>
 </template>
 
 <script>
 import Footer from "./components/Footer";
+import Login from "./views/Login";
 
 export default {
   name: "App",
-  components: { Footer }
+  components: { Login, Footer },
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    }
+  }
 };
 </script>
 
