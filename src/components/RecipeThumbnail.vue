@@ -98,17 +98,11 @@
                 View iterations
               </v-btn>
 
-              <v-btn
-                color="primary"
-                elevation="2"
-                class="pr-4"
-                to="/edit-recipe"
-              >
-                <v-icon>
-                  mdi-chevron-right
-                </v-icon>
-                Go to recipe
-              </v-btn>
+              <IconButton
+                :icon="'mdi-chevron-right'"
+                :text="'Go to recipe'"
+              :to="'/edit-recipe'"
+              ></IconButton>
             </v-card-actions>
 
           </v-row>
@@ -169,8 +163,10 @@
 
 <script>
 
+import IconButton from "./IconButton";
 export default {
   name: "RecipeThumbnail",
+  components: { IconButton },
   props: {
     recipe: Object
   },

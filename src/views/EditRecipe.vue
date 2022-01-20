@@ -11,13 +11,10 @@
         Veggie lasagna
       </h1>
 
-      <v-container>
-
         <v-expansion-panels
           v-model="panel"
           multiple
         >
-
           <v-expansion-panel>
             <v-expansion-panel-header>
               <h2 class="text-h5">
@@ -297,7 +294,6 @@
 
             </v-expansion-panel-content>
           </v-expansion-panel>
-
           <v-expansion-panel>
             <v-expansion-panel-header>
               <h2 class="text-h5">
@@ -352,7 +348,6 @@ using-javascript-9ef38f96b258 -->
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
-
           <v-expansion-panel>
             <v-expansion-panel-header>
               <h2 class="text-h5">
@@ -381,9 +376,14 @@ using-javascript-9ef38f96b258 -->
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
-
         </v-expansion-panels>
-      </v-container>
+
+
+      <IconButton
+        :icon="'mdi-content-save'"
+        :text="'Save recipe'"
+        @clickEvent="logme"
+        ></IconButton>
 
     </v-form>
   </v-container>
@@ -396,10 +396,11 @@ import IconHeader from "../components/IconHeader";
 import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/RecipeStep";
 import RecipeIngredient from "../components/RecipeIngredient";
+import IconButton from "../components/IconButton";
 
 export default {
   name: "EditRecipe",
-  components: { RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
+  components: { IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     panel: [],
 
@@ -504,6 +505,9 @@ export default {
     }
   },
   methods: {
+    logme() {
+      console.log("hi there")
+    },
     getHoursAndMinutes(totalMinutes) {
 
       const actualHours = Math.floor(totalMinutes / 60);
