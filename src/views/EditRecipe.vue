@@ -71,6 +71,7 @@
                   ></IconHeader>
 
                   <v-row>
+
                     <v-col cols="6" class="d-flex align-center">
                       <p class="mx-3 mb-0">
                         -
@@ -366,7 +367,7 @@
                     v-for="ingredient in header.ingredients"
                     :key="ingredient.id"
                     :ingredient="ingredient"
-                    :measuringUnit="measuring_units[ingredient.unit_id].unit"
+                    :unit="measuring_units[ingredient.unit_id].unit"
                   >
                   </RecipeIngredient>
 

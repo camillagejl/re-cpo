@@ -19,8 +19,9 @@
     </v-col>
 
     <AdjustNumberField
-    :ingredient="ingredient"
-    :measuringUnit="measuringUnit"
+    v-model="ingredient.amount"
+    :unit="unit"
+    :cols="5"
     ></AdjustNumberField>
 
   </v-row>
@@ -35,7 +36,7 @@ export default {
   components: { AdjustNumberField },
   props: {
     ingredient: Object,
-    measuringUnit: String
+    unit: String
   }
 };
 </script>
