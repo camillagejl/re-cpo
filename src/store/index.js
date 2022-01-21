@@ -26,19 +26,19 @@ export default new Vuex.Store({
             date: "2022/01/13",
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: "Dinner",
-            tags: ["Danish", "Vegan"],
-            serving_type: "Main course",
+            category: 3,
+            tags: [1, 2],
+            serving_type: 2,
             work_time: 20,
             idle_time: 90,
             shelf_time: 5,
-            shelf_time_unit: 'days',
+            shelf_time_unit: 1,
             calories: "320",
             protein: "15",
             carbohydrates: "17",
             fat: "3",
             salt: "0.8",
-            nutrition_unit: "Per 100 g",
+            nutrition_unit: 1,
             servings: 4,
             description: "I'm a lasagna",
             serving_suggestions: "Eat me",
@@ -136,7 +136,7 @@ export default new Vuex.Store({
             image: 'veggie_lasagna.jpg',
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: "Dinner",
+            category: 2,
             servingtype: "Main course",
             worktime: 20,
             downtime: 90,
@@ -146,7 +146,7 @@ export default new Vuex.Store({
             carbohydrates: "320",
             fat: "320",
             salt: "320",
-            nutrition_unit: "serving",
+            nutrition_unit: 2,
             servings: 4,
             description: "I'm a lasagna",
             servingsuggestion: "Eat me",
@@ -210,19 +210,19 @@ export default new Vuex.Store({
             date: "2022/01/13",
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: "Dinner",
-            tags: ["Danish", "Vegan"],
-            serving_type: "Main course",
+            category: 2,
+            tags: [1, 2],
+            serving_type: 2,
             work_time: 20,
             idle_time: 90,
             shelf_time: 5,
-            shelf_time_unit: 'days',
+            shelf_time_unit: 3,
             calories: "320",
             protein: "15",
             carbohydrates: "17",
             fat: "3",
             salt: "0.8",
-            nutrition_unit: "Per 100 g",
+            nutrition_unit: 2,
             servings: 4,
             description: "I'm a lasagna",
             serving_suggestions: "Eat me",
@@ -320,7 +320,7 @@ export default new Vuex.Store({
             image: 'veggie_lasagna.jpg',
             comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: "Dinner",
+            category: 1,
             servingtype: "Main course",
             worktime: 20,
             downtime: 90,
@@ -330,7 +330,7 @@ export default new Vuex.Store({
             carbohydrates: "320",
             fat: "320",
             salt: "320",
-            nutrition_unit: "serving",
+            nutrition_unit: 1,
             servings: 4,
             description: "I'm a lasagna",
             servingsuggestion: "Eat me",
@@ -436,13 +436,29 @@ export default new Vuex.Store({
     nutrition_units: [
       {
         id: 1,
-        user_id: null,
         name: "Per 100 g"
       },
       {
         id: 2,
-        user_id: null,
         name: "Per serving"
+      }
+    ],
+    shelf_time_units: [
+      {
+        id: 1,
+        name: 'days'
+      },
+      {
+        id: 2,
+        name: 'weeks'
+      },
+      {
+        id: 3,
+        name: 'months'
+      },
+      {
+        id: 4,
+        name: 'years'
       }
     ]
   },

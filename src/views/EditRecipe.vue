@@ -9,8 +9,6 @@
 
       <h1
         class="text-h4 mb-8"
-
-
       >
         {{ recipeVersion.title }}
       </h1>
@@ -32,7 +30,8 @@
                 <v-combobox
                   v-model="recipeVersion.category"
                   label="Category"
-                  :items="categoryNames"
+                  :items="categories"
+                  item-text="name"
                   outlined
                 ></v-combobox>
               </v-col>
@@ -41,7 +40,9 @@
                 <v-combobox
                   v-model="recipeVersion.tags"
                   label="Tags"
-                  :items="tagNames"
+                  :items="recipe_tags"
+                  item-text="name"
+                  item-value="id"
                   outlined
                   chips
                   multiple
@@ -55,6 +56,8 @@
                   v-model="recipeVersion.serving_type"
                   label="Serving type"
                   :items="servingTypeNames"
+                  item-text="name"
+                  item-value="id"
                   outlined
                 ></v-combobox>
               </v-col>
@@ -130,7 +133,9 @@
                 ></IconHeader>
 
                 <v-select
-                  :items="nutritionUnitNames"
+                  :items="nutrition_units"
+                  item-text="name"
+                  item-value="id"
                   filled
                   dense
                   v-model="recipeVersion.nutrition_unit"
@@ -172,7 +177,9 @@
                   ></AdjustNumberField>
                   <v-col cols="4">
                     <v-select
-                      :items="['days', 'months']"
+                      :items="shelf_time_units"
+                      item-text="name"
+                      item-value="id"
                       filled
                       v-model="recipeVersion.shelf_time_unit"
                       hide-details
@@ -180,7 +187,7 @@
                       class="my-3"
                     ></v-select>
                   </v-col>
-                  <v-col cols="3"> </v-col>
+                  <v-col cols="3"></v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -228,7 +235,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel class="pb-6">
-        <v-expansion-panel-header>
+          <v-expansion-panel-header>
             <h2 class="text-h5">
               Recipe
             </h2>
@@ -320,7 +327,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel class="pb-6">
-        <v-expansion-panel-header>
+          <v-expansion-panel-header>
             <h2 class="text-h5">
               Private notes
             </h2>
@@ -388,6 +395,8 @@ export default {
   name: "EditRecipe",
   components: { AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
+    aData: null,
+
     // Form validation
     valid: false,
 
@@ -412,7 +421,7 @@ export default {
       date: null,
       comment: null,
       category: null,
-      tags: null,
+      tags: [],
       serving_type: null,
       work_time: null,
       idle_time: null,
@@ -459,26 +468,9 @@ export default {
       "serving_types",
       "nutrition_units",
       "recipes",
-      "measuring_units"
+      "measuring_units",
+      "shelf_time_units"
     ]),
-    categoryNames() {
-      let categories = [];
-
-      this.categories.forEach(category => {
-        categories.push(category.name);
-      });
-
-      return categories;
-    },
-    tagNames() {
-      let tags = [];
-
-      this.recipe_tags.forEach(tag => {
-        tags.push(tag.name);
-      });
-
-      return tags;
-    },
     servingTypeNames() {
       let servingTypes = [];
 
@@ -487,15 +479,6 @@ export default {
       });
 
       return servingTypes;
-    },
-    nutritionUnitNames() {
-      let nutritionUnits = [];
-
-      this.nutrition_units.forEach(unit => {
-        nutritionUnits.push(unit.name);
-      });
-
-      return nutritionUnits;
     },
     overallTime() {
       const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);
@@ -527,6 +510,25 @@ export default {
       const actualMinutes = Math.round(totalMinutes - actualHours * 60);
 
       return { hours: actualHours, minutes: actualMinutes };
+    },
+    pushToStore() {
+      if (typeof this.recipeVersion.category !== "object"
+        && this.recipeVersion.category !== null) {
+        // Do stuff to create new category
+      }
+
+      if (this.recipeVersion.tags.length > 0) {
+        const newTags = [];
+        this.recipeVersion.tags.forEach(tag => {
+          if (typeof tag !== "object") {
+            newTags.push(tag);
+          }
+        });
+
+        if (newTags.length > 0) {
+          //  Do stuff to create new tags
+        }
+      }
     }
   },
   mounted() {
@@ -535,9 +537,33 @@ export default {
     const recipeVersionFromStore = this.recipes[0].versions[0];
 
     this.recipeVersion.title = recipeVersionFromStore.title;
-    this.recipeVersion.category = recipeVersionFromStore.category;
-    this.recipeVersion.tags = recipeVersionFromStore.tags;
-    this.recipeVersion.serving_type = recipeVersionFromStore.serving_type;
+
+    // --- The below fields need to have the object added specifically to
+    // the data, as the comboboxes can't work with id only, since it will
+    // interpret is as text.
+
+    // Finds category object from recipe's category
+    this.categories.forEach(categoryObject => {
+      if (recipeVersionFromStore.category === categoryObject.id) {
+        this.recipeVersion.category = categoryObject;
+      }
+    })
+
+    // Finds serving type object from recipe's serving type
+    this.serving_types.forEach(servingTypeObject => {
+      if (recipeVersionFromStore.serving_type === servingTypeObject.id) {
+        this.recipeVersion.serving_type = servingTypeObject;
+      }
+    })
+
+    // Finds tag objects from recipe's tag id
+    recipeVersionFromStore.tags.forEach(tag => {
+      this.recipe_tags.forEach(tagObject => {
+        if (tag === tagObject.id) this.recipeVersion.tags.push(tagObject);
+      })
+    });
+
+    // ---
 
     this.recipeVersion.nutrition_unit = recipeVersionFromStore.nutrition_unit;
     this.recipeVersion.calories = recipeVersionFromStore.calories;
