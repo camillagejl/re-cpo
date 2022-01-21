@@ -1,5 +1,5 @@
 <template>
-    <v-col cols="cols" class="d-flex align-center">
+    <v-col class="d-flex align-center">
       <v-btn
         icon
         @click="updateAmount('decrease')"
@@ -32,6 +32,11 @@
       >
         +
       </v-btn>
+
+      <p class="ma-0">
+        {{ appendText }}
+      </p>
+
     </v-col>
 </template>
 
@@ -42,7 +47,7 @@ export default {
   props: {
     value: Number,
     unit: String,
-    cols: Number
+    appendText: String
   },
   methods: {
     updateAmount(variation) {

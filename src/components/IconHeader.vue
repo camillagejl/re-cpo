@@ -1,6 +1,6 @@
 <template>
 
-  <h5 class="subtitle-1 d-flex align-center mb-3">
+  <h5 class="subtitle-1 d-flex align-center mt-6 mb-2">
     <v-icon
       class="pr-2"
     >

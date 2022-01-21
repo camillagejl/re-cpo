@@ -7,8 +7,8 @@
       type="number"
       min="0"
       hide-details
-
       :value="value"
+      class="mb-3"
       @input="$emit('input', $event)"
     >
       <p

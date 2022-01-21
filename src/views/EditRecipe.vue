@@ -19,7 +19,7 @@
         v-model="panel"
         multiple
       >
-        <v-expansion-panel>
+        <v-expansion-panel class="pb-6">
           <v-expansion-panel-header>
             <h2 class="text-h5">
               Recipe information
@@ -72,51 +72,15 @@
 
                   <v-row>
 
-                    <v-col cols="6" class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
+                    <AdjustNumberField
+                      v-model="workHours"
+                      :appendText="'hours'"
+                    ></AdjustNumberField>
 
-                      <v-text-field
-                        v-model="workHours"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        hide-details
-                      >
-                      </v-text-field>
-
-                      <p class="mx-3 mb-0">
-                        + hours
-                      </p>
-
-                    </v-col>
-
-                    <v-col cols="6" class="d-flex align-center">
-
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
-
-                      <v-text-field
-                        v-model="workMinutes"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        oninput="if (this.value < 0) this.value = 0"
-                        hide-details
-                      >
-                      </v-text-field>
-
-                      <p class="mx-3 mb-0">
-                        + minutes
-                      </p>
-
-                    </v-col>
+                    <AdjustNumberField
+                      v-model="workMinutes"
+                      :appendText="'minutes'"
+                    ></AdjustNumberField>
 
                   </v-row>
                 </v-container>
@@ -128,49 +92,17 @@
                   ></IconHeader>
 
                   <v-row>
-                    <v-col cols="6" class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
 
-                      <v-text-field
-                        v-model="idleHours"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        hide-details
-                      >
-                      </v-text-field>
+                    <AdjustNumberField
+                      v-model="idleHours"
+                      :appendText="'hours'"
+                    ></AdjustNumberField>
 
-                      <p class="mx-3 mb-0">
-                        + hours
-                      </p>
-                    </v-col>
+                    <AdjustNumberField
+                      v-model="idleMinutes"
+                      :appendText="'minutes'"
+                    ></AdjustNumberField>
 
-                    <v-col cols="6" class="d-flex align-center">
-                      <p class="mx-3 mb-0">
-                        -
-                      </p>
-
-                      <v-text-field
-                        v-model="idleMinutes"
-                        style="width: 10%"
-                        outlined
-                        dense
-                        type="number"
-                        min="0"
-                        oninput="if (this.value < 0) this.value = 0"
-                        hide-details
-                      >
-                      </v-text-field>
-
-                      <p class="mx-3 mb-0">
-                        + minutes
-                      </p>
-
-                    </v-col>
                   </v-row>
                 </v-container>
 
@@ -180,7 +112,10 @@
                     :text="'Overall time'"
                   ></IconHeader>
 
-                  {{ overallTime }}
+                  <p>
+                    <b>{{ overallTime.hours }}</b> hours
+                    <b>{{ overallTime.minutes }}</b> minutes
+                  </p>
 
                 </v-container>
 
@@ -197,6 +132,7 @@
                 <v-select
                   :items="nutritionUnitNames"
                   filled
+                  dense
                   v-model="recipeVersion.nutrition_unit"
                 ></v-select>
 
@@ -231,26 +167,20 @@
                 ></IconHeader>
 
                 <v-row>
-                  <v-col cols="6" class="d-flex align-center">
-                    <p class="mx-3 mb-0">
-                      -
-                    </p>
-
-                    <v-text-field
-                      v-model="recipeVersion.shelf_time"
-                      style="width: 10%"
-                      outlined
-                      dense
-                      type="number"
-                      min="0"
+                  <AdjustNumberField
+                    v-model="recipeVersion.shelf_time"
+                  ></AdjustNumberField>
+                  <v-col cols="4">
+                    <v-select
+                      :items="['days', 'months']"
+                      filled
+                      v-model="recipeVersion.shelf_time_unit"
                       hide-details
-                    >
-                    </v-text-field>
-
-                    <p class="mx-3 mb-0">
-                      + days
-                    </p>
+                      dense
+                      class="my-3"
+                    ></v-select>
                   </v-col>
+                  <v-col cols="3"> </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -297,9 +227,8 @@
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>
+        <v-expansion-panel class="pb-6">
+        <v-expansion-panel-header>
             <h2 class="text-h5">
               Recipe
             </h2>
@@ -390,8 +319,8 @@
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header>
+        <v-expansion-panel class="pb-6">
+        <v-expansion-panel-header>
             <h2 class="text-h5">
               Private notes
             </h2>
@@ -453,10 +382,11 @@ import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/RecipeStep";
 import RecipeIngredient from "../components/RecipeIngredient";
 import IconButton from "../components/IconButton";
+import AdjustNumberField from "../components/AdjustNumberField";
 
 export default {
   name: "EditRecipe",
-  components: { IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
+  components: { AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     // Form validation
     valid: false,
@@ -487,6 +417,7 @@ export default {
       work_time: null,
       idle_time: null,
       shelf_time: null,
+      shelf_time_unit: null,
       calories: null,
       protein: null,
       carbohydrates: null,
@@ -570,9 +501,21 @@ export default {
       const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);
       const totalIdleMinutes = parseInt(this.idleHours) * 60 + parseInt(this.idleMinutes);
 
-      const actualTime = this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
-
-      return `${actualTime.hours} hours ${actualTime.minutes} minutes`;
+      return this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
+    }
+  },
+  watch: {
+    idleMinutes(newValue) {
+      if (parseInt(newValue) > 59) {
+        this.idleMinutes = this.idleMinutes - 60;
+        this.idleHours = this.idleHours + 1;
+      }
+    },
+    workMinutes(newValue) {
+      if (parseInt(newValue) > 59) {
+        this.workMinutes = this.workMinutes - 60;
+        this.workHours = this.workHours + 1;
+      }
     }
   },
   methods: {
@@ -580,7 +523,6 @@ export default {
       console.log("hi there");
     },
     getHoursAndMinutes(totalMinutes) {
-
       const actualHours = Math.floor(totalMinutes / 60);
       const actualMinutes = Math.round(totalMinutes - actualHours * 60);
 
@@ -605,6 +547,7 @@ export default {
     this.recipeVersion.salt = recipeVersionFromStore.salt;
 
     this.recipeVersion.shelf_time = recipeVersionFromStore.shelf_time;
+    this.recipeVersion.shelf_time_unit = recipeVersionFromStore.shelf_time_unit;
     this.recipeVersion.description = recipeVersionFromStore.description;
     this.recipeVersion.serving_suggestions = recipeVersionFromStore.serving_suggestions;
     this.recipeVersion.storage = recipeVersionFromStore.storage;
