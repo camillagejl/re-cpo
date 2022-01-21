@@ -27,6 +27,7 @@
             <v-row>
 
               <v-col cols="4">
+
                 <v-combobox
                   v-model="recipeVersion.category"
                   label="Category"
@@ -230,6 +231,9 @@
           <v-expansion-panel-content>
             <v-row>
               <v-col cols="5">
+                <h3 class="text-h6 font-weight-regular mb-6">
+                  Ingredients
+                </h3>
 
                 <v-row
                   class="d-flex justify-center"
@@ -301,6 +305,10 @@
               <v-spacer></v-spacer>
 
               <v-col cols="6">
+
+                <h3 class="text-h6 font-weight-regular mb-6">
+                  Ingredients
+                </h3>
 
                 <RecipeStep
                   v-for="step in recipeVersion.steps"
