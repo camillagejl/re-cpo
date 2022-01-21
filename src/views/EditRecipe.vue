@@ -138,7 +138,7 @@
                   item-value="id"
                   filled
                   dense
-                  v-model="recipeVersion.nutrition_unit"
+                  v-model="recipeVersion.nutrition.nutrition_unit"
                 ></v-select>
 
                 <NutritionInput
