@@ -314,13 +314,12 @@
                     cols="7"
                     class="d-flex align-center mb-3"
                   >
-                    <p
-                      class="pa-3 ma-0"
-                      style="cursor: pointer"
+                    <v-btn
+                      icon
                       @click="recipeVersion.servings--"
                     >
                       -
-                    </p>
+                    </v-btn>
                     <v-text-field
                       v-model="recipeVersion.servings"
                       filled
@@ -364,11 +363,10 @@
                   https://betterprogramming.pub/create-a-sortable-list-with-draggable-items-
                   using-javascript-9ef38f96b258 -->
                   <RecipeIngredient
-                    draggable="true"
                     v-for="ingredient in header.ingredients"
                     :key="ingredient.id"
                     :ingredient="ingredient"
-                    :measurinUnit="measuring_units[ingredient.unit_id].unit"
+                    :measuringUnit="measuring_units[ingredient.unit_id].unit"
                   >
                   </RecipeIngredient>
 
