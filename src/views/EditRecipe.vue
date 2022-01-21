@@ -12,7 +12,7 @@
 
 
       >
-        Veggie lasagna
+        {{ recipeVersion.title }}
       </h1>
 
       <v-expansion-panels
@@ -30,7 +30,7 @@
 
               <v-col cols="4">
                 <v-combobox
-                  v-model="category"
+                  v-model="recipeVersion.category"
                   label="Category"
                   :items="categoryNames"
                   outlined
@@ -39,7 +39,7 @@
 
               <v-col cols="4">
                 <v-combobox
-                  v-model="tags"
+                  v-model="recipeVersion.tags"
                   label="Tags"
                   :items="tagNames"
                   outlined
@@ -52,7 +52,7 @@
 
               <v-col cols="4">
                 <v-combobox
-                  v-model="servingType"
+                  v-model="recipeVersion.serving_type"
                   label="Serving type"
                   :items="servingTypeNames"
                   outlined
@@ -196,27 +196,27 @@
                 <v-select
                   :items="nutritionUnitNames"
                   filled
-                  v-model="nutritionUnit"
+                  v-model="recipeVersion.nutrition_unit"
                 ></v-select>
 
                 <NutritionInput
-                  v-model="calories"
+                  v-model="recipeVersion.calories"
                   :name="'calories'"
                 ></NutritionInput>
                 <NutritionInput
-                  v-model="protein"
+                  v-model="recipeVersion.protein"
                   :name="'protein'"
                 ></NutritionInput>
                 <NutritionInput
-                  v-model="carbohydrates"
+                  v-model="recipeVersion.carbohydrates"
                   :name="'carbohydrates'"
                 ></NutritionInput>
                 <NutritionInput
-                  v-model="fat"
+                  v-model="recipeVersion.fat"
                   :name="'fat'"
                 ></NutritionInput>
                 <NutritionInput
-                  v-model="salt"
+                  v-model="recipeVersion.salt"
                   :name="'salt'"
                 ></NutritionInput>
               </v-col>
@@ -236,7 +236,7 @@
                     </p>
 
                     <v-text-field
-                      v-model="shelfTime"
+                      v-model="recipeVersion.shelf_time"
                       style="width: 10%"
                       outlined
                       dense
@@ -258,7 +258,7 @@
               <v-col cols="6">
 
                 <v-textarea
-                  v-model="description"
+                  v-model="recipeVersion.description"
                   label="Description"
                   outlined
                   dense
@@ -270,7 +270,7 @@
                 </v-textarea>
 
                 <v-textarea
-                  v-model="servingSuggestions"
+                  v-model="recipeVersion.serving_suggestions"
                   label="Serving suggestions"
                   outlined
                   dense
@@ -282,7 +282,7 @@
                 </v-textarea>
 
                 <v-textarea
-                  v-model="storage"
+                  v-model="recipeVersion.storage"
                   label="Storage"
                   outlined
                   dense
@@ -294,10 +294,9 @@
 
               </v-col>
             </v-row>
-
-
           </v-expansion-panel-content>
         </v-expansion-panel>
+
         <v-expansion-panel>
           <v-expansion-panel-header>
             <h2 class="text-h5">
@@ -308,8 +307,48 @@
             <v-row>
               <v-col cols="5">
 
+                <v-row
+                  class="d-flex justify-center"
+                >
+                  <v-col
+                    cols="7"
+                    class="d-flex align-center mb-3"
+                  >
+                    <p
+                      class="pa-3 ma-0"
+                      style="cursor: pointer"
+                      @click="recipeVersion.servings--"
+                    >
+                      -
+                    </p>
+                    <v-text-field
+                      v-model="recipeVersion.servings"
+                      filled
+                      type="number"
+                      dense
+                      append="servings"
+                      prepend-inner-icon="mdi-food"
+                      prefix=" "
+                      hide-details
+                    >
+                      <p
+                        class="pt-1 ma-0"
+                        slot="append"
+                      >
+                        servings
+                      </p>
+                    </v-text-field>
+                    <v-btn
+                      icon
+                      @click="recipeVersion.servings++"
+                    >
+                      +
+                    </v-btn>
+                  </v-col>
+                </v-row>
+
                 <v-container
-                  v-for="header in ingredients"
+                  v-for="header in recipeVersion.ingredients"
                   :key="header.id"
                   class="pa-0"
                 >
@@ -342,7 +381,7 @@
               <v-col cols="6">
 
                 <RecipeStep
-                  v-for="step in steps"
+                  v-for="step in recipeVersion.steps"
                   :key="step.id"
                   :step="step"
                 ></RecipeStep>
@@ -363,9 +402,9 @@
               <v-col cols="6">
 
                 <v-textarea
-                  v-for="(note, i) in notes"
+                  v-for="(note, i) in recipeVersion.notes"
                   :key="note.id"
-                  v-model="notes[i].note"
+                  v-model="recipeVersion.notes[i].note"
                   :label="note.date"
                   outlined
                   dense
@@ -384,22 +423,22 @@
 
       <v-container
         class="d-flex justify-end mt-12 pr-0"
-        >
+      >
 
-      <IconButton
-        :icon="'mdi-close'"
-        :text="'Discard changes'"
-        :color="'error'"
-        :plain="true"
-        @clickEvent="logme"
-      ></IconButton>
+        <IconButton
+          :icon="'mdi-close'"
+          :text="'Discard changes'"
+          :color="'error'"
+          :plain="true"
+          @clickEvent="logme"
+        ></IconButton>
 
-      <IconButton
-        :icon="'mdi-content-save'"
-        :text="'Save recipe'"
-        :color="'primary'"
-        @clickEvent="logme"
-      ></IconButton>
+        <IconButton
+          :icon="'mdi-content-save'"
+          :text="'Save recipe'"
+          :color="'primary'"
+          @clickEvent="logme"
+        ></IconButton>
 
       </v-container>
 
@@ -420,35 +459,49 @@ export default {
   name: "EditRecipe",
   components: { IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
-    panel: [],
-
-    showImages: false,
-
+    // Form validation
     valid: false,
-    category: null,
-    tags: [],
-    servingType: null,
 
-    workHours: 7,
-    workMinutes: 27,
-    idleHours: 5,
-    idleMinutes: 35,
-    shelfTime: 57,
+    // Keeps index of which panels are displayed.
+    panel: [0, 1, 2],
 
-    description: null,
-    servingSuggestions: null,
-    storage: null,
+    // Finds all occupied ids, so we can assign this version a new one.
+    occupiedRecipeIds: [],
+    occupiedVersionIds: [],
 
-    nutritionUnit: "Per 100 g",
-    calories: "320",
-    protein: "320",
-    carbohydrates: "320",
-    fat: "320",
-    salt: "320",
+    // Those times are separate from the rest of the recipeVersion, because
+    // they are displayed in hours/minutes, but not saved that way.
+    workHours: null,
+    workMinutes: null,
+    idleHours: null,
+    idleMinutes: null,
 
-    ingredients: [],
-    steps: [],
-    notes: [],
+    // The information of the recipe that will be saved in Store
+    recipeVersion: {
+      id: null,
+      title: null,
+      date: null,
+      comment: null,
+      category: null,
+      tags: null,
+      serving_type: null,
+      work_time: null,
+      idle_time: null,
+      shelf_time: null,
+      calories: null,
+      protein: null,
+      carbohydrates: null,
+      fat: null,
+      salt: null,
+      nutrition_unit: null,
+      servings: null,
+      description: null,
+      serving_suggestions: null,
+      storage: null,
+      ingredients: {},
+      steps: [],
+      notes: []
+    },
 
     breadcrumbs: [
       {
@@ -467,13 +520,14 @@ export default {
         href: ""
       }
     ]
+
   }),
   computed: {
     ...mapState([
       "categories",
-      "recipeTags",
-      "servingTypes",
-      "nutritionUnits",
+      "recipe_tags",
+      "serving_types",
+      "nutrition_units",
       "recipes",
       "measuring_units"
     ]),
@@ -489,7 +543,7 @@ export default {
     tagNames() {
       let tags = [];
 
-      this.recipeTags.forEach(tag => {
+      this.recipe_tags.forEach(tag => {
         tags.push(tag.name);
       });
 
@@ -498,7 +552,7 @@ export default {
     servingTypeNames() {
       let servingTypes = [];
 
-      this.servingTypes.forEach(servingType => {
+      this.serving_types.forEach(servingType => {
         servingTypes.push(servingType.name);
       });
 
@@ -507,7 +561,7 @@ export default {
     nutritionUnitNames() {
       let nutritionUnits = [];
 
-      this.nutritionUnits.forEach(unit => {
+      this.nutrition_units.forEach(unit => {
         nutritionUnits.push(unit.name);
       });
 
@@ -532,46 +586,72 @@ export default {
       const actualMinutes = Math.round(totalMinutes - actualHours * 60);
 
       return { hours: actualHours, minutes: actualMinutes };
-
     }
   },
   mounted() {
     // ----- Populating data() with data from store -----
 
-    const recipeVersion = this.recipes[0].versions[0];
+    const recipeVersionFromStore = this.recipes[0].versions[0];
 
-    this.category = recipeVersion.category;
-    this.tags = recipeVersion.tags;
-    this.servingType = recipeVersion.serving_type;
+    this.recipeVersion.title = recipeVersionFromStore.title;
+    this.recipeVersion.category = recipeVersionFromStore.category;
+    this.recipeVersion.tags = recipeVersionFromStore.tags;
+    this.recipeVersion.serving_type = recipeVersionFromStore.serving_type;
 
-    this.nutritionUnit = recipeVersion.nutrition_unit;
-    this.calories = recipeVersion.calories;
-    this.protein = recipeVersion.protein;
-    this.carbohydrates = recipeVersion.carbohydrates;
-    this.fat = recipeVersion.fat;
-    this.salt = recipeVersion.salt;
+    this.recipeVersion.nutrition_unit = recipeVersionFromStore.nutrition_unit;
+    this.recipeVersion.calories = recipeVersionFromStore.calories;
+    this.recipeVersion.protein = recipeVersionFromStore.protein;
+    this.recipeVersion.carbohydrates = recipeVersionFromStore.carbohydrates;
+    this.recipeVersion.fat = recipeVersionFromStore.fat;
+    this.recipeVersion.salt = recipeVersionFromStore.salt;
 
-    this.shelfTime = recipeVersion.shelf_time;
-    this.description = recipeVersion.description;
-    this.servingSuggestions = recipeVersion.serving_suggestions;
-    this.storage = recipeVersion.storage;
+    this.recipeVersion.shelf_time = recipeVersionFromStore.shelf_time;
+    this.recipeVersion.description = recipeVersionFromStore.description;
+    this.recipeVersion.serving_suggestions = recipeVersionFromStore.serving_suggestions;
+    this.recipeVersion.storage = recipeVersionFromStore.storage;
 
-    const actualWorkTime = this.getHoursAndMinutes(recipeVersion.work_time);
+    this.recipeVersion.work_time = recipeVersionFromStore.work_time;
+    const actualWorkTime = this.getHoursAndMinutes(recipeVersionFromStore.work_time);
     this.workHours = actualWorkTime.hours;
     this.workMinutes = actualWorkTime.minutes;
 
-    const actualIdleTime = this.getHoursAndMinutes(recipeVersion.idle_time);
+    this.recipeVersion.idle_time = recipeVersionFromStore.idle_time;
+    const actualIdleTime = this.getHoursAndMinutes(recipeVersionFromStore.idle_time);
     this.idleHours = actualIdleTime.hours;
     this.idleMinutes = actualIdleTime.minutes;
 
-    this.ingredients = recipeVersion.ingredients;
-    this.steps = recipeVersion.steps;
-    this.notes = recipeVersion.notes;
+    this.recipeVersion.servings = recipeVersionFromStore.servings;
+    this.recipeVersion.ingredients = recipeVersionFromStore.ingredients;
+    this.recipeVersion.steps = recipeVersionFromStore.steps;
+    this.recipeVersion.notes = recipeVersionFromStore.notes;
 
     // Removes extra spaces in notes. Might need to be deleted.
-    this.notes.forEach(note => {
+    this.recipeVersion.notes.forEach(note => {
       note.note = note.note.replace(/\s+/g, " ").trim();
     });
+
+    // Finds all occupied version ids.
+    const recipeIds = [];
+    const versionIds = [];
+    this.recipes.forEach(recipe => {
+      recipeIds.push(recipe.id);
+
+      recipe.versions.forEach(version => {
+        versionIds.push(version.id);
+      });
+
+    });
+    this.occupiedRecipeIds = recipeIds.sort();
+    this.occupiedVersionIds = versionIds.sort();
+
+    this.recipeVersion.id = this.occupiedVersionIds.slice(-1)[0] + 1;
+
+    const newDate = new Date();
+    const year = newDate.getFullYear();
+    const month = newDate.getMonth() + 1;
+    const date = newDate.getDate();
+
+    this.recipeVersion.date = year + "/" + month + "/" + date;
   }
 };
 </script>

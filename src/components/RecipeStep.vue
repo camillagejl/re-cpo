@@ -71,9 +71,9 @@ export default {
   computed: {
     ...mapState([
       "categories",
-      "recipeTags",
-      "servingTypes",
-      "nutritionUnits",
+      "recipe_tags",
+      "serving_types",
+      "nutrition_units",
       "recipes",
       "measuring_units"
     ])
