@@ -142,25 +142,12 @@
                 ></v-select>
 
                 <NutritionInput
-                  v-model="recipeVersion.calories"
-                  :name="'calories'"
+                  v-for="(value, name) in recipeVersion.nutrition"
+                  :key="name"
+                  v-model="recipeVersion.nutrition[name]"
+                  :name="name"
                 ></NutritionInput>
-                <NutritionInput
-                  v-model="recipeVersion.protein"
-                  :name="'protein'"
-                ></NutritionInput>
-                <NutritionInput
-                  v-model="recipeVersion.carbohydrates"
-                  :name="'carbohydrates'"
-                ></NutritionInput>
-                <NutritionInput
-                  v-model="recipeVersion.fat"
-                  :name="'fat'"
-                ></NutritionInput>
-                <NutritionInput
-                  v-model="recipeVersion.salt"
-                  :name="'salt'"
-                ></NutritionInput>
+
               </v-col>
             </v-row>
 
@@ -173,7 +160,7 @@
 
                 <v-row>
                   <AdjustNumberField
-                    v-model="recipeVersion.shelf_time"
+                    v-model="recipeVersion.time.shelf_time"
                   ></AdjustNumberField>
                   <v-col cols="4">
                     <v-select
@@ -181,7 +168,7 @@
                       item-text="name"
                       item-value="id"
                       filled
-                      v-model="recipeVersion.shelf_time_unit"
+                      v-model="recipeVersion.time.shelf_time_unit"
                       hide-details
                       dense
                       class="my-3"
@@ -423,16 +410,20 @@ export default {
       category: null,
       tags: [],
       serving_type: null,
-      work_time: null,
-      idle_time: null,
-      shelf_time: null,
-      shelf_time_unit: null,
-      calories: null,
-      protein: null,
-      carbohydrates: null,
-      fat: null,
-      salt: null,
-      nutrition_unit: null,
+      time: {
+        work_time: null,
+        idle_time: null,
+        shelf_time: null,
+        shelf_time_unit: null
+      },
+      nutrition: {
+        calories: null,
+        protein: null,
+        carbohydrates: null,
+        fat: null,
+        salt: null,
+        nutrition_unit: null
+      },
       servings: null,
       description: null,
       serving_suggestions: null,
@@ -547,44 +538,36 @@ export default {
       if (recipeVersionFromStore.category === categoryObject.id) {
         this.recipeVersion.category = categoryObject;
       }
-    })
+    });
 
     // Finds serving type object from recipe's serving type
     this.serving_types.forEach(servingTypeObject => {
       if (recipeVersionFromStore.serving_type === servingTypeObject.id) {
         this.recipeVersion.serving_type = servingTypeObject;
       }
-    })
+    });
 
     // Finds tag objects from recipe's tag id
     recipeVersionFromStore.tags.forEach(tag => {
       this.recipe_tags.forEach(tagObject => {
         if (tag === tagObject.id) this.recipeVersion.tags.push(tagObject);
-      })
+      });
     });
 
     // ---
 
-    this.recipeVersion.nutrition_unit = recipeVersionFromStore.nutrition_unit;
-    this.recipeVersion.calories = recipeVersionFromStore.calories;
-    this.recipeVersion.protein = recipeVersionFromStore.protein;
-    this.recipeVersion.carbohydrates = recipeVersionFromStore.carbohydrates;
-    this.recipeVersion.fat = recipeVersionFromStore.fat;
-    this.recipeVersion.salt = recipeVersionFromStore.salt;
+    this.recipeVersion.nutrition = recipeVersionFromStore.nutrition;
 
-    this.recipeVersion.shelf_time = recipeVersionFromStore.shelf_time;
-    this.recipeVersion.shelf_time_unit = recipeVersionFromStore.shelf_time_unit;
+    this.recipeVersion.time = recipeVersionFromStore.time;
     this.recipeVersion.description = recipeVersionFromStore.description;
     this.recipeVersion.serving_suggestions = recipeVersionFromStore.serving_suggestions;
     this.recipeVersion.storage = recipeVersionFromStore.storage;
 
-    this.recipeVersion.work_time = recipeVersionFromStore.work_time;
-    const actualWorkTime = this.getHoursAndMinutes(recipeVersionFromStore.work_time);
+    const actualWorkTime = this.getHoursAndMinutes(recipeVersionFromStore.time.work_time);
     this.workHours = actualWorkTime.hours;
     this.workMinutes = actualWorkTime.minutes;
 
-    this.recipeVersion.idle_time = recipeVersionFromStore.idle_time;
-    const actualIdleTime = this.getHoursAndMinutes(recipeVersionFromStore.idle_time);
+    const actualIdleTime = this.getHoursAndMinutes(recipeVersionFromStore.time.idle_time);
     this.idleHours = actualIdleTime.hours;
     this.idleMinutes = actualIdleTime.minutes;
 
