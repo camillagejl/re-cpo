@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form v-model="valid">
+    <v-form>
 
       <v-breadcrumbs
         :items="breadcrumbs"
@@ -17,13 +17,13 @@
         v-model="panel"
         multiple
       >
-        <v-expansion-panel class="pb-6">
+        <v-expansion-panel>
           <v-expansion-panel-header>
             <h2 class="text-h5">
               Recipe information
             </h2>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="pb-6">
             <v-row>
 
               <v-col cols="4">
@@ -230,13 +230,13 @@
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel class="pb-6">
+        <v-expansion-panel>
           <v-expansion-panel-header>
             <h2 class="text-h5">
               Recipe
             </h2>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="pb-6">
             <v-row>
               <v-col cols="5">
                 <h3 class="text-h6 font-weight-regular mb-6">
@@ -310,13 +310,13 @@
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel class="pb-6">
+        <v-expansion-panel>
           <v-expansion-panel-header>
             <h2 class="text-h5">
-              Private notes
+              Notes
             </h2>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="pb-6">
             <v-row>
               <v-col cols="6">
                 <Note
@@ -357,7 +357,7 @@
 
 <script>
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import IconHeader from "../components/IconHeader";
 import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/RecipeStep";
@@ -370,17 +370,10 @@ export default {
   name: "EditRecipe",
   components: { Note, AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
-    aData: null,
-
-    // Form validation
-    valid: false,
-
     // Keeps index of which panels are displayed.
-    panel: [0, 1, 2],
+    panel: [],
 
-    // Finds all occupied ids, so we can assign this version a new one.
-    occupiedRecipeIds: [],
-    occupiedVersionIds: [],
+    userId: 1,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
@@ -449,6 +442,13 @@ export default {
       "recipes",
       "measuring_units",
       "shelf_time_units"
+    ]),
+    ...mapGetters([
+      "recipe_ids",
+      "version_ids",
+      "category_ids",
+      "tag_ids",
+      "serving_type_ids"
     ]),
     servingTypeNames() {
       let servingTypes = [];
@@ -677,22 +677,7 @@ export default {
       note.note = note.note.replace(/\s+/g, " ").trim();
     });
 
-    // Finds all occupied version ids.
-    const recipeIds = [];
-    const versionIds = [];
-    this.recipes.forEach(recipe => {
-      recipeIds.push(recipe.id);
-
-      recipe.versions.forEach(version => {
-        versionIds.push(version.id);
-      });
-
-    });
-    this.occupiedRecipeIds = recipeIds.sort();
-    this.occupiedVersionIds = versionIds.sort();
-
-    this.recipeVersion.id = this.occupiedVersionIds.slice(-1)[0] + 1;
-
+    this.recipeVersion.id = this.version_ids.slice(-1)[0] + 1;
     this.recipeVersion.date = this.thisDate;
   }
 };

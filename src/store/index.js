@@ -396,7 +396,7 @@ export default new Vuex.Store({
     },
     categories: [
       {
-        id: 1,
+        id: 5,
         user_id: null,
         name: "Dinner"
       },
@@ -406,7 +406,7 @@ export default new Vuex.Store({
         name: "Lunch"
       },
       {
-        id: 3,
+        id: 7,
         user_id: null,
         name: "Breakfast"
       }
@@ -463,6 +463,65 @@ export default new Vuex.Store({
         name: "years"
       }
     ]
+  },
+  getters: {
+    // Find all ids for attributes where new can be added through the app.
+    recipe_ids: (state) => {
+      const recipeIds = [];
+      state.recipes.forEach(recipe => {
+        recipeIds.push(recipe.id);
+      })
+      return recipeIds.sort(function (a, b) {  return a - b;  });
+    },
+
+    version_ids: (state) => {
+      const versionIds = [];
+      state.recipes.forEach(recipe => {
+        recipe.versions.forEach(version => {
+          versionIds.push(version.id)
+        })
+      })
+      return versionIds.sort(function (a, b) {  return a - b;  });
+    },
+
+    category_ids: (state) => {
+      const categoryIds = [];
+      state.categories.forEach(category => {
+        categoryIds.push(category.id)
+      })
+      return categoryIds.sort(function (a, b) {  return a - b;  });
+    },
+
+    tag_ids: (state) => {
+      const tagIds = [];
+      state.recipe_tags.forEach(tags => {
+        tagIds.push(tags.id)
+      })
+      return tagIds.sort(function (a, b) {  return a - b;  });
+    },
+
+    serving_type_ids: (state) => {
+      const servingTypeIds = [];
+      state.serving_types.forEach(servingTypes => {
+        servingTypeIds.push(servingTypes.id)
+      })
+      return servingTypeIds.sort(function (a, b) {  return a - b;  });
+    },
+
+    ingredient_ids: (state) => {
+      const ingredientIds = [];
+
+      state.recipes.forEach(recipe => {
+      console.log(recipe);
+      state.ingredients.forEach(ingredients => {
+        ingredientIds.push(ingredients.id)
+      })
+
+
+      })
+
+      return ingredientIds.sort(function (a, b) {  return a - b;  });
+    }
   },
   mutations: {},
   actions: {},
