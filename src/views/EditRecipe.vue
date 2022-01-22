@@ -79,11 +79,15 @@
                     <AdjustNumberField
                       v-model="workHours"
                       :appendText="'hours'"
+                      :outlined="true"
+                      :minValue="0"
                     ></AdjustNumberField>
 
                     <AdjustNumberField
                       v-model="workMinutes"
                       :appendText="'minutes'"
+                      :outlined="true"
+                      :minValue="0"
                     ></AdjustNumberField>
 
                   </v-row>
@@ -100,11 +104,15 @@
                     <AdjustNumberField
                       v-model="idleHours"
                       :appendText="'hours'"
+                      :outlined="true"
+                      :minValue="0"
                     ></AdjustNumberField>
 
                     <AdjustNumberField
                       v-model="idleMinutes"
                       :appendText="'minutes'"
+                      :outlined="true"
+                      :minValue="0"
                     ></AdjustNumberField>
 
                   </v-row>
@@ -161,6 +169,7 @@
                 <v-row>
                   <AdjustNumberField
                     v-model="recipeVersion.time.shelf_time"
+                    :outlined="true"
                   ></AdjustNumberField>
                   <v-col cols="4">
                     <v-select
@@ -237,39 +246,19 @@
                 <v-row
                   class="d-flex justify-center"
                 >
+
                   <v-col
                     cols="7"
                     class="d-flex align-center mb-3"
                   >
-                    <v-btn
-                      icon
-                      @click="recipeVersion.servings--"
-                    >
-                      -
-                    </v-btn>
-                    <v-text-field
+                    <AdjustNumberField
                       v-model="recipeVersion.servings"
-                      filled
-                      type="number"
-                      dense
-                      append="servings"
-                      prepend-inner-icon="mdi-food"
-                      prefix=" "
-                      hide-details
-                    >
-                      <p
-                        class="pt-1 ma-0"
-                        slot="append"
-                      >
-                        servings
-                      </p>
-                    </v-text-field>
-                    <v-btn
-                      icon
-                      @click="recipeVersion.servings++"
-                    >
-                      +
-                    </v-btn>
+                      :minValue="3"
+                      :filled="true"
+                      :innerIcon="'mdi-food'"
+                      :prefix="' '"
+                      :unit="'servings'"
+                    ></AdjustNumberField>
                   </v-col>
                 </v-row>
 
@@ -526,7 +515,7 @@ export default {
           ingredients.forEach((ingredient, i) => {
             if (
               (ingredient.name === null || ingredient.name === "") &&
-              (ingredient.amount === null || isNaN(ingredient.amount)) &&
+              (ingredient.amount === 0 || isNaN(ingredient.amount)) &&
               ingredients.length - 1 !== i
             ) {
               ingredients.splice(i, 1);
@@ -564,7 +553,6 @@ export default {
             steps.splice(i, 1);
           }
         });
-
       }
     }
   },

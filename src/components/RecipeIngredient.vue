@@ -21,6 +21,8 @@
     <AdjustNumberField
     v-model="ingredient.amount"
     :unit="unit"
+    :outlined="true"
+    :minValue="0"
     ></AdjustNumberField>
 
   </v-row>

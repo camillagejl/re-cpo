@@ -1,43 +1,46 @@
 <template>
-    <v-col class="d-flex align-center">
-      <v-btn
-        icon
-        @click="updateAmount('decrease')"
-      >
-        -
-      </v-btn>
+  <v-col class="d-flex align-center">
+    <v-btn
+      icon
+      @click="updateAmount('decrease')"
+    >
+      -
+    </v-btn>
 
-      <v-text-field
-        style="width: 10%"
-        outlined
-        dense
-        type="number"
-        min="0"
-        oninput="if (this.value < 0) this.value = 0"
-        hide-details
-        :value="value"
-        @input="$emit('input', parseInt($event))"
+    <v-text-field
+      style="width: 10%"
+      :outlined="outlined"
+      dense
+      :filled="filled"
+      type="number"
+      :min="minValue"
+      :prepend-inner-icon="innerIcon"
+      :prefix="prefix"
+      oninput="if (this.value < minValue) this.value = minValue"
+      hide-details
+      :value="value"
+      @input="$emit('input', parseInt($event))"
+    >
+      <p
+        class="pt-1 ma-0"
+        slot="append"
       >
-        <p
-          class="pt-1 ma-0"
-          slot="append"
-        >
-          {{ unit }}
-        </p>
-      </v-text-field>
-
-      <v-btn
-        icon
-        @click="updateAmount('increase')"
-      >
-        +
-      </v-btn>
-
-      <p class="ma-0">
-        {{ appendText }}
+        {{ unit }}
       </p>
+    </v-text-field>
 
-    </v-col>
+    <v-btn
+      icon
+      @click="updateAmount('increase')"
+    >
+      +
+    </v-btn>
+
+    <p class="ma-0">
+      {{ appendText }}
+    </p>
+
+  </v-col>
 </template>
 
 <script>
@@ -46,8 +49,13 @@ export default {
   name: "AdjustNumberField",
   props: {
     value: Number,
+    minValue: Number,
     unit: String,
-    appendText: String
+    appendText: String,
+    filled: Boolean,
+    outlined: Boolean,
+    innerIcon: String,
+    prefix: String
   },
   methods: {
     updateAmount(variation) {
@@ -68,7 +76,8 @@ export default {
           amount = amount + 10;
         } else if (amount > 19 && (lastDigit === 0 || lastDigit === 5)) {
           amount = amount + 5;
-        } else amount++;
+        } else if (isNaN(amount)) amount = 1;
+        else amount++;
       }
 
       if (variation === "decrease" && amount > 0) {
@@ -76,10 +85,10 @@ export default {
           amount = amount - 10;
         } else if (amount > 20 && (lastDigit === 0 || lastDigit === 5)) {
           amount = amount - 5;
-        } else amount--;
+        } else if (amount > this.minValue) amount--;
       }
 
-    this.$emit('input', amount);
+      this.$emit("input", amount);
 
     }
   }
