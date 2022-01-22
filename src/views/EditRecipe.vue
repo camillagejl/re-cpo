@@ -319,13 +319,11 @@
           <v-expansion-panel-content>
             <v-row>
               <v-col cols="6">
-
                 <Note
-                  v-for="note in recipeVersion.notes.slice().reverse()"
+                  v-for="note in recipeVersion.notes"
                   :key="note.id"
                   :note="note"
                 ></Note>
-
               </v-col>
             </v-row>
           </v-expansion-panel-content>
