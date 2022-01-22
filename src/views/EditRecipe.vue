@@ -139,7 +139,7 @@
                   item-value="id"
                   filled
                   dense
-                  v-model="recipeVersion.nutrition.nutrition_unit"
+                  v-model="recipeVersion.nutrition_unit"
                 ></v-select>
 
                 <NutritionInput
@@ -148,7 +148,6 @@
                   v-model="recipeVersion.nutrition[name]"
                   :name="name"
                 ></NutritionInput>
-
               </v-col>
             </v-row>
 
@@ -298,6 +297,7 @@
                   >
                   </RecipeIngredient>
 
+
                 </v-container>
 
               </v-col>
@@ -307,7 +307,7 @@
               <v-col cols="6">
 
                 <h3 class="text-h6 font-weight-regular mb-6">
-                  Ingredients
+                  Steps
                 </h3>
 
                 <RecipeStep
@@ -337,7 +337,6 @@
                   v-model="recipeVersion.notes[i].note"
                   :label="note.date"
                   outlined
-                  dense
                   hide-details
                   rows="3"
                   auto-grow
@@ -429,9 +428,9 @@ export default {
         protein: null,
         carbohydrates: null,
         fat: null,
-        salt: null,
-        nutrition_unit: null
+        salt: null
       },
+      nutrition_unit: null,
       servings: null,
       description: null,
       serving_suggestions: null,
@@ -497,6 +496,41 @@ export default {
       if (parseInt(newValue) > 59) {
         this.workMinutes = this.workMinutes - 60;
         this.workHours = this.workHours + 1;
+      }
+    },
+    "recipeVersion.ingredients": {
+      deep: true,
+      handler(headers) {
+
+        Object.entries(headers).forEach(header => {
+          const lastIngredient = header[1].ingredients.slice(-1)[0];
+          console.log(lastIngredient);
+
+          if (
+            lastIngredient.name !== null ||
+            lastIngredient.amount !== null
+          ) {
+            console.log("ad!")
+            const newIngredient = {
+              id: null,
+              order_number: 7,
+              name: null,
+              amount: null,
+              unit_id: 1
+            };
+
+            this.recipeVersion.ingredients[header[0]].ingredients.push(newIngredient);
+          }
+
+        });
+
+        // headers.forEach(header => {
+        //   console.log(header);
+        // });
+
+        // if (this.recipeVersion.ingredients.slice(-1)[0]) {
+        //   console.log("Hi there");
+        // }
       }
     }
   },
@@ -565,6 +599,7 @@ export default {
     // ---
 
     this.recipeVersion.nutrition = recipeVersionFromStore.nutrition;
+    this.recipeVersion.nutrition_unit = recipeVersionFromStore.nutrition_unit;
 
     this.recipeVersion.time = recipeVersionFromStore.time;
     this.recipeVersion.description = recipeVersionFromStore.description;
