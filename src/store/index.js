@@ -69,27 +69,27 @@ export default new Vuex.Store({
                   }
                 ]
               },
-              // sauce: {
-              //   id: 2,
-              //   order: 2,
-              //   name: "Sauce",
-              //   ingredients: [
-              //     {
-              //       id: 3,
-              //       order_number: 1,
-              //       name: "Cauliflower",
-              //       amount: 300,
-              //       unit_id: 2
-              //     },
-              //     {
-              //       id: 4,
-              //       order_number: 2,
-              //       name: "Water",
-              //       amount: 2,
-              //       unit_id: 1
-              //     }
-              //   ]
-              // }
+              sauce: {
+                id: 2,
+                order: 2,
+                name: "Sauce",
+                ingredients: [
+                  {
+                    id: 3,
+                    order_number: 1,
+                    name: "Cauliflower",
+                    amount: 300,
+                    unit_id: 2
+                  },
+                  {
+                    id: 4,
+                    order_number: 2,
+                    name: "Water",
+                    amount: 2,
+                    unit_id: 1
+                  }
+                ]
+              }
             },
             steps: [
               {

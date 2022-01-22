@@ -503,14 +503,14 @@ export default {
       handler(headers) {
 
         Object.entries(headers).forEach(header => {
+          // Finds the last ingredient, and if the ingredient is not empty,
+          // a new empty ingredient will be added at the end.
           const lastIngredient = header[1].ingredients.slice(-1)[0];
-          console.log(lastIngredient);
-
           if (
             lastIngredient.name !== null ||
             lastIngredient.amount !== null
           ) {
-            console.log("ad!")
+            console.log("ad!");
             const newIngredient = {
               id: null,
               order_number: 7,
@@ -518,19 +518,22 @@ export default {
               amount: null,
               unit_id: 1
             };
-
             this.recipeVersion.ingredients[header[0]].ingredients.push(newIngredient);
           }
 
+          this.recipeVersion.ingredients[header[0]].ingredients.forEach((ingredient, i) => {
+            if (
+              (ingredient.name === null || ingredient.name === "") &&
+              (ingredient.amount === null || isNaN(ingredient.amount)) &&
+              header[1].ingredients.length-1 !== i
+            ) {
+              this.recipeVersion.ingredients[header[0]].ingredients.splice(i,1)
+            }
+
+            console.log(ingredient.name + ":", ingredient);
+          });
+
         });
-
-        // headers.forEach(header => {
-        //   console.log(header);
-        // });
-
-        // if (this.recipeVersion.ingredients.slice(-1)[0]) {
-        //   console.log("Hi there");
-        // }
       }
     }
   },
