@@ -320,18 +320,11 @@
             <v-row>
               <v-col cols="6">
 
-                <v-textarea
-                  v-for="(note, i) in recipeVersion.notes"
+                <Note
+                  v-for="note in recipeVersion.notes.slice().reverse()"
                   :key="note.id"
-                  v-model="recipeVersion.notes[i].note"
-                  :label="note.date"
-                  outlined
-                  hide-details
-                  rows="3"
-                  auto-grow
-                  class="pb-3"
-                >
-                </v-textarea>
+                  :note="note"
+                ></Note>
 
               </v-col>
             </v-row>
@@ -373,10 +366,11 @@ import RecipeStep from "../components/RecipeStep";
 import RecipeIngredient from "../components/RecipeIngredient";
 import IconButton from "../components/IconButton";
 import AdjustNumberField from "../components/AdjustNumberField";
+import Note from "../components/Note";
 
 export default {
   name: "EditRecipe",
-  components: { AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
+  components: { Note, AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     aData: null,
 
@@ -472,6 +466,14 @@ export default {
       const totalIdleMinutes = parseInt(this.idleHours) * 60 + parseInt(this.idleMinutes);
 
       return this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
+    },
+    thisDate() {
+      const newDate = new Date();
+      const year = newDate.getFullYear();
+      const month = ('0' + (newDate.getMonth() + 1)).slice(-2);
+      const date = ('0' + newDate.getDate()).slice(-2);
+
+      return year + "/" + month + "/" + date;
     }
   },
   watch: {
@@ -551,6 +553,34 @@ export default {
             steps.length - 1 !== i
           ) {
             steps.splice(i, 1);
+          }
+        });
+      }
+    },
+    "recipeVersion.notes": {
+      deep: true,
+      handler(notes) {
+        // Finds the last note  , and if the note  is not empty,
+        // a new empty note  will be added at the end.
+        const lastNote = notes.slice(-1)[0];
+        if (
+          lastNote.note !== null
+        ) {
+          const newNote = {
+            id: null,
+            date: this.thisDate,
+            note: null
+          };
+          notes.push(newNote);
+        }
+
+        // Deletes note  if it is not empty, except if it's the last one.
+        notes.forEach((note, i) => {
+          if (
+            (note.note === null || note.note === "") &&
+            notes.length - 1 !== i
+          ) {
+            notes.splice(i, 1);
           }
         });
       }
@@ -665,12 +695,7 @@ export default {
 
     this.recipeVersion.id = this.occupiedVersionIds.slice(-1)[0] + 1;
 
-    const newDate = new Date();
-    const year = newDate.getFullYear();
-    const month = newDate.getMonth() + 1;
-    const date = newDate.getDate();
-
-    this.recipeVersion.date = year + "/" + month + "/" + date;
+    this.recipeVersion.date = this.thisDate;
   }
 };
 </script>
