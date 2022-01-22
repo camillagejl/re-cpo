@@ -40,15 +40,15 @@ export default new Vuex.Store({
               protein: "15",
               carbohydrates: "17",
               fat: "3",
-              salt: "0.8",
+              salt: "0.8"
             },
             nutrition_unit: 1,
             servings: 4,
             description: "I'm a lasagna",
             serving_suggestions: "Eat me",
             storage: "In the fridge, please",
-            ingredients: {
-              no_header: {
+            ingredients: [
+              {
                 id: 1,
                 order: 1,
                 name: null,
@@ -69,7 +69,7 @@ export default new Vuex.Store({
                   }
                 ]
               },
-              sauce: {
+              {
                 id: 2,
                 order: 2,
                 name: "Sauce",
@@ -90,7 +90,7 @@ export default new Vuex.Store({
                   }
                 ]
               }
-            },
+            ],
             steps: [
               {
                 id: 1,
@@ -154,9 +154,11 @@ export default new Vuex.Store({
             description: "I'm a lasagna",
             servingsuggestion: "Eat me",
             storage: "In the fridge, please",
-            ingredients: {
-              no_header: {
+            ingredients: [
+              {
+                id: 3,
                 order: 1,
+                name: null,
                 ingredients: [
                   {
                     id: 1,
@@ -166,15 +168,36 @@ export default new Vuex.Store({
                     unit_id: 2
                   },
                   {
-                    id: 2,
+                    id: 4,
                     order_number: 2,
                     name: "Tomatoes",
                     amount: 2,
                     unit_id: 1
                   }
                 ]
+              },
+              {
+                id: 2,
+                order: 2,
+                name: "Sauce",
+                ingredients: [
+                  {
+                    id: 3,
+                    order_number: 1,
+                    name: "Cauliflower",
+                    amount: 300,
+                    unit_id: 2
+                  },
+                  {
+                    id: 4,
+                    order_number: 2,
+                    name: "Water",
+                    amount: 2,
+                    unit_id: 1
+                  }
+                ]
               }
-            },
+            ],
             steps: [
               {
                 id: 1,
@@ -335,7 +358,7 @@ export default new Vuex.Store({
             nutrition_unit: 1,
             servings: 4,
             description: "I'm a lasagna",
-            servingsuggestion: "Eat me",
+            serving_suggestion: "Eat me",
             storage: "In the fridge, please",
             ingredients: {
               no_header: {
@@ -470,57 +493,69 @@ export default new Vuex.Store({
       const recipeIds = [];
       state.recipes.forEach(recipe => {
         recipeIds.push(recipe.id);
-      })
-      return recipeIds.sort(function (a, b) {  return a - b;  });
+      });
+      return recipeIds.sort(function(a, b) {
+        return a - b;
+      });
     },
 
     version_ids: (state) => {
       const versionIds = [];
       state.recipes.forEach(recipe => {
         recipe.versions.forEach(version => {
-          versionIds.push(version.id)
-        })
-      })
-      return versionIds.sort(function (a, b) {  return a - b;  });
+          versionIds.push(version.id);
+        });
+      });
+      return versionIds.sort(function(a, b) {
+        return a - b;
+      });
     },
 
     category_ids: (state) => {
       const categoryIds = [];
       state.categories.forEach(category => {
-        categoryIds.push(category.id)
-      })
-      return categoryIds.sort(function (a, b) {  return a - b;  });
+        categoryIds.push(category.id);
+      });
+      return categoryIds.sort(function(a, b) {
+        return a - b;
+      });
     },
 
     tag_ids: (state) => {
       const tagIds = [];
       state.recipe_tags.forEach(tags => {
-        tagIds.push(tags.id)
-      })
-      return tagIds.sort(function (a, b) {  return a - b;  });
+        tagIds.push(tags.id);
+      });
+      return tagIds.sort(function(a, b) {
+        return a - b;
+      });
     },
 
     serving_type_ids: (state) => {
       const servingTypeIds = [];
       state.serving_types.forEach(servingTypes => {
-        servingTypeIds.push(servingTypes.id)
-      })
-      return servingTypeIds.sort(function (a, b) {  return a - b;  });
+        servingTypeIds.push(servingTypes.id);
+      });
+      return servingTypeIds.sort(function(a, b) {
+        return a - b;
+      });
     },
 
     ingredient_ids: (state) => {
       const ingredientIds = [];
 
       state.recipes.forEach(recipe => {
-      console.log(recipe);
-      state.ingredients.forEach(ingredients => {
-        ingredientIds.push(ingredients.id)
-      })
+        console.log(recipe);
+        state.ingredients.forEach(ingredients => {
+          ingredientIds.push(ingredients.id);
+        });
 
 
-      })
+      });
 
-      return ingredientIds.sort(function (a, b) {  return a - b;  });
+      return ingredientIds.sort(function(a, b) {
+        return a - b;
+      });
     }
   },
   mutations: {},
