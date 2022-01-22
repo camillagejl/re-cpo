@@ -27,11 +27,10 @@
             <v-row>
 
               <v-col cols="4">
-
                 <v-combobox
                   v-model="recipeVersion.category"
                   label="Category"
-                  :items="categories"
+                  :items="sorted_categories"
                   item-text="name"
                   outlined
                 ></v-combobox>
@@ -435,7 +434,6 @@ export default {
   }),
   computed: {
     ...mapState([
-      "categories",
       "recipe_tags",
       "serving_types",
       "nutrition_units",
@@ -444,6 +442,7 @@ export default {
       "shelf_time_units"
     ]),
     ...mapGetters([
+      "sorted_categories",
       "recipe_ids",
       "version_ids",
       "category_ids",
@@ -632,7 +631,7 @@ export default {
     // interpret is as text.
 
     // Finds category object from recipe's category
-    this.categories.forEach(categoryObject => {
+    this.sorted_categories.forEach(categoryObject => {
       if (recipeVersionFromStore.category === categoryObject.id) {
         this.recipeVersion.category = categoryObject;
       }

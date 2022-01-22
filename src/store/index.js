@@ -130,9 +130,9 @@ export default new Vuex.Store({
     },
     categories: [
       {
-        id: 5,
+        id: 1,
         user_id: null,
-        name: "Dinner"
+        name: "Breakfast"
       },
       {
         id: 2,
@@ -140,9 +140,34 @@ export default new Vuex.Store({
         name: "Lunch"
       },
       {
+        id: 3,
+        user_id: null,
+        name: "Dinner"
+      },
+      {
+        id: 4,
+        user_id: null,
+        name: "Desert"
+      },
+      {
+        id: 5,
+        user_id: null,
+        name: "Appetizer"
+      },
+      {
+        id: 6,
+        user_id: null,
+        name: "Bread"
+      },
+      {
         id: 7,
         user_id: null,
-        name: "Breakfast"
+        name: "Brunch"
+      },
+      {
+        id: 8,
+        user_id: null,
+        name: "Salad"
       }
     ],
     recipe_tags: [
@@ -199,7 +224,14 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    sorted_categories: (state) => {
+      // Sort function: https://stackoverflow.com/a/1129270;
+      return state.categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+    },
+
     // Find all ids for attributes where new can be added through the app.
+    // This is *NOT* supposed to happen in the front end, but in the database,
+    // when that is connected.
     recipe_ids: (state) => {
       const recipeIds = [];
       state.recipes.forEach(recipe => {
