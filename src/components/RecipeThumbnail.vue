@@ -89,7 +89,7 @@
             >
               <IconButton
                 :icon="showIterations ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                :text="'View iteration'"
+                :text="'View iterations'"
                 :color="'primary'"
                 :plain="true"
                 @clickEvent="showIterations = !showIterations"

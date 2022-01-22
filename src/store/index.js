@@ -224,189 +224,6 @@ export default new Vuex.Store({
             ]
           }
         ]
-      },
-      {
-        id: 2,
-        user_id: 1,
-        created: "2022/01/13",
-        versions: [
-          {
-            id: 3,
-            title: "Veggie lasagna",
-            date: "2022/01/13",
-            comment: `Removed the courgette because it got too soft
-            compared to the other ...`,
-            category: 2,
-            tags: [1, 2],
-            serving_type: 2,
-            work_time: 20,
-            idle_time: 90,
-            shelf_time: 5,
-            shelf_time_unit: 3,
-            calories: "320",
-            protein: "15",
-            carbohydrates: "17",
-            fat: "3",
-            salt: "0.8",
-            nutrition_unit: 2,
-            servings: 4,
-            description: "I'm a lasagna",
-            serving_suggestions: "Eat me",
-            storage: "In the fridge, please",
-            ingredients: {
-              no_header: {
-                id: 1,
-                order: 1,
-                name: null,
-                ingredients: [
-                  {
-                    id: 1,
-                    order_number: 1,
-                    name: "Carrots",
-                    amount: 300,
-                    unit_id: 2
-                  },
-                  {
-                    id: 2,
-                    order_number: 2,
-                    name: "Tomatoes",
-                    amount: 2,
-                    unit_id: 1
-                  }
-                ]
-              },
-              sauce: {
-                id: 2,
-                order: 2,
-                name: "Sauce",
-                ingredients: [
-                  {
-                    id: 3,
-                    order_number: 1,
-                    name: "Cauliflower",
-                    amount: 300,
-                    unit_id: 2
-                  },
-                  {
-                    id: 4,
-                    order_number: 2,
-                    name: "Water",
-                    amount: 2,
-                    unit_id: 1
-                  }
-                ]
-              }
-            },
-            steps: [
-              {
-                id: 1,
-                order_number: 1,
-                description: "Peel the carrots.",
-                images: []
-              },
-              {
-                id: 2,
-                order_number: 2,
-                description: "boop.",
-                images: [
-                  {
-                    id: 1,
-                    image_url: "veggie_lasagna.jpg"
-                  },
-                  {
-                    id: 2,
-                    image_url: "veggie_lasagna.jpg"
-                  }
-                ]
-              }
-            ],
-            notes: [
-              {
-                id: 1,
-                date: "2021/11/04",
-                note: "This is a note"
-              },
-              {
-                id: 2,
-                date: "2021/11/04",
-                note: `This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a long, long, long note.`
-              }
-            ]
-          },
-          {
-            id: 4,
-            title: "Veggie lasagnette",
-            date: "2022/01/15",
-            image: "veggie_lasagna.jpg",
-            comment: `Removed the courgette because it got too soft
-            compared to the other ...`,
-            category: 1,
-            servingtype: "Main course",
-            worktime: 20,
-            downtime: 90,
-            shelftime: 5,
-            calories: "320",
-            protein: "320",
-            carbohydrates: "320",
-            fat: "320",
-            salt: "320",
-            nutrition_unit: 1,
-            servings: 4,
-            description: "I'm a lasagna",
-            serving_suggestion: "Eat me",
-            storage: "In the fridge, please",
-            ingredients: {
-              no_header: {
-                order: 1,
-                ingredients: [
-                  {
-                    id: 1,
-                    order_number: 1,
-                    name: "Carrots",
-                    amount: 300,
-                    unit_id: 2
-                  },
-                  {
-                    id: 2,
-                    order_number: 2,
-                    name: "Tomatoes",
-                    amount: 2,
-                    unit_id: 1
-                  }
-                ]
-              }
-            },
-            steps: [
-              {
-                id: 1,
-                order_number: 1,
-                description: "Peel the carrots.",
-                images: [
-                  {
-                    id: 1,
-                    image_url: "url1"
-                  },
-                  {
-                    id: 2,
-                    image_url: "url2"
-                  }
-                ]
-              }
-            ],
-            notes: [
-              {
-                id: 1,
-                date: "2021/11/04",
-                note: "This is a note"
-              }
-            ]
-          }
-        ]
       }
     ],
     measuring_units: {
@@ -541,19 +358,52 @@ export default new Vuex.Store({
       });
     },
 
+    header_ids: (state) => {
+      const headerIds = [];
+
+      state.recipes.forEach(recipe => {
+        recipe.versions.forEach(version => {
+          version.ingredients.forEach(header => {
+            headerIds.push(header.id);
+          });
+        });
+      });
+
+      return headerIds.sort(function(a, b) {
+        return a - b;
+      });
+    },
+
     ingredient_ids: (state) => {
       const ingredientIds = [];
 
       state.recipes.forEach(recipe => {
-        console.log(recipe);
-        state.ingredients.forEach(ingredients => {
-          ingredientIds.push(ingredients.id);
+        recipe.versions.forEach(version => {
+          version.ingredients.forEach(header => {
+            header.ingredients.forEach(ingredient => {
+              ingredientIds.push(ingredient.id);
+            });
+          });
         });
-
-
       });
 
       return ingredientIds.sort(function(a, b) {
+        return a - b;
+      });
+    },
+
+    note_ids: (state) => {
+      const noteIds = [];
+
+      state.recipes.forEach(recipe => {
+        recipe.versions.forEach(version => {
+          version.notes.forEach(note => {
+            noteIds.push(note.id);
+          });
+        });
+      });
+
+      return noteIds.sort(function(a, b) {
         return a - b;
       });
     }

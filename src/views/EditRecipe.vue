@@ -448,7 +448,10 @@ export default {
       "version_ids",
       "category_ids",
       "tag_ids",
-      "serving_type_ids"
+      "serving_type_ids",
+      "header_ids",
+      "ingredient_ids",
+      "note_ids"
     ]),
     servingTypeNames() {
       let servingTypes = [];
