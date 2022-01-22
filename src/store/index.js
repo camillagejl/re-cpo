@@ -22,11 +22,12 @@ export default new Vuex.Store({
         versions: [
           {
             id: 1,
-            title: "Veggie lasagna",
-            date: "2022/01/13",
-            comment: `Removed the courgette because it got too soft
+            title: "Veggie lasagnette",
+            date: "2022/01/15",
+            image: "veggie_lasagna.jpg",
+            version_comment: `Removed the courgette because it got too soft
             compared to the other ...`,
-            category: 3,
+            category: 2,
             tags: [1, 2],
             serving_type: 2,
             time: {
@@ -37,122 +38,15 @@ export default new Vuex.Store({
             },
             nutrition: {
               calories: "320",
-              protein: "15",
-              carbohydrates: "17",
-              fat: "3",
-              salt: "0.8"
+              protein: "320",
+              carbohydrates: "320",
+              fat: "320",
+              salt: "320"
             },
-            nutrition_unit: 1,
-            servings: 4,
-            description: "I'm a lasagna",
-            serving_suggestions: "Eat me",
-            storage: "In the fridge, please",
-            ingredients: [
-              {
-                id: 1,
-                order: 1,
-                name: null,
-                ingredients: [
-                  {
-                    id: 1,
-                    order_number: 1,
-                    name: "Carrots",
-                    amount: 300,
-                    unit_id: 2
-                  },
-                  {
-                    id: 2,
-                    order_number: 2,
-                    name: "Tomatoes",
-                    amount: 2,
-                    unit_id: 1
-                  }
-                ]
-              },
-              {
-                id: 2,
-                order: 2,
-                name: "Sauce",
-                ingredients: [
-                  {
-                    id: 3,
-                    order_number: 1,
-                    name: "Cauliflower",
-                    amount: 300,
-                    unit_id: 2
-                  },
-                  {
-                    id: 4,
-                    order_number: 2,
-                    name: "Water",
-                    amount: 2,
-                    unit_id: 1
-                  }
-                ]
-              }
-            ],
-            steps: [
-              {
-                id: 1,
-                order_number: 1,
-                description: "Peel the carrots.",
-                images: []
-              },
-              {
-                id: 2,
-                order_number: 2,
-                description: "boop.",
-                images: [
-                  {
-                    id: 1,
-                    image_url: "veggie_lasagna.jpg"
-                  },
-                  {
-                    id: 2,
-                    image_url: "veggie_lasagna.jpg"
-                  }
-                ]
-              }
-            ],
-            notes: [
-              {
-                id: 1,
-                date: "2021/11/04",
-                note: "This is a note"
-              },
-              {
-                id: 2,
-                date: "2021/11/04",
-                note: `This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a note. This is a note. This is a note.
-                This is a long, long, long note.`
-              }
-            ]
-          },
-          {
-            id: 2,
-            title: "Veggie lasagnette",
-            date: "2022/01/15",
-            image: "veggie_lasagna.jpg",
-            comment: `Removed the courgette because it got too soft
-            compared to the other ...`,
-            category: 2,
-            servingtype: "Main course",
-            worktime: 20,
-            downtime: 90,
-            shelftime: 5,
-            calories: "320",
-            protein: "320",
-            carbohydrates: "320",
-            fat: "320",
-            salt: "320",
             nutrition_unit: 2,
             servings: 4,
             description: "I'm a lasagna",
-            servingsuggestion: "Eat me",
+            serving_suggestions: "Eat me",
             storage: "In the fridge, please",
             ingredients: [
               {
@@ -206,11 +100,11 @@ export default new Vuex.Store({
                 images: [
                   {
                     id: 1,
-                    image_url: "url1"
+                    image_url: "veggie_lasagna.jpg"
                   },
                   {
                     id: 2,
-                    image_url: "url2"
+                    image_url: "veggie_lasagna.jpg"
                   }
                 ]
               }

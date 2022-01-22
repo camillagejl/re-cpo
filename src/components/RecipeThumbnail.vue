@@ -174,10 +174,7 @@ export default {
   }),
   computed: {
     latest() {
-      let versionsLength = this.recipe.versions.length;
-
-      return this.recipe.versions[versionsLength - 1];
-
+      return this.recipe.versions.slice(-1)[0];
     }
   }
 };
