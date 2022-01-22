@@ -503,37 +503,68 @@ export default {
       handler(headers) {
 
         Object.entries(headers).forEach(header => {
+          const ingredients = header[1].ingredients;
+
           // Finds the last ingredient, and if the ingredient is not empty,
           // a new empty ingredient will be added at the end.
-          const lastIngredient = header[1].ingredients.slice(-1)[0];
+          const lastIngredient = ingredients.slice(-1)[0];
           if (
             lastIngredient.name !== null ||
             lastIngredient.amount !== null
           ) {
-            console.log("ad!");
             const newIngredient = {
               id: null,
-              order_number: 7,
+              order_number: null,
               name: null,
               amount: null,
               unit_id: 1
             };
-            this.recipeVersion.ingredients[header[0]].ingredients.push(newIngredient);
+            ingredients.push(newIngredient);
           }
 
-          this.recipeVersion.ingredients[header[0]].ingredients.forEach((ingredient, i) => {
+          // Deletes ingredient if it is not empty, except if it's the last one.
+          ingredients.forEach((ingredient, i) => {
             if (
               (ingredient.name === null || ingredient.name === "") &&
               (ingredient.amount === null || isNaN(ingredient.amount)) &&
-              header[1].ingredients.length-1 !== i
+              ingredients.length - 1 !== i
             ) {
-              this.recipeVersion.ingredients[header[0]].ingredients.splice(i,1)
+              ingredients.splice(i, 1);
             }
-
-            console.log(ingredient.name + ":", ingredient);
           });
-
         });
+      }
+    },
+    "recipeVersion.steps": {
+      deep: true,
+      handler(steps) {
+        // Finds the last step, and if the step is not empty,
+        // a new empty step will be added at the end.
+        const lastStep = steps.slice(-1)[0];
+        if (
+          lastStep.description !== null ||
+          lastStep.images.length !== 0
+        ) {
+          const newStep = {
+            description: null,
+            id: null,
+            images: [],
+            order_number: null
+          };
+          steps.push(newStep);
+        }
+
+        // Deletes step if it is not empty, except if it's the last one.
+        steps.forEach((step, i) => {
+          if (
+            (step.description === null || step.description === "") &&
+            step.images.length === 0 &&
+            steps.length - 1 !== i
+          ) {
+            steps.splice(i, 1);
+          }
+        });
+
       }
     }
   },
@@ -565,6 +596,9 @@ export default {
           //  Do stuff to create new tags
         }
       }
+
+      // Headers, ingredients, steps and comments all need new ids
+
     }
   },
   mounted() {
