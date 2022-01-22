@@ -68,6 +68,10 @@ export default {
   max-width: 1250px !important;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /* Disable inner arrows in number inputs
 https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp
 */

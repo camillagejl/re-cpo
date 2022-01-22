@@ -22,8 +22,9 @@
       @input="$emit('input', parseInt($event))"
     >
       <p
-        class="pt-1 ma-0"
+        class="pt-1 ma-0 pointer"
         slot="append"
+        @click="selectUnit"
       >
         {{ unit }}
       </p>
@@ -90,6 +91,9 @@ export default {
 
       this.$emit("input", amount);
 
+    },
+    selectUnit() {
+      console.log('clicked!')
     }
   }
 };

@@ -1,5 +1,4 @@
 <template>
-  <v-container class="pa-0 mb-3">
     <v-textarea
       v-model="note.note"
       :label="note.date"
@@ -9,17 +8,34 @@
       hide-details
       rows="3"
       auto-grow
+      class="mb-6"
       :class="readOnly ? 'disabled' : ''"
+      ref="noteInput"
+      @focusout="focusOut"
     >
+      <v-btn
+        icon
+        color="primary"
+        class="ml-3"
+        slot="append"
+        @click="toggle"
+      >
+        <v-icon>
+          mdi-pencil
+        </v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
+        color="secondary"
+        slot="append"
+        @click="deleteNote"
+      >
+        <v-icon>
+          mdi-delete
+        </v-icon>
+      </v-btn>
     </v-textarea>
-
-    <v-btn
-    @click="readOnly = !readOnly"
-    >
-      Enable!
-    </v-btn>
-
-  </v-container>
 </template>
 
 <script>
@@ -31,6 +47,23 @@ export default {
   }),
   props: {
     note: Object
+  },
+  methods: {
+    toggle() {
+      this.readOnly = !this.readOnly;
+      this.$refs.noteInput.focus();
+    },
+    focusOut() {
+      if (this.note.note !== null) this.readOnly = true
+    },
+    deleteNote() {
+      this.note.note = null;
+    }
+  },
+  mounted() {
+    if (this.note.note === null) {
+      this.readOnly = false;
+    }
   }
 };
 </script>
