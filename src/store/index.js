@@ -59,14 +59,14 @@ export default new Vuex.Store({
                     order_number: 1,
                     name: "Carrots",
                     amount: 300,
-                    unit_id: 2
+                    measuring_unit: 2
                   },
                   {
                     id: 4,
                     order_number: 2,
                     name: "Tomatoes",
                     amount: 2,
-                    unit_id: 1
+                    measuring_unit: 1
                   }
                 ]
               },
@@ -80,14 +80,14 @@ export default new Vuex.Store({
                     order_number: 1,
                     name: "Cauliflower",
                     amount: 300,
-                    unit_id: 2
+                    measuring_unit: 2
                   },
                   {
                     id: 4,
                     order_number: 2,
                     name: "Water",
                     amount: 2,
-                    unit_id: 1
+                    measuring_unit: 1
                   }
                 ]
               }
@@ -120,14 +120,32 @@ export default new Vuex.Store({
         ]
       }
     ],
-    measuring_units: {
-      1: {
+    measuring_units: [
+      {
+        id: 1,
         unit: "pcs"
       },
-      2: {
+      {
+        id: 2,
         unit: "g"
+      },
+      {
+        id: 3,
+        unit: "kg"
+      },
+      {
+        id: 4,
+        unit: "ml"
+      },
+      {
+        id: 5,
+        unit: "dl"
+      },
+      {
+        id: 6,
+        unit: "l"
       }
-    },
+    ],
     categories: [
       {
         id: 1,
@@ -226,7 +244,7 @@ export default new Vuex.Store({
   getters: {
     sorted_categories: (state) => {
       // Sort function: https://stackoverflow.com/a/1129270;
-      return state.categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+      return state.categories.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
     },
 
     // Find all ids for attributes where new can be added through the app.

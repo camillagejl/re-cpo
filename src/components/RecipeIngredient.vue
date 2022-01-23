@@ -19,8 +19,7 @@
     </v-col>
 
     <AdjustNumberField
-    v-model="ingredient.amount"
-    :unit="unit"
+    v-model="ingredient"
     :outlined="true"
     :minValue="0"
     ></AdjustNumberField>
@@ -32,6 +31,7 @@
 <script>
 
 import AdjustNumberField from "./AdjustNumberField";
+
 export default {
   name: "RecipeIngredient",
   components: { AdjustNumberField },

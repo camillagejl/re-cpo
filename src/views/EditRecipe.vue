@@ -75,19 +75,19 @@
 
                   <v-row>
 
-                    <AdjustNumberField
+                    <AdjustPlainNumber
                       v-model="workHours"
                       :appendText="'hours'"
                       :outlined="true"
                       :minValue="0"
-                    ></AdjustNumberField>
+                    ></AdjustPlainNumber>
 
-                    <AdjustNumberField
+                    <AdjustPlainNumber
                       v-model="workMinutes"
                       :appendText="'minutes'"
                       :outlined="true"
                       :minValue="0"
-                    ></AdjustNumberField>
+                    ></AdjustPlainNumber>
 
                   </v-row>
                 </v-container>
@@ -100,19 +100,19 @@
 
                   <v-row>
 
-                    <AdjustNumberField
+                    <AdjustPlainNumber
                       v-model="idleHours"
                       :appendText="'hours'"
                       :outlined="true"
                       :minValue="0"
-                    ></AdjustNumberField>
+                    ></AdjustPlainNumber>
 
-                    <AdjustNumberField
+                    <AdjustPlainNumber
                       v-model="idleMinutes"
                       :appendText="'minutes'"
                       :outlined="true"
                       :minValue="0"
-                    ></AdjustNumberField>
+                    ></AdjustPlainNumber>
 
                   </v-row>
                 </v-container>
@@ -166,10 +166,10 @@
                 ></IconHeader>
 
                 <v-row>
-                  <AdjustNumberField
+                  <AdjustPlainNumber
                     v-model="recipeVersion.time.shelf_time"
                     :outlined="true"
-                  ></AdjustNumberField>
+                  ></AdjustPlainNumber>
                   <v-col cols="4">
                     <v-select
                       :items="shelf_time_units"
@@ -250,14 +250,14 @@
                     cols="7"
                     class="d-flex align-center mb-3"
                   >
-                    <AdjustNumberField
-                      v-model="recipeVersion.servings"
-                      :minValue="3"
-                      :filled="true"
-                      :innerIcon="'mdi-food'"
-                      :prefix="' '"
-                      :unit="'servings'"
-                    ></AdjustNumberField>
+<!--                    <AdjustNumberField-->
+<!--                      v-model="recipeVersion.servings"-->
+<!--                      :minValue="3"-->
+<!--                      :filled="true"-->
+<!--                      :innerIcon="'mdi-food'"-->
+<!--                      :prefix="' '"-->
+<!--                      :unit="'servings'"-->
+<!--                    ></AdjustNumberField>-->
                   </v-col>
                 </v-row>
 
@@ -281,7 +281,6 @@
                     v-for="ingredient in header.ingredients"
                     :key="ingredient.id"
                     :ingredient="ingredient"
-                    :unit="measuring_units[ingredient.unit_id].unit"
                   >
                   </RecipeIngredient>
 
@@ -362,12 +361,12 @@ import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/RecipeStep";
 import RecipeIngredient from "../components/RecipeIngredient";
 import IconButton from "../components/IconButton";
-import AdjustNumberField from "../components/AdjustNumberField";
 import Note from "../components/Note";
+import AdjustPlainNumber from "../components/AdjustPlainNumber";
 
 export default {
   name: "EditRecipe",
-  components: { Note, AdjustNumberField, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
+  components: { AdjustPlainNumber, Note, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     // Keeps index of which panels are displayed.
     panel: [],
@@ -438,7 +437,6 @@ export default {
       "serving_types",
       "nutrition_units",
       "recipes",
-      "measuring_units",
       "shelf_time_units"
     ]),
     ...mapGetters([
