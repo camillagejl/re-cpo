@@ -250,14 +250,14 @@
                     cols="7"
                     class="d-flex align-center mb-3"
                   >
-<!--                    <AdjustNumberField-->
-<!--                      v-model="recipeVersion.servings"-->
-<!--                      :minValue="3"-->
-<!--                      :filled="true"-->
-<!--                      :innerIcon="'mdi-food'"-->
-<!--                      :prefix="' '"-->
-<!--                      :unit="'servings'"-->
-<!--                    ></AdjustNumberField>-->
+                    <AdjustPlainNumber
+                      v-model="recipeVersion.servings"
+                      :minValue="3"
+                      :filled="true"
+                      :innerIcon="'mdi-food'"
+                      :prefix="' '"
+                      :unit="'servings'"
+                    ></AdjustPlainNumber>
                   </v-col>
                 </v-row>
 
