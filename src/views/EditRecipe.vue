@@ -7,11 +7,65 @@
         divider=">"
       ></v-breadcrumbs>
 
-      <h1
-        class="text-h4 mb-8"
+      <v-container
+        v-if="!editTitle"
+        class="ma-0 pa-0 d-flex align-center mb-9"
       >
-        {{ recipeVersion.title }}
-      </h1>
+        <h1
+          v-if="recipeVersion.title"
+          class="text-h4"
+        >
+          {{ recipeVersion.title }}
+        </h1>
+        <h1
+          v-if="!recipeVersion.title"
+          class="text-h4 font-italic"
+        >
+          Your recipe title
+        </h1>
+
+        <v-btn
+          icon
+          class="ml-1"
+          @click="editTitle = !editTitle"
+        >
+          <v-icon
+            color="secondary"
+          >
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+      </v-container>
+
+      <v-row
+        v-if="editTitle"
+      >
+        <v-col cols="6">
+          <v-text-field
+            class="text-h5 mb-3"
+            v-model="recipeVersion.title"
+            background-color="white"
+            label="Recipe title"
+            placeholder="Name your recipe..."
+            outlined
+            hide-details
+            @focusout="editTitle = false"
+          >
+
+            <v-btn
+              icon
+              color="primary"
+              slot="append"
+              class="mb-3"
+              @click="editTitle = false"
+            >
+              <v-icon>
+                mdi-check
+              </v-icon>
+            </v-btn>
+          </v-text-field>
+        </v-col>
+      </v-row>
 
       <v-expansion-panels
         v-model="panel"
@@ -419,6 +473,8 @@ export default {
     // Keeps index of which panels are displayed.
     panel: [],
 
+    editTitle: false,
+
     discardChangesOverlay: false,
     discardedChanges: false,
 
@@ -438,7 +494,7 @@ export default {
       id: null,
       title: null,
       date: null,
-      comment: null,
+      version_comment: null,
       category: null,
       tags: [],
       serving_type: null,
@@ -544,6 +600,7 @@ export default {
       deep: true,
       handler(headers) {
 
+
         Object.entries(headers).forEach(header => {
           const ingredients = header[1].ingredients;
 
@@ -568,7 +625,8 @@ export default {
           ingredients.forEach((ingredient, i) => {
             if (
               (ingredient.name === null || ingredient.name === "") &&
-              (ingredient.amount === 0 || isNaN(ingredient.amount)) &&
+              (ingredient.amount === 0 || ingredient.amount === "" ||
+                ingredient.amount === null || isNaN(ingredient.amount)) &&
               ingredients.length - 1 !== i
             ) {
               ingredients.splice(i, 1);
@@ -639,9 +697,9 @@ export default {
   },
   methods: {
     discardChanges() {
-      this.discardedChanges = true
+      this.discardedChanges = true;
       setTimeout(function() {
-        router.push('/wip-overview');
+        router.push("/wip-overview");
       }, 3000);
     },
     logme() {

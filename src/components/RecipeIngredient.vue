@@ -15,7 +15,6 @@
         hide-details
       >
       </v-text-field>
-
     </v-col>
 
     <AdjustNumberField

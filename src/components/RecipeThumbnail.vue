@@ -80,7 +80,7 @@
 
               <v-card-text
                 class="pt-0"
-                v-text="'Comment: ' + latest.comment"
+                v-text="'Comment: ' + latest.version_comment"
               ></v-card-text>
             </v-col>
 
@@ -136,7 +136,7 @@
                   <td>{{ version.title }}</td>
                   <td>{{ version.date }}</td>
                   <td>Changes...</td>
-                  <td>{{ version.comment }}</td>
+                  <td>{{ version.version_comment }}</td>
                   <td>
                     <v-btn
                       color="primary"

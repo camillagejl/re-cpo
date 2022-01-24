@@ -16,7 +16,6 @@
       <v-btn
         icon
         color="primary"
-        class="ml-3"
         slot="append"
         @click="toggle"
       >
