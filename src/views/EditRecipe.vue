@@ -283,16 +283,12 @@
                     :ingredient="ingredient"
                   >
                   </RecipeIngredient>
-
-
                 </v-container>
-
               </v-col>
 
               <v-spacer></v-spacer>
 
               <v-col cols="6">
-
                 <h3 class="text-h6 font-weight-regular mb-6">
                   Steps
                 </h3>
@@ -302,9 +298,7 @@
                   :key="step.id"
                   :step="step"
                 ></RecipeStep>
-
               </v-col>
-
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -331,13 +325,12 @@
       <v-container
         class="d-flex justify-end mt-12 pr-0"
       >
-
         <IconButton
           :icon="'mdi-close'"
           :text="'Discard changes'"
           :color="'error'"
           :plain="true"
-          @clickEvent="logme"
+          @clickEvent="discardChangesOverlay = !discardChangesOverlay"
         ></IconButton>
 
         <IconButton
@@ -346,9 +339,63 @@
           :color="'primary'"
           @clickEvent="logme"
         ></IconButton>
-
       </v-container>
 
+      <v-overlay
+        :value="discardChangesOverlay"
+      >
+        <v-card
+          class="mx-auto"
+          max-width="344"
+          outlined
+          light
+        >
+          <v-card-title>
+            Discard recipe?
+          </v-card-title>
+          <v-card-subtitle>
+            Are you sure you want to discard this recipe version?
+            Any edits will not be saved!
+          </v-card-subtitle>
+          <v-card-actions
+            class="d-flex justify-end"
+          >
+            <IconButton
+              :text="'Cancel'"
+              :icon="'mdi-close'"
+              :plain="true"
+              :color="'secondary'"
+              @clickEvent="discardChangesOverlay = !discardChangesOverlay"
+            ></IconButton>
+            <IconButton
+              :text="'Discard'"
+              :icon="'mdi-delete'"
+              :color="'error'"
+              @clickEvent="discardChanges"
+            ></IconButton>
+          </v-card-actions>
+
+          <v-expand-transition>
+            <v-card
+              v-if="discardedChanges"
+              class="transition-fast-in-fast-out v-card--reveal"
+              style="height: 100%;"
+            >
+              <v-card-text class="d-flex flex-column align-center">
+                <p class="text-h5 text--primary">
+                  Your changes have been discarded!
+                </p>
+                <v-progress-circular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                ></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </v-expand-transition>
+
+        </v-card>
+      </v-overlay>
     </v-form>
   </v-container>
 </template>
@@ -363,6 +410,7 @@ import RecipeIngredient from "../components/RecipeIngredient";
 import IconButton from "../components/IconButton";
 import Note from "../components/Note";
 import AdjustPlainNumber from "../components/AdjustPlainNumber";
+import router from "../router";
 
 export default {
   name: "EditRecipe",
@@ -370,6 +418,11 @@ export default {
   data: () => ({
     // Keeps index of which panels are displayed.
     panel: [],
+
+    discardChangesOverlay: false,
+    discardedChanges: false,
+
+    saveChangesOverlay: false,
 
     userId: 1,
 
@@ -468,8 +521,8 @@ export default {
     thisDate() {
       const newDate = new Date();
       const year = newDate.getFullYear();
-      const month = ('0' + (newDate.getMonth() + 1)).slice(-2);
-      const date = ('0' + newDate.getDate()).slice(-2);
+      const month = ("0" + (newDate.getMonth() + 1)).slice(-2);
+      const date = ("0" + newDate.getDate()).slice(-2);
 
       return year + "/" + month + "/" + date;
     }
@@ -585,6 +638,12 @@ export default {
     }
   },
   methods: {
+    discardChanges() {
+      this.discardedChanges = true
+      setTimeout(function() {
+        router.push('/wip-overview');
+      }, 3000);
+    },
     logme() {
       console.log("hi there");
     },
@@ -682,3 +741,14 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+
+.v-card--reveal {
+  bottom: 0;
+  opacity: 1 !important;
+  position: absolute;
+  width: 100%;
+}
+
+</style>

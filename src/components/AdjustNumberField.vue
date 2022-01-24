@@ -76,9 +76,7 @@
           @clickEvent="unitSelection = !unitSelection"
           ></IconButton>
         </v-card-actions>
-
       </v-card>
-
     </v-overlay>
 
   </v-col>
