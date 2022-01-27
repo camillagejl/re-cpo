@@ -374,6 +374,46 @@
             </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h2 class="text-h5">
+              Images
+            </h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="pb-6">
+            <v-row
+              class="d-flex justify-center"
+            >
+              <v-col
+                cols="6"
+              >
+                <v-row
+                class="mb-4 d-flex flex-column align-center"
+                >
+                  <v-img
+                    :src="require('../assets/placeholders/' + recipeVersion.images[selectedImage].image_url)"
+                    height="400"
+                    contain
+                  ></v-img>
+                  <p>
+                    Something something
+                  </p>
+                </v-row>
+                <v-row
+                  class="d-flex flex-row flex-wrap justify-center"
+                >
+                  <v-img
+                    v-for="(image, i) in sortByOrder(recipeVersion.images)" :key="image.id"
+                    :src="require('../assets/placeholders/' + image.image_url)"
+                    max-width="75"
+                    @click="selectedImage = i"
+                  ></v-img>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
       </v-expansion-panels>
 
       <v-container
@@ -426,7 +466,7 @@
               :text="'Discard'"
               :icon="'mdi-delete'"
               :color="'error'"
-              @clickEvent="discardChanges"
+              @clickEvent="updateRecipe('discard')"
             ></IconButton>
           </v-card-actions>
 
@@ -466,11 +506,12 @@
             Save recipe?
           </v-card-title>
           <v-textarea
+            v-model="recipeVersion.version_comment"
             class="px-4 pt-0 pb-4"
             outlined
             hide-details
-            placeholder="Write a comment so you can remember this version.">
-
+            placeholder="Write a comment so you can remember this version."
+          >
           </v-textarea>
           <v-card-actions
             class="d-flex justify-end"
@@ -486,19 +527,19 @@
               :text="'Save'"
               :icon="'mdi-content-save'"
               :color="'primary'"
-              @clickEvent="saveChanges"
+              @clickEvent="updateRecipe('discard')"
             ></IconButton>
           </v-card-actions>
 
           <v-expand-transition>
             <v-card
-              v-if="discardedChanges"
+              v-if="savedChanges"
               class="transition-fast-in-fast-out v-card--reveal"
               style="height: 100%;"
             >
               <v-card-text class="d-flex flex-column align-center">
                 <p class="text-h5 text--primary">
-                  Your changes have been discarded!
+                  Your recipe have been saved!
                 </p>
                 <v-progress-circular
                   :size="50"
@@ -508,7 +549,6 @@
               </v-card-text>
             </v-card>
           </v-expand-transition>
-
         </v-card>
       </v-overlay>
     </v-form>
@@ -532,14 +572,17 @@ export default {
   components: { AdjustPlainNumber, Note, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [],
+    panel: [3],
+    imageCarouselNumber: null,
+    selectedImage: 0,
 
     editTitle: false,
 
     discardChangesOverlay: false,
     discardedChanges: false,
 
-    saveChangesOverlay: true,
+    saveChangesOverlay: false,
+    savedChanges: false,
 
     userId: 1,
     editingVersionId: 1,
@@ -557,6 +600,7 @@ export default {
       id: null,
       title: null,
       date: null,
+      images: [],
       version_comment: null,
       category: null,
       tags: [],
@@ -759,14 +803,15 @@ export default {
     }
   },
   methods: {
-    discardChanges() {
-      this.discardedChanges = true;
+    sortByOrder(array) {
+      return array.sort((a, b) => (a.order_number > b.order_number) ? 1 : -1);
+    },
+    updateRecipe(prop) {
+      if (prop === "save") this.discardedChanges = true;
+      if (prop === "discard") this.savedChanges = true;
       setTimeout(function() {
         router.push("/wip-overview");
       }, 3000);
-    },
-    saveChanges() {
-      console.log("Saving!")
     },
     getHoursAndMinutes(totalMinutes) {
       const actualHours = Math.floor(totalMinutes / 60);
@@ -840,6 +885,7 @@ export default {
 
             this.recipeVersion.time = version.time;
             this.recipeVersion.description = version.description;
+            this.recipeVersion.images = version.images;
             this.recipeVersion.serving_suggestions = version.serving_suggestions;
             this.recipeVersion.storage = version.storage;
 

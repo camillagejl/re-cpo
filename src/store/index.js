@@ -24,7 +24,58 @@ export default new Vuex.Store({
             id: 1,
             title: "Veggie lasagnette",
             date: "2022/01/15",
-            image: "veggie_lasagna.jpg",
+            images: [
+              {
+                id: 10,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 1
+              },
+              {
+                id: 4,
+                image_url: "placeholder_add.png",
+                order_number: 10
+              },
+              {
+                id: 1,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 3
+              },
+              {
+                id: 2,
+                image_url: "tapas.jpg",
+                order_number: 2
+              },
+              {
+                id: 3,
+                image_url: "re-cpo-full.png",
+                order_number: 4
+              },
+              {
+                id: 5,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 5
+              },
+              {
+                id: 6,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 6
+              },
+              {
+                id: 7,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 7
+              },
+              {
+                id: 8,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 8
+              },
+              {
+                id: 9,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 9
+              },
+            ],
             version_comment: `Removed the courgette because it got too soft
             compared to the other ...`,
             category: 2,
@@ -51,7 +102,7 @@ export default new Vuex.Store({
             ingredients: [
               {
                 id: 3,
-                order: 1,
+                order_number: 1,
                 name: null,
                 ingredients: [
                   {
@@ -72,7 +123,7 @@ export default new Vuex.Store({
               },
               {
                 id: 2,
-                order: 2,
+                order_number: 2,
                 name: "Sauce",
                 ingredients: [
                   {
@@ -100,11 +151,13 @@ export default new Vuex.Store({
                 images: [
                   {
                     id: 1,
-                    image_url: "veggie_lasagna.jpg"
+                    image_url: "veggie_lasagna.jpg",
+                    order_number: 1
                   },
                   {
                     id: 2,
-                    image_url: "veggie_lasagna.jpg"
+                    image_url: "veggie_lasagna.jpg",
+                    order_number: 2
                   }
                 ]
               }

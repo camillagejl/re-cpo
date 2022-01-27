@@ -8,7 +8,7 @@
           tile
         >
           <v-img
-            :src="require('../assets/placeholders/' + latest.image)"
+            :src="require('../assets/placeholders/' + latest.images[0].image_url)"
           ></v-img>
         </v-avatar>
 
