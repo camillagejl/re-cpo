@@ -397,14 +397,20 @@
                     contain
                   ></v-img>
                   <p>
-                    Something something
+                    <v-btn
+                    plain
+                    color="primary"
+                    @click="setMainImage(selectedImage)"
+                    >
+                    Select as main image
+                    </v-btn>
                   </p>
                 </v-row>
                 <v-row
                   class="d-flex flex-row flex-wrap justify-center"
                 >
                   <v-img
-                    v-for="(image, i) in sortByOrder(recipeVersion.images)" :key="image.id"
+                    v-for="(image, i) in recipeVersion.images" :key="image.id"
                     :src="require('../assets/placeholders/' + image.image_url)"
                     max-width="75"
                     @click="selectedImage = i"
@@ -803,6 +809,14 @@ export default {
     }
   },
   methods: {
+    setMainImage(index) {
+      const images = this.recipeVersion.images;
+
+      images[0].order_number = images[index].order_number;
+      images[index].order_number = 1;
+
+      this.recipeVersion.images = this.sortByOrder(images);
+    },
     sortByOrder(array) {
       return array.sort((a, b) => (a.order_number > b.order_number) ? 1 : -1);
     },
@@ -885,7 +899,7 @@ export default {
 
             this.recipeVersion.time = version.time;
             this.recipeVersion.description = version.description;
-            this.recipeVersion.images = version.images;
+            this.recipeVersion.images = this.sortByOrder(version.images);
             this.recipeVersion.serving_suggestions = version.serving_suggestions;
             this.recipeVersion.storage = version.storage;
 
