@@ -38,10 +38,10 @@ export default new Vuex.Store({
             },
             nutrition: {
               calories: "320",
-              protein: "320",
-              carbohydrates: "320",
-              fat: "320",
-              salt: "320"
+              protein: "11",
+              carbohydrates: "5",
+              fat: "21",
+              salt: "0.6"
             },
             nutrition_unit: 2,
             servings: 4,

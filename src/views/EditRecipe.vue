@@ -384,23 +384,24 @@
           :text="'Discard changes'"
           :color="'error'"
           :plain="true"
-          @clickEvent="discardChangesOverlay = !discardChangesOverlay"
+          @clickEvent="discardChangesOverlay = true"
         ></IconButton>
 
         <IconButton
           :icon="'mdi-content-save'"
           :text="'Save recipe'"
           :color="'primary'"
-          @clickEvent="logme"
+          @clickEvent="saveChangesOverlay = true"
         ></IconButton>
       </v-container>
 
+      <!-- Discard recipe overlay -->
       <v-overlay
         :value="discardChangesOverlay"
       >
         <v-card
           class="mx-auto"
-          max-width="344"
+          width="344"
           outlined
           light
         >
@@ -426,6 +427,66 @@
               :icon="'mdi-delete'"
               :color="'error'"
               @clickEvent="discardChanges"
+            ></IconButton>
+          </v-card-actions>
+
+          <v-expand-transition>
+            <v-card
+              v-if="discardedChanges"
+              class="transition-fast-in-fast-out v-card--reveal"
+              style="height: 100%;"
+            >
+              <v-card-text class="d-flex flex-column align-center">
+                <p class="text-h5 text--primary">
+                  Your changes have been discarded!
+                </p>
+                <v-progress-circular
+                  :size="50"
+                  color="primary"
+                  indeterminate
+                ></v-progress-circular>
+              </v-card-text>
+            </v-card>
+          </v-expand-transition>
+
+        </v-card>
+      </v-overlay>
+
+      <!-- Save recipe overlay -->
+      <v-overlay
+        :value="saveChangesOverlay"
+      >
+        <v-card
+          class="mx-auto"
+          width="344"
+          outlined
+          light
+        >
+          <v-card-title>
+            Save recipe?
+          </v-card-title>
+          <v-textarea
+            class="px-4 pt-0 pb-4"
+            outlined
+            hide-details
+            placeholder="Write a comment so you can remember this version.">
+
+          </v-textarea>
+          <v-card-actions
+            class="d-flex justify-end"
+          >
+            <IconButton
+              :text="'Cancel'"
+              :icon="'mdi-close'"
+              :plain="true"
+              :color="'secondary'"
+              @clickEvent="saveChangesOverlay = !saveChangesOverlay"
+            ></IconButton>
+            <IconButton
+              :text="'Save'"
+              :icon="'mdi-content-save'"
+              :color="'primary'"
+              @clickEvent="saveChanges"
             ></IconButton>
           </v-card-actions>
 
@@ -478,9 +539,10 @@ export default {
     discardChangesOverlay: false,
     discardedChanges: false,
 
-    saveChangesOverlay: false,
+    saveChangesOverlay: true,
 
     userId: 1,
+    editingVersionId: 1,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
@@ -491,6 +553,7 @@ export default {
 
     // The information of the recipe that will be saved in Store
     recipeVersion: {
+      recipeId: null,
       id: null,
       title: null,
       date: null,
@@ -580,7 +643,7 @@ export default {
       const month = ("0" + (newDate.getMonth() + 1)).slice(-2);
       const date = ("0" + newDate.getDate()).slice(-2);
 
-      return year + "/" + month + "/" + date;
+      return `${year}/${month}/${date}`;
     }
   },
   watch: {
@@ -702,8 +765,8 @@ export default {
         router.push("/wip-overview");
       }, 3000);
     },
-    logme() {
-      console.log("hi there");
+    saveChanges() {
+      console.log("Saving!")
     },
     getHoursAndMinutes(totalMinutes) {
       const actualHours = Math.floor(totalMinutes / 60);
@@ -736,63 +799,71 @@ export default {
   },
   mounted() {
     // ----- Populating data() with data from store -----
+    if (this.editingVersionId) {
 
-    const recipeVersionFromStore = this.recipes[0].versions[0];
+      this.recipes.forEach(recipe => {
+        recipe.versions.forEach(version => {
+          if (version.id === this.editingVersionId) {
+            this.recipeVersion.recipeId = recipe.id;
 
-    this.recipeVersion.title = recipeVersionFromStore.title;
+            this.recipeVersion.title = version.title;
 
-    // --- The below fields need to have the object added specifically to
-    // the data, as the comboboxes can't work with id only, since it will
-    // interpret is as text.
+            // --- The below fields need to have the object added specifically to
+            // the data, as the comboboxes can't work with id only, since it will
+            // interpret is as text.
 
-    // Finds category object from recipe's category
-    this.sorted_categories.forEach(categoryObject => {
-      if (recipeVersionFromStore.category === categoryObject.id) {
-        this.recipeVersion.category = categoryObject;
-      }
-    });
+            // Finds category object from recipe's category
+            this.sorted_categories.forEach(categoryObject => {
+              if (version.category === categoryObject.id) {
+                this.recipeVersion.category = categoryObject;
+              }
+            });
 
-    // Finds serving type object from recipe's serving type
-    this.serving_types.forEach(servingTypeObject => {
-      if (recipeVersionFromStore.serving_type === servingTypeObject.id) {
-        this.recipeVersion.serving_type = servingTypeObject;
-      }
-    });
+            // Finds serving type object from recipe's serving type
+            this.serving_types.forEach(servingTypeObject => {
+              if (version.serving_type === servingTypeObject.id) {
+                this.recipeVersion.serving_type = servingTypeObject;
+              }
+            });
 
-    // Finds tag objects from recipe's tag id
-    recipeVersionFromStore.tags.forEach(tag => {
-      this.recipe_tags.forEach(tagObject => {
-        if (tag === tagObject.id) this.recipeVersion.tags.push(tagObject);
+            // Finds tag objects from recipe's tag id
+            version.tags.forEach(tag => {
+              this.recipe_tags.forEach(tagObject => {
+                if (tag === tagObject.id) this.recipeVersion.tags.push(tagObject);
+              });
+            });
+
+            // ---
+
+            this.recipeVersion.nutrition = version.nutrition;
+            this.recipeVersion.nutrition_unit = version.nutrition_unit;
+
+            this.recipeVersion.time = version.time;
+            this.recipeVersion.description = version.description;
+            this.recipeVersion.serving_suggestions = version.serving_suggestions;
+            this.recipeVersion.storage = version.storage;
+
+            const actualWorkTime = this.getHoursAndMinutes(version.time.work_time);
+            this.workHours = actualWorkTime.hours;
+            this.workMinutes = actualWorkTime.minutes;
+
+            const actualIdleTime = this.getHoursAndMinutes(version.time.idle_time);
+            this.idleHours = actualIdleTime.hours;
+            this.idleMinutes = actualIdleTime.minutes;
+
+            this.recipeVersion.servings = version.servings;
+            this.recipeVersion.ingredients = version.ingredients;
+            this.recipeVersion.steps = version.steps;
+            this.recipeVersion.notes = version.notes;
+
+            // Removes extra spaces in notes. Might need to be deleted.
+            this.recipeVersion.notes.forEach(note => {
+              note.note = note.note.replace(/\s+/g, " ").trim();
+            });
+          }
+        });
       });
-    });
-
-    // ---
-
-    this.recipeVersion.nutrition = recipeVersionFromStore.nutrition;
-    this.recipeVersion.nutrition_unit = recipeVersionFromStore.nutrition_unit;
-
-    this.recipeVersion.time = recipeVersionFromStore.time;
-    this.recipeVersion.description = recipeVersionFromStore.description;
-    this.recipeVersion.serving_suggestions = recipeVersionFromStore.serving_suggestions;
-    this.recipeVersion.storage = recipeVersionFromStore.storage;
-
-    const actualWorkTime = this.getHoursAndMinutes(recipeVersionFromStore.time.work_time);
-    this.workHours = actualWorkTime.hours;
-    this.workMinutes = actualWorkTime.minutes;
-
-    const actualIdleTime = this.getHoursAndMinutes(recipeVersionFromStore.time.idle_time);
-    this.idleHours = actualIdleTime.hours;
-    this.idleMinutes = actualIdleTime.minutes;
-
-    this.recipeVersion.servings = recipeVersionFromStore.servings;
-    this.recipeVersion.ingredients = recipeVersionFromStore.ingredients;
-    this.recipeVersion.steps = recipeVersionFromStore.steps;
-    this.recipeVersion.notes = recipeVersionFromStore.notes;
-
-    // Removes extra spaces in notes. Might need to be deleted.
-    this.recipeVersion.notes.forEach(note => {
-      note.note = note.note.replace(/\s+/g, " ").trim();
-    });
+    }
 
     this.recipeVersion.id = this.version_ids.slice(-1)[0] + 1;
     this.recipeVersion.date = this.thisDate;
