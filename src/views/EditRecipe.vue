@@ -876,7 +876,10 @@ export default {
       // -----
 
       if (this.recipeVersion.tags.length > 0) {
+
         this.recipeVersion.tags.forEach((tag, i) => {
+          // Checks if any of the tags are not objects, and if so, creates a new
+          // tag in store and adds this object to recipe tags.
           if (typeof tag !== "object") {
             const newTag = {
               id: this.tag_ids.slice(-1)[0] + 1,
@@ -886,8 +889,17 @@ export default {
             this.addNewTag({ tag: newTag });
             this.recipeVersion.tags[i] = newTag;
           }
+
+          // ... and then, replaces tag objects with tag ids
+          this.recipeVersion.tags[i] = this.recipeVersion.tags[i].id;
+
         });
       }
+
+
+
+
+
 
       // Headers, ingredients, steps and comments all need new ids
 
