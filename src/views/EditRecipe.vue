@@ -400,6 +400,7 @@
                     <v-btn
                     plain
                     color="primary"
+                    class="mt-2"
                     @click="setMainImage(selectedImage)"
                     >
                     Select as main image
@@ -533,7 +534,7 @@
               :text="'Save'"
               :icon="'mdi-content-save'"
               :color="'primary'"
-              @clickEvent="updateRecipe('discard')"
+              @clickEvent="pushToStore"
             ></IconButton>
           </v-card-actions>
 
@@ -563,7 +564,7 @@
 
 <script>
 
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import IconHeader from "../components/IconHeader";
 import NutritionInput from "../components/NutritionInput";
 import RecipeStep from "../components/RecipeStep";
@@ -578,7 +579,7 @@ export default {
   components: { AdjustPlainNumber, Note, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [3],
+    panel: [],
     imageCarouselNumber: null,
     selectedImage: 0,
 
@@ -809,6 +810,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      "addNewCategory"
+    ]),
     setMainImage(index) {
       const images = this.recipeVersion.images;
 
@@ -816,13 +820,14 @@ export default {
       images[index].order_number = 1;
 
       this.recipeVersion.images = this.sortByOrder(images);
+      this.selectedImage = 0;
     },
     sortByOrder(array) {
       return array.sort((a, b) => (a.order_number > b.order_number) ? 1 : -1);
     },
     updateRecipe(prop) {
-      if (prop === "save") this.discardedChanges = true;
-      if (prop === "discard") this.savedChanges = true;
+      if (prop === "save") this.savedChanges = true;
+      if (prop === "discard") this.discardedChanges = true;
       setTimeout(function() {
         router.push("/wip-overview");
       }, 3000);
@@ -834,23 +839,31 @@ export default {
       return { hours: actualHours, minutes: actualMinutes };
     },
     pushToStore() {
-      if (typeof this.recipeVersion.category !== "object"
-        && this.recipeVersion.category !== null) {
-        // Do stuff to create new category
-      }
+      if (typeof this.recipeVersion.category !== "object") {
 
-      if (this.recipeVersion.tags.length > 0) {
-        const newTags = [];
-        this.recipeVersion.tags.forEach(tag => {
-          if (typeof tag !== "object") {
-            newTags.push(tag);
-          }
-        });
-
-        if (newTags.length > 0) {
-          //  Do stuff to create new tags
+        const newCategory = {
+          id: this.category_ids.slice(-1)[0]+1,
+          user_id: this.userId,
+          name: this.recipeVersion.category
         }
+
+        this.addNewCategory({category: newCategory})
       }
+
+      this.updateRecipe('save');
+
+      // if (this.recipeVersion.tags.length > 0) {
+      //   const newTags = [];
+      //   this.recipeVersion.tags.forEach(tag => {
+      //     if (typeof tag !== "object") {
+      //       newTags.push(tag);
+      //     }
+      //   });
+      //
+      //   if (newTags.length > 0) {
+      //     //  Do stuff to create new tags
+      //   }
+      // }
 
       // Headers, ingredients, steps and comments all need new ids
 

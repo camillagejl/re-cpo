@@ -405,7 +405,11 @@ export default new Vuex.Store({
       });
     }
   },
-  mutations: {},
+  mutations: {
+    addNewCategory(state, payload) {
+      state.categories.push(payload.category)
+    }
+  },
   actions: {},
   modules: {}
 });
