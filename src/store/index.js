@@ -299,6 +299,10 @@ export default new Vuex.Store({
       // Sort function: https://stackoverflow.com/a/1129270;
       return state.categories.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0));
     },
+    sorted_serving_types: (state) => {
+      // Sort function: https://stackoverflow.com/a/1129270;
+      return state.serving_types.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0));
+    },
 
     // Find all ids for attributes where new can be added through the app.
     // This is *NOT* supposed to happen in the front end, but in the database,
@@ -411,7 +415,10 @@ export default new Vuex.Store({
     },
     addNewTag(state, payload) {
       state.recipe_tags.push(payload.tag)
-    }
+    },
+    addNewServingType(state, payload) {
+      state.serving_types.push(payload.servingType)
+    },
   },
   actions: {},
   modules: {}

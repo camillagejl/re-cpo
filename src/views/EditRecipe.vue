@@ -664,6 +664,7 @@ export default {
     ]),
     ...mapGetters([
       "sorted_categories",
+      "sorted_serving_types",
       "recipe_ids",
       "version_ids",
       "category_ids",
@@ -812,7 +813,8 @@ export default {
   methods: {
     ...mapMutations([
       "addNewCategory",
-      "addNewTag"
+      "addNewTag",
+      "addNewServingType"
     ]),
     setMainImage(index) {
       const images = this.recipeVersion.images;
@@ -912,6 +914,40 @@ export default {
         });
       }
 
+      // ----------
+
+      // Checks if the serving type is not an object, i.e. it is written manually
+      if (typeof this.recipeVersion.serving_type !== "object") {
+        let servingTypeExists = false;
+
+        // Checks if a serving type with that name already exists, and assigns
+        // this id to the recipe if it does.
+        this.sorted_serving_types.forEach(servingType => {
+          if (servingType.name === this.recipeVersion.serving_type) {
+            servingTypeExists = true;
+            this.recipeVersion.serving_type = servingType.id;
+          }
+        });
+
+        // If the serving type doesn't exist, creates a new one and assigns this
+        // id to the recipe.
+        if (!servingTypeExists) {
+          const newServingType = {
+            id: this.serving_type_ids.slice(-1)[0] + 1,
+            user_id: this.userId,
+            name: this.recipeVersion.serving_type[0].toUpperCase() + this.recipeVersion.serving_type.slice(1)
+          };
+
+          this.addNewServingType({ servingType: newServingType });
+          this.recipeVersion.serving_type = newServingType.id;
+        }
+      }
+
+      // If the category is an object, we will only save the id.
+      else if (typeof this.recipeVersion.category === "object") {
+        this.recipeVersion.category = this.recipeVersion.category.id;
+      }
+
 
       // Headers, ingredients, steps and comments all need new ids
 
@@ -941,7 +977,7 @@ export default {
             });
 
             // Finds serving type object from recipe's serving type
-            this.serving_types.forEach(servingTypeObject => {
+            this.sorted_serving_types.forEach(servingTypeObject => {
               if (version.serving_type === servingTypeObject.id) {
                 this.recipeVersion.serving_type = servingTypeObject;
               }
