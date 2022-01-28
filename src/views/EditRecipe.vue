@@ -579,7 +579,7 @@ export default {
   components: { AdjustPlainNumber, Note, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [],
+    panel: [0],
     imageCarouselNumber: null,
     selectedImage: 0,
 
@@ -811,7 +811,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      "addNewCategory"
+      "addNewCategory",
+      "addNewTag"
     ]),
     setMainImage(index) {
       const images = this.recipeVersion.images;
@@ -839,41 +840,58 @@ export default {
       return { hours: actualHours, minutes: actualMinutes };
     },
     pushToStore() {
+
+      // Checks if the category is not an object, i.e. it is written manually
       if (typeof this.recipeVersion.category !== "object") {
         let categoryExists = false;
 
+        // Checks if a category with that name already exists, and assigns this
+        // id to the recipe if it does.
         this.sorted_categories.forEach(category => {
-          if (category.name === this.recipeVersion.category) categoryExists = true;
+          if (category.name === this.recipeVersion.category) {
+            categoryExists = true;
+            this.recipeVersion.category = category.id;
+          }
         });
 
+        // If the category doesn't exist, creates a new one and assigns this id
+        // to the recipe.
         if (!categoryExists) {
           const newCategory = {
             id: this.category_ids.slice(-1)[0] + 1,
             user_id: this.userId,
-            name: this.recipeVersion.category.charAt(0).toUpperCase() + this.recipeVersion.category.slice(1)
+            name: this.recipeVersion.category[0].toUpperCase() + this.recipeVersion.category.slice(1)
           };
 
           this.addNewCategory({ category: newCategory });
+          this.recipeVersion.category = newCategory.id;
         }
       }
 
-      this.updateRecipe("save");
+      // If the category is an object, we will only save the id.
+      else if (typeof this.recipeVersion.category === "object") {
+        this.recipeVersion.category = this.recipeVersion.category.id;
+      }
 
-      // if (this.recipeVersion.tags.length > 0) {
-      //   const newTags = [];
-      //   this.recipeVersion.tags.forEach(tag => {
-      //     if (typeof tag !== "object") {
-      //       newTags.push(tag);
-      //     }
-      //   });
-      //
-      //   if (newTags.length > 0) {
-      //     //  Do stuff to create new tags
-      //   }
-      // }
+      // -----
+
+      if (this.recipeVersion.tags.length > 0) {
+        this.recipeVersion.tags.forEach((tag, i) => {
+          if (typeof tag !== "object") {
+            const newTag = {
+              id: this.tag_ids.slice(-1)[0] + 1,
+              user_id: this.userId,
+              name: tag[0].toUpperCase() + tag.slice(1)
+            };
+            this.addNewTag({ tag: newTag });
+            this.recipeVersion.tags[i] = newTag;
+          }
+        });
+      }
 
       // Headers, ingredients, steps and comments all need new ids
 
+      // this.updateRecipe("save");
     }
   },
   mounted() {

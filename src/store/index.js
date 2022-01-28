@@ -408,6 +408,9 @@ export default new Vuex.Store({
   mutations: {
     addNewCategory(state, payload) {
       state.categories.push(payload.category)
+    },
+    addNewTag(state, payload) {
+      state.recipe_tags.push(payload.tag)
     }
   },
   actions: {},
