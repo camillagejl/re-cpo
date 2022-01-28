@@ -389,7 +389,7 @@
                 cols="6"
               >
                 <v-row
-                class="mb-4 d-flex flex-column align-center"
+                  class="mb-4 d-flex flex-column align-center"
                 >
                   <v-img
                     :src="require('../assets/placeholders/' + recipeVersion.images[selectedImage].image_url)"
@@ -398,12 +398,12 @@
                   ></v-img>
                   <p>
                     <v-btn
-                    plain
-                    color="primary"
-                    class="mt-2"
-                    @click="setMainImage(selectedImage)"
+                      plain
+                      color="primary"
+                      class="mt-2"
+                      @click="setMainImage(selectedImage)"
                     >
-                    Select as main image
+                      Select as main image
                     </v-btn>
                   </p>
                 </v-row>
@@ -840,17 +840,24 @@ export default {
     },
     pushToStore() {
       if (typeof this.recipeVersion.category !== "object") {
+        let categoryExists = false;
 
-        const newCategory = {
-          id: this.category_ids.slice(-1)[0]+1,
-          user_id: this.userId,
-          name: this.recipeVersion.category
+        this.sorted_categories.forEach(category => {
+          if (category.name === this.recipeVersion.category) categoryExists = true;
+        });
+
+        if (!categoryExists) {
+          const newCategory = {
+            id: this.category_ids.slice(-1)[0] + 1,
+            user_id: this.userId,
+            name: this.recipeVersion.category.charAt(0).toUpperCase() + this.recipeVersion.category.slice(1)
+          };
+
+          this.addNewCategory({ category: newCategory });
         }
-
-        this.addNewCategory({category: newCategory})
       }
 
-      this.updateRecipe('save');
+      this.updateRecipe("save");
 
       // if (this.recipeVersion.tags.length > 0) {
       //   const newTags = [];

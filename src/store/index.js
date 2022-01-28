@@ -297,7 +297,7 @@ export default new Vuex.Store({
   getters: {
     sorted_categories: (state) => {
       // Sort function: https://stackoverflow.com/a/1129270;
-      return state.categories.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+      return state.categories.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0));
     },
 
     // Find all ids for attributes where new can be added through the app.
