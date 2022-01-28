@@ -881,13 +881,29 @@ export default {
           // Checks if any of the tags are not objects, and if so, creates a new
           // tag in store and adds this object to recipe tags.
           if (typeof tag !== "object") {
-            const newTag = {
-              id: this.tag_ids.slice(-1)[0] + 1,
-              user_id: this.userId,
-              name: tag[0].toUpperCase() + tag.slice(1)
-            };
-            this.addNewTag({ tag: newTag });
-            this.recipeVersion.tags[i] = newTag;
+
+            let tagExists = false;
+
+            // Checks if a category with that name already exists, and assigns this
+            // id to the recipe if it does.
+            this.recipe_tags.forEach(recipe_tag => {
+              console.log(recipe_tag);
+              if (recipe_tag.name === tag) {
+                console.log('exists')
+                tagExists = true;
+                this.recipeVersion.tags[i] = recipe_tag;
+              }
+            });
+
+            if (!tagExists) {
+              const newTag = {
+                id: this.tag_ids.slice(-1)[0] + 1,
+                user_id: this.userId,
+                name: tag[0].toUpperCase() + tag.slice(1)
+              };
+              this.addNewTag({ tag: newTag });
+              this.recipeVersion.tags[i] = newTag;
+            }
           }
 
           // ... and then, replaces tag objects with tag ids
@@ -895,10 +911,6 @@ export default {
 
         });
       }
-
-
-
-
 
 
       // Headers, ingredients, steps and comments all need new ids
