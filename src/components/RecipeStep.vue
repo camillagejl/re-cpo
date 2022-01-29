@@ -42,7 +42,6 @@
           class="pointer"
         ></v-img>
         </TooltipIcon>
-
       </p>
     </v-col>
 

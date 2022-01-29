@@ -74,10 +74,10 @@ export default new Vuex.Store({
                 id: 9,
                 image_url: "veggie_lasagna.jpg",
                 order_number: 9
-              },
+              }
             ],
             version_comment: `Removed the courgette because it got too soft
-            compared to the other ...`,
+            compared to the other ingredients. Also tested on Mona.`,
             category: 2,
             tags: [1, 2],
             serving_type: 2,
@@ -316,7 +316,6 @@ export default new Vuex.Store({
         return a - b;
       });
     },
-
     version_ids: (state) => {
       const versionIds = [];
       state.recipes.forEach(recipe => {
@@ -328,7 +327,6 @@ export default new Vuex.Store({
         return a - b;
       });
     },
-
     category_ids: (state) => {
       const categoryIds = [];
       state.categories.forEach(category => {
@@ -338,7 +336,6 @@ export default new Vuex.Store({
         return a - b;
       });
     },
-
     tag_ids: (state) => {
       const tagIds = [];
       state.recipe_tags.forEach(tags => {
@@ -348,7 +345,6 @@ export default new Vuex.Store({
         return a - b;
       });
     },
-
     serving_type_ids: (state) => {
       const servingTypeIds = [];
       state.serving_types.forEach(servingTypes => {
@@ -358,67 +354,25 @@ export default new Vuex.Store({
         return a - b;
       });
     },
-
-    header_ids: (state) => {
-      const headerIds = [];
-
-      state.recipes.forEach(recipe => {
-        recipe.versions.forEach(version => {
-          version.ingredients.forEach(header => {
-            headerIds.push(header.id);
-          });
-        });
-      });
-
-      return headerIds.sort(function(a, b) {
-        return a - b;
-      });
-    },
-
-    ingredient_ids: (state) => {
-      const ingredientIds = [];
-
-      state.recipes.forEach(recipe => {
-        recipe.versions.forEach(version => {
-          version.ingredients.forEach(header => {
-            header.ingredients.forEach(ingredient => {
-              ingredientIds.push(ingredient.id);
-            });
-          });
-        });
-      });
-
-      return ingredientIds.sort(function(a, b) {
-        return a - b;
-      });
-    },
-
-    note_ids: (state) => {
-      const noteIds = [];
-
-      state.recipes.forEach(recipe => {
-        recipe.versions.forEach(version => {
-          version.notes.forEach(note => {
-            noteIds.push(note.id);
-          });
-        });
-      });
-
-      return noteIds.sort(function(a, b) {
-        return a - b;
-      });
-    }
   },
   mutations: {
     addNewCategory(state, payload) {
-      state.categories.push(payload.category)
+      state.categories.push(payload.category);
     },
     addNewTag(state, payload) {
-      state.recipe_tags.push(payload.tag)
+      state.recipe_tags.push(payload.tag);
     },
     addNewServingType(state, payload) {
-      state.serving_types.push(payload.servingType)
+      state.serving_types.push(payload.servingType);
     },
+    addNewRecipeVersion(state, payload) {
+      console.log("adding");
+      state.recipes.forEach(recipe => {
+        if (recipe.id === payload.recipeId) {
+          recipe.versions.push(payload.recipeVersion);
+        }
+      })
+    }
   },
   actions: {},
   modules: {}

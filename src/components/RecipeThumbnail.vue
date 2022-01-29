@@ -136,7 +136,7 @@
                   <td>{{ version.title }}</td>
                   <td>{{ version.date }}</td>
                   <td>Changes...</td>
-                  <td>{{ version.version_comment }}</td>
+                  <td>{{ shorten("comment", version.version_comment) }}</td>
                   <td>
                     <v-btn
                       color="primary"
@@ -175,6 +175,14 @@ export default {
   computed: {
     latest() {
       return this.recipe.versions.slice(-1)[0];
+    }
+  },
+  methods: {
+    shorten(type, string) {
+      return string.slice(0, 75) + '...'
+    },
+    shortenTest() {
+      return 'Works!'
     }
   }
 };

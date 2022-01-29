@@ -178,8 +178,14 @@
                   ></IconHeader>
 
                   <p>
-                    <b>{{ overallTime.hours }}</b> hours
-                    <b>{{ overallTime.minutes }}</b> minutes
+                    <b>{{ getHoursAndMinutes(overallTime([
+                      { hours: workHours, minutes: workMinutes },
+                      { hours: idleHours, minutes: idleMinutes }
+                    ])).hours }}</b> hours
+                    <b>{{ getHoursAndMinutes(overallTime([
+                      { hours: workHours, minutes: workMinutes },
+                      { hours: idleHours, minutes: idleMinutes }
+                    ])).minutes }} minutes</b> minutes
                   </p>
 
                 </v-container>
@@ -603,8 +609,7 @@ export default {
   },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [1],
-    imageCarouselNumber: null,
+    panel: [0],
     selectedImage: 0,
 
     editTitle: false,
@@ -616,15 +621,15 @@ export default {
     savedChanges: false,
 
     userId: 1,
-    editingVersionId: 1,
-    recipeId: 1,
+    editingVersionId: null,
+    recipeId: null,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
-    workHours: null,
-    workMinutes: null,
-    idleHours: null,
-    idleMinutes: null,
+    workHours: 0,
+    workMinutes: 0,
+    idleHours: 0,
+    idleMinutes: 0,
 
     // The information of the recipe that will be saved in Store
     recipeVersion: {
@@ -664,17 +669,18 @@ export default {
       {
         text: "Home",
         disabled: false,
-        href: "/"
+        to: "/"
+
       },
       {
         text: "Work in progress",
         disabled: false,
-        href: "/wip-overview"
+        to: "/wip-overview"
       },
       {
         text: "",
         disabled: true,
-        href: ""
+        to: ""
       }
     ]
 
@@ -695,9 +701,6 @@ export default {
       "category_ids",
       "tag_ids",
       "serving_type_ids",
-      "header_ids",
-      "ingredient_ids",
-      "note_ids"
     ]),
     servingTypeNames() {
       let servingTypes = [];
@@ -707,12 +710,6 @@ export default {
       });
 
       return servingTypes;
-    },
-    overallTime() {
-      const totalWorkMinutes = parseInt(this.workHours) * 60 + parseInt(this.workMinutes);
-      const totalIdleMinutes = parseInt(this.idleHours) * 60 + parseInt(this.idleMinutes);
-
-      return this.getHoursAndMinutes(totalWorkMinutes + totalIdleMinutes);
     },
     thisDate() {
       const newDate = new Date();
@@ -729,12 +726,20 @@ export default {
         this.idleMinutes = this.idleMinutes - 60;
         this.idleHours = this.idleHours + 1;
       }
+      if (isNaN(newValue)) this.idleMinutes = 0;
+    },
+    idleHours(newValue) {
+        if (isNaN(newValue)) this.idleHours = 0;
     },
     workMinutes(newValue) {
       if (parseInt(newValue) > 59) {
         this.workMinutes = this.workMinutes - 60;
         this.workHours = this.workHours + 1;
       }
+      if (isNaN(newValue)) this.workMinutes = 0;
+    },
+    workHours(newValue) {
+      if (isNaN(newValue)) this.workHours = 0;
     },
     "recipeVersion.ingredients": {
       deep: true,
@@ -839,8 +844,17 @@ export default {
     ...mapMutations([
       "addNewCategory",
       "addNewTag",
-      "addNewServingType"
+      "addNewServingType",
+      "addNewRecipeVersion"
     ]),
+    overallTime(times) {
+      let totalMinutes = 0;
+
+      times.forEach(time => {
+        totalMinutes = totalMinutes + parseInt(time.hours) * 60 + parseInt(time.minutes);
+      });
+      return totalMinutes;
+    },
     newHeader() {
       this.recipeVersion.ingredients.push({
         name: "New header",
@@ -875,13 +889,12 @@ export default {
       }, 3000);
     },
     getHoursAndMinutes(totalMinutes) {
-      const actualHours = Math.floor(totalMinutes / 60);
-      const actualMinutes = Math.round(totalMinutes - actualHours * 60);
+      let actualHours = Math.floor(totalMinutes / 60);
+      let actualMinutes = Math.round(totalMinutes - actualHours * 60);
 
       return { hours: actualHours, minutes: actualMinutes };
     },
     pushToStore() {
-
       // Checks if the category is not an object, i.e. it is written manually
       if (typeof this.recipeVersion.category !== "object") {
         let categoryExists = false;
@@ -928,9 +941,7 @@ export default {
             // Checks if a category with that name already exists, and assigns this
             // id to the recipe if it does.
             this.recipe_tags.forEach(recipe_tag => {
-              console.log(recipe_tag);
               if (recipe_tag.name === tag) {
-                console.log("exists");
                 tagExists = true;
                 this.recipeVersion.tags[i] = recipe_tag;
               }
@@ -987,8 +998,26 @@ export default {
         this.recipeVersion.category = this.recipeVersion.category.id;
       }
 
+      // Removes the last, empty ingredient, step and note.
+      this.recipeVersion.ingredients.forEach(header => {
+        header.ingredients.pop();
+      });
+      this.recipeVersion.steps.pop();
+      this.recipeVersion.notes.pop();
 
-      // Headers, ingredients, steps and comments all need new ids
+      this.recipeVersion.time.idle_time = this.overallTime([
+        { hours: this.idleHours, minutes: this.idleMinutes }
+      ]);
+
+      this.recipeVersion.time.work_time = this.overallTime([
+        { hours: this.workHours, minutes: this.workMinutes }
+      ]);
+
+
+      this.addNewRecipeVersion({
+        recipeId: this.recipeId,
+        recipeVersion: this.recipeVersion
+      })
 
 
       // this.updateRecipe("save");
@@ -1053,11 +1082,6 @@ export default {
             this.recipeVersion.ingredients = version.ingredients;
             this.recipeVersion.steps = version.steps;
             this.recipeVersion.notes = version.notes;
-
-            // Removes extra spaces in notes. Might need to be deleted.
-            this.recipeVersion.notes.forEach(note => {
-              note.note = note.note.replace(/\s+/g, " ").trim();
-            });
           }
         });
       });
