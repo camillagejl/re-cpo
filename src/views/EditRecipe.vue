@@ -27,7 +27,7 @@
         <v-btn
           icon
           class="ml-1"
-          @click="editTitle = !editTitle"
+          @click="editTitle = true"
         >
           <v-icon
             color="secondary"
@@ -321,12 +321,11 @@
                   class="pa-0"
                 >
 
-                  <h5
-                    v-if="header.name !== null"
-                    class="subtitle-1 d-flex align-center pt-6 pb-3"
+                  <IngredientHeader
+                    v-model="header.name"
+                    v-if="header.name"
                   >
-                    {{ header.name }}
-                  </h5>
+                  </IngredientHeader>
 
                   <!-- Make it properly draggable!
                   https://betterprogramming.pub/create-a-sortable-list-with-draggable-items-
@@ -338,6 +337,20 @@
                   >
                   </RecipeIngredient>
                 </v-container>
+
+                <v-row
+                >
+                  <v-col>
+                    <IconButton
+                      :icon="'mdi-plus'"
+                      :text="'Header'"
+                      :plain="true"
+                      :classProp="'pl-0'"
+                      @clickEvent="newHeader"
+                    ></IconButton>
+                  </v-col>
+                </v-row>
+
               </v-col>
 
               <v-spacer></v-spacer>
@@ -392,6 +405,7 @@
                   class="mb-4 d-flex flex-column align-center"
                 >
                   <v-img
+                    v-if="recipeVersion.images[selectedImage]"
                     :src="require('../assets/placeholders/' + recipeVersion.images[selectedImage].image_url)"
                     height="400"
                     contain
@@ -573,13 +587,23 @@ import IconButton from "../components/IconButton";
 import Note from "../components/Note";
 import AdjustPlainNumber from "../components/AdjustPlainNumber";
 import router from "../router";
+import IngredientHeader from "../components/IngredientHeader";
 
 export default {
   name: "EditRecipe",
-  components: { AdjustPlainNumber, Note, IconButton, RecipeIngredient, RecipeStep, NutritionInput, IconHeader },
+  components: {
+    IngredientHeader,
+    AdjustPlainNumber,
+    Note,
+    IconButton,
+    RecipeIngredient,
+    RecipeStep,
+    NutritionInput,
+    IconHeader
+  },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [0],
+    panel: [1],
     imageCarouselNumber: null,
     selectedImage: 0,
 
@@ -593,6 +617,7 @@ export default {
 
     userId: 1,
     editingVersionId: 1,
+    recipeId: 1,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
@@ -731,7 +756,7 @@ export default {
               order_number: null,
               name: null,
               amount: null,
-              unit_id: 1
+              measuring_unit: 1
             };
             ingredients.push(newIngredient);
           }
@@ -816,6 +841,20 @@ export default {
       "addNewTag",
       "addNewServingType"
     ]),
+    newHeader() {
+      this.recipeVersion.ingredients.push({
+        name: "New header",
+        ingredients: [
+          {
+            id: null,
+            order_number: null,
+            name: null,
+            amount: null,
+            measuring_unit: 1
+          }
+        ]
+      });
+    },
     setMainImage(index) {
       const images = this.recipeVersion.images;
 
@@ -891,7 +930,7 @@ export default {
             this.recipe_tags.forEach(recipe_tag => {
               console.log(recipe_tag);
               if (recipe_tag.name === tag) {
-                console.log('exists')
+                console.log("exists");
                 tagExists = true;
                 this.recipeVersion.tags[i] = recipe_tag;
               }
@@ -950,6 +989,7 @@ export default {
 
 
       // Headers, ingredients, steps and comments all need new ids
+
 
       // this.updateRecipe("save");
     }

@@ -4,7 +4,10 @@
       icon
       @click="updateAmountOnClick('decrease')"
     >
-      -
+      <v-icon
+        small>
+        mdi-minus
+      </v-icon>
     </v-btn>
 
     <v-text-field
@@ -35,7 +38,11 @@
       icon
       @click="updateAmountOnClick('increase')"
     >
-      +
+      <v-icon
+        small
+      >
+        mdi-plus
+      </v-icon>
     </v-btn>
 
     <p class="ma-0">

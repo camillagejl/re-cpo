@@ -3,7 +3,7 @@
     :color="color"
     :plain="plain"
     :elevation="plain ? 0 : 2"
-    :class="!dense ? 'pr-4' : 'pa-0'"
+    :class="[!dense ? 'pr-4' : 'pa-0', classProp]"
     :block="block"
     :to="to"
     @click="$emit('clickEvent')"
@@ -26,6 +26,7 @@ export default {
     plain: Boolean,
     block: Boolean,
     dense: Boolean,
+    classProp: String,
     to: String
   }
 };
