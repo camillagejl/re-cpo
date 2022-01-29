@@ -302,7 +302,7 @@
 
                   <v-col
                     cols="7"
-                    class="d-flex align-center mb-3"
+                    class="d-flex align-center mb-3 pt-0"
                   >
                     <AdjustPlainNumber
                       v-model="recipeVersion.servings"

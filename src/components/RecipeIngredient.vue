@@ -1,31 +1,15 @@
 <template>
   <v-row>
     <v-col cols="7" class="d-flex align-center">
-      <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-      <p
-        class="mx-3 mb-0"
-        v-bind="attrs"
-        v-on="on"
-        @click="clicked = true"
+      <TooltipIcon
+      :unclicked-tooltip="'Drag ingredient'"
+      :clickedTooltip="'Coming soon!'"
+      :icon="'drag'"
       >
         <v-icon>
           mdi-menu
         </v-icon>
-      </p>
-        </template>
-        <span
-          v-if="!clicked"
-        >
-          Drag ingredient
-        </span>
-        <span
-          v-if="clicked"
-        >
-          Coming soon!
-        </span>
-      </v-tooltip>
-
+      </TooltipIcon>
       <v-text-field
         v-model="ingredient.name"
         style="width: 10%"
@@ -37,9 +21,9 @@
     </v-col>
 
     <AdjustNumberField
-    v-model="ingredient"
-    :outlined="true"
-    :minValue="0"
+      v-model="ingredient"
+      :outlined="true"
+      :minValue="0"
     ></AdjustNumberField>
 
   </v-row>
@@ -49,10 +33,11 @@
 <script>
 
 import AdjustNumberField from "./AdjustNumberField";
+import TooltipIcon from "./TooltipIcon";
 
 export default {
   name: "RecipeIngredient",
-  components: { AdjustNumberField },
+  components: { TooltipIcon, AdjustNumberField },
   data: () => ({
     clicked: false
   }),

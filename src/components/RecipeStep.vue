@@ -1,11 +1,15 @@
 <template>
   <v-row>
     <v-col cols="12" class="d-flex align-center">
-      <p class="mx-3 mb-0">
+      <TooltipIcon
+        :unclicked-tooltip="'Drag ingredient'"
+        :clickedTooltip="'Coming soon!'"
+        :icon="'drag'"
+      >
         <v-icon>
           mdi-menu
         </v-icon>
-      </p>
+      </TooltipIcon>
 
       <v-text-field
         v-model="step.description"
@@ -22,15 +26,22 @@
           :src="require('../assets/placeholders/' + step.images[0].image_url)"
           height="40"
           width="40"
+          class="pointer"
           @click="showImages = !showImages"
         ></v-img>
 
-        <v-img
+        <TooltipIcon
           v-else
+          :unclicked-tooltip="'Add images'"
+          :clickedTooltip="'Coming soon!'"
+        >
+        <v-img
           :src="require('../assets/placeholders/placeholder_add.png')"
           height="40"
           width="40"
+          class="pointer"
         ></v-img>
+        </TooltipIcon>
 
       </p>
     </v-col>
@@ -59,9 +70,11 @@
 <script>
 
 import { mapState } from "vuex";
+import TooltipIcon from "./TooltipIcon";
 
 export default {
   name: "RecipeStep",
+  components: { TooltipIcon },
   data: () => ({
     showImages: false
   }),
