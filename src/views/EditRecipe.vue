@@ -609,7 +609,7 @@ export default {
   },
   data: () => ({
     // Keeps index of which panels are displayed.
-    panel: [0],
+    panel: [],
     selectedImage: 0,
 
     editTitle: false,
@@ -645,24 +645,50 @@ export default {
       time: {
         work_time: null,
         idle_time: null,
-        shelf_time: null,
-        shelf_time_unit: null
+        shelf_time: 0,
+        shelf_time_unit: 1
       },
       nutrition: {
-        calories: null,
-        protein: null,
-        carbohydrates: null,
-        fat: null,
-        salt: null
+        calories: "0",
+        protein: "0",
+        carbohydrates: "0",
+        fat: "0",
+        salt: "0"
       },
-      nutrition_unit: null,
+      nutrition_unit: 1,
       servings: null,
       description: null,
       serving_suggestions: null,
       storage: null,
-      ingredients: {},
-      steps: [],
-      notes: []
+      ingredients: [
+        {
+          name: null,
+          ingredients: [
+            {
+              amount: null,
+              id: null,
+              measuring_unit: 1,
+              name: null,
+              order_number: null
+            }
+          ]
+        }
+      ],
+      steps: [
+        {
+          id: null,
+          order_number: null,
+          description: null,
+          images: []
+        }
+      ],
+      notes: [
+        // {
+        //   id: null,
+        //   date: this.thisDate,
+        //   note: null
+        // }
+      ]
     },
 
     breadcrumbs: [
@@ -700,7 +726,7 @@ export default {
       "version_ids",
       "category_ids",
       "tag_ids",
-      "serving_type_ids",
+      "serving_type_ids"
     ]),
     servingTypeNames() {
       let servingTypes = [];
@@ -729,7 +755,7 @@ export default {
       if (isNaN(newValue)) this.idleMinutes = 0;
     },
     idleHours(newValue) {
-        if (isNaN(newValue)) this.idleHours = 0;
+      if (isNaN(newValue)) this.idleHours = 0;
     },
     workMinutes(newValue) {
       if (parseInt(newValue) > 59) {
@@ -923,7 +949,9 @@ export default {
       }
 
       // If the category is an object, we will only save the id.
-      else if (typeof this.recipeVersion.category === "object") {
+      else if (typeof this.recipeVersion.category === "object"
+      && this.recipeVersion.category !== null) {
+        console.log("this is an object")
         this.recipeVersion.category = this.recipeVersion.category.id;
       }
 
@@ -993,11 +1021,6 @@ export default {
         }
       }
 
-      // If the category is an object, we will only save the id.
-      else if (typeof this.recipeVersion.category === "object") {
-        this.recipeVersion.category = this.recipeVersion.category.id;
-      }
-
       // Removes the last, empty ingredient, step and note.
       this.recipeVersion.ingredients.forEach(header => {
         header.ingredients.pop();
@@ -1017,10 +1040,10 @@ export default {
       this.addNewRecipeVersion({
         recipeId: this.recipeId,
         recipeVersion: this.recipeVersion
-      })
+      });
 
 
-      // this.updateRecipe("save");
+      this.updateRecipe("save");
     }
   },
   mounted() {
