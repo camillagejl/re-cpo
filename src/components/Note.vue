@@ -3,7 +3,7 @@
       v-model="note.note"
       :label="note.date"
       placeholder="Write a private note..."
-      outlined
+      :outlined="!readOnly"
       :readonly="readOnly"
       hide-details
       rows="3"
@@ -71,6 +71,12 @@ export default {
 
 .disabled {
   opacity: 70%;
+  border: none !important;
+
+  & .v-input__slot::before {
+    border: none !important;;
+  }
+
 }
 
 </style>
