@@ -367,11 +367,26 @@ export default new Vuex.Store({
     },
     addNewRecipeVersion(state, payload) {
       console.log("adding");
+
+      let added = false;
+
       state.recipes.forEach(recipe => {
         if (recipe.id === payload.recipeId) {
           recipe.versions.push(payload.recipeVersion);
+          added = true;
         }
       })
+
+      if (!added) {
+        state.recipes.push({
+          id: payload.recipeId,
+          user_id: payload.userId,
+          created: payload.recipeVersion.date,
+          versions: [
+            payload.recipeVersion
+          ]
+        })
+      }
     }
   },
   actions: {},

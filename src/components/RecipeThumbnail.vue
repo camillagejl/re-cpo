@@ -8,7 +8,12 @@
           tile
         >
           <v-img
+            v-if="latest.images.length > 0"
             :src="require('../assets/placeholders/' + latest.images[0].image_url)"
+          ></v-img>
+          <v-img
+            v-else
+            :src="require('../assets/placeholder.png')"
           ></v-img>
         </v-avatar>
 
@@ -68,19 +73,25 @@
 
             <v-col
               cols="6"
-              class="d-flex flex-column justify-space-between align-end"
+              class="d-flex flex-column align-end"
             >
               <v-card-text
-                class="pt-0"
+                class="font-italic"
                 v-text="`
-              Last changes: +200 g carrots, +250 ml water, -100 tomatoes,
-              -1 courgette
+              Last changes: will be automatically calculated later
               `"
               ></v-card-text>
 
               <v-card-text
+                v-if="latest.version_comment"
                 class="pt-0"
                 v-text="'Comment: ' + latest.version_comment"
+              ></v-card-text>
+
+              <v-card-text
+                v-else
+                class="pt-0"
+                v-text="'Comment: none'"
               ></v-card-text>
             </v-col>
 
@@ -135,8 +146,12 @@
                 >
                   <td>{{ version.title }}</td>
                   <td>{{ version.date }}</td>
-                  <td>Changes...</td>
-                  <td>{{ shorten("comment", version.version_comment) }}</td>
+                  <td
+                  class="font-italic"
+                  >
+                    {{ shorten('changes', 'Will be automatically calculated later') }}
+                  </td>
+                  <td>{{ shorten('comment', version.version_comment) }}</td>
                   <td>
                     <v-btn
                       color="primary"
@@ -179,7 +194,11 @@ export default {
   },
   methods: {
     shorten(type, string) {
-      return string.slice(0, 75) + '...'
+      if (string) {
+        if (type === 'comment') return string.slice(0, 100) + '...'
+        if (type === 'changes') return string.slice(0, 50) + '...'
+      }
+      else return '';
     },
     shortenTest() {
       return 'Works!'

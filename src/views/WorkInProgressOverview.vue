@@ -17,7 +17,7 @@
     <v-container v-else>
       <v-row dense>
         <RecipeThumbnail
-          v-for="recipe in recipes"
+          v-for="recipe in recipes.reverse()"
           :key="recipe.id"
           :recipe="recipe"
         />

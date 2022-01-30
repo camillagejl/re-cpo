@@ -12,13 +12,13 @@
         class="ma-0 pa-0 d-flex align-center mb-9"
       >
         <h1
-          v-if="recipeVersion.title"
+          v-if="recipeVersion.title && recipeVersion.title !== 'New recipe'"
           class="text-h4"
         >
           {{ recipeVersion.title }}
         </h1>
         <h1
-          v-if="!recipeVersion.title"
+          v-if="!recipeVersion.title || recipeVersion.title === 'New recipe'"
           class="text-h4 font-italic"
         >
           Your recipe title
@@ -408,34 +408,49 @@
                 cols="6"
               >
                 <v-row
+                  v-if="recipeVersion.images[selectedImage]"
                   class="mb-4 d-flex flex-column align-center"
                 >
                   <v-img
-                    v-if="recipeVersion.images[selectedImage]"
                     :src="require('../assets/placeholders/' + recipeVersion.images[selectedImage].image_url)"
                     height="400"
                     contain
                   ></v-img>
-                  <p>
-                    <v-btn
-                      plain
-                      color="primary"
-                      class="mt-2"
-                      @click="setMainImage(selectedImage)"
-                    >
-                      Select as main image
-                    </v-btn>
-                  </p>
+                  <v-btn
+                    plain
+                    color="primary"
+                    class="mt-2"
+                    @click="setMainImage(selectedImage)"
+                  >
+                    Select as main image
+                  </v-btn>
                 </v-row>
                 <v-row
                   class="d-flex flex-row flex-wrap justify-center"
                 >
-                  <v-img
-                    v-for="(image, i) in recipeVersion.images" :key="image.id"
-                    :src="require('../assets/placeholders/' + image.image_url)"
-                    max-width="75"
-                    @click="selectedImage = i"
-                  ></v-img>
+                      <v-img
+                        v-for="(image, i) in recipeVersion.images" :key="image.id"
+                        :src="require('../assets/placeholders/' + image.image_url)"
+                        max-width="75"
+                        @click="selectedImage = i"
+                      ></v-img>
+
+                  <v-tooltip top>
+                    <template
+                      v-slot:activator="{ on, attrs }">
+                      <v-img
+                        :src="require('../assets/placeholders/placeholder_add.png')"
+                        max-width="75"
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-img>
+                    </template>
+                    <span>
+                    Add image coming soon...
+                    </span>
+                  </v-tooltip>
+
+
                 </v-row>
               </v-col>
             </v-row>
@@ -566,7 +581,7 @@
             >
               <v-card-text class="d-flex flex-column align-center">
                 <p class="text-h5 text--primary">
-                  Your recipe have been saved!
+                  Your recipe has been saved!
                 </p>
                 <v-progress-circular
                   :size="50"
@@ -621,8 +636,8 @@ export default {
     savedChanges: false,
 
     userId: 1,
-    editingVersionId: null,
-    recipeId: null,
+    editingVersionId: 1,
+    recipeId: 1,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
@@ -635,7 +650,7 @@ export default {
     recipeVersion: {
       recipeId: null,
       id: null,
-      title: null,
+      title: "New recipe",
       date: null,
       images: [],
       version_comment: null,
@@ -656,7 +671,7 @@ export default {
         salt: "0"
       },
       nutrition_unit: 1,
-      servings: null,
+      servings: 1,
       description: null,
       serving_suggestions: null,
       storage: null,
@@ -683,11 +698,11 @@ export default {
         }
       ],
       notes: [
-        // {
-        //   id: null,
-        //   date: this.thisDate,
-        //   note: null
-        // }
+        {
+          id: null,
+          date: null,
+          note: null
+        }
       ]
     },
 
@@ -950,8 +965,8 @@ export default {
 
       // If the category is an object, we will only save the id.
       else if (typeof this.recipeVersion.category === "object"
-      && this.recipeVersion.category !== null) {
-        console.log("this is an object")
+        && this.recipeVersion.category !== null) {
+        console.log("this is an object");
         this.recipeVersion.category = this.recipeVersion.category.id;
       }
 
@@ -1039,7 +1054,8 @@ export default {
 
       this.addNewRecipeVersion({
         recipeId: this.recipeId,
-        recipeVersion: this.recipeVersion
+        recipeVersion: this.recipeVersion,
+        userId: this.userId
       });
 
 
@@ -1110,6 +1126,11 @@ export default {
       });
     }
 
+    if (this.recipeVersion.notes[0].date === null) {
+      this.recipeVersion.notes[0].date = this.thisDate;
+    }
+
+    if (this.recipeId === null) this.recipeId = this.recipe_ids.slice(-1)[0] + 1;
     this.recipeVersion.id = this.version_ids.slice(-1)[0] + 1;
     this.recipeVersion.date = this.thisDate;
   }
