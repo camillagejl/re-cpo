@@ -366,8 +366,6 @@ export default new Vuex.Store({
       state.serving_types.push(payload.servingType);
     },
     addNewRecipeVersion(state, payload) {
-      console.log("adding");
-
       let added = false;
 
       state.recipes.forEach(recipe => {

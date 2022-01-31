@@ -71,7 +71,7 @@
           class="mb-3"
         ></v-text-field>
         <IconButton
-          :color="'primary'"
+          color="primary"
           :text="'Log in'"
           :block="true"
           @clickEvent="validate"
@@ -80,10 +80,11 @@
           Not a member yet?
           <IconButton
             :color="'primary'"
-            :text="'Sign up'"
+            :text="!signUpClicked ? 'Sign up' : 'Coming soon!'"
             :plain="true"
             :dense="true"
             class="ma-0 pl-2"
+            @clickEvent="signUpClicked = !signUpClicked"
           ></IconButton>
         </p>
       </v-form>
@@ -104,7 +105,8 @@ export default {
     user: {
       email: 'camilla@dilling.co',
       password: 'pass'
-    }
+    },
+    signUpClicked: false
   }),
   methods: {
     validate() {

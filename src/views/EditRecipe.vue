@@ -966,7 +966,6 @@ export default {
       // If the category is an object, we will only save the id.
       else if (typeof this.recipeVersion.category === "object"
         && this.recipeVersion.category !== null) {
-        console.log("this is an object");
         this.recipeVersion.category = this.recipeVersion.category.id;
       }
 

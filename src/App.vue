@@ -56,12 +56,39 @@ export default {
   // from the primary color.
   // https://vuetifyjs.com/en/styles/colors/#material-colors
 
+  --primary-color-lighten-5: #f2ffff;
+  --primary-color-lighten-4: #d5ffe6;
+  --primary-color-lighten-3: #b9edca;
+  --primary-color-lighten-2: #9ed1ae;
+  --primary-color-lighten-1: #83b594;
   --primary-color: #699A7A;
+  --primary-color-darken-1: #508061;
+  --primary-color-darken-2: #376749;
+  --primary-color-darken-3: #1f4e33;
   --primary-color-darken-4: #04371d;
 
-  --secondary-color: #9A7F6B;
-  --secondary-color-lighten-3: #EECFB9;
+  --secondary-color-lighten-5: #fffff1;
   --secondary-color-lighten-4: #FFEBD5;
+  --secondary-color-lighten-3: #EECFB9;
+  --secondary-color-lighten-2: #d1b49e;
+  --secondary-color-lighten-1: #b59984;
+  --secondary-color: #9A7F6B;
+  --secondary-color-darken-1: #806653;
+  --secondary-color-darken-2: #664e3c;
+  --secondary-color-darken-3: #4d3726;
+  --secondary-color-darken-4: #362211;
+
+  --error-color-lighten-5: #ffc7bf;
+  --error-color-lighten-4: #ffaba4;
+  --error-color-lighten-3: #ff9089;
+  --error-color-lighten-2: #e97570;
+  --error-color-lighten-1: #cb5a57;
+  --error-color: #ad4040;
+  --error-color-darken-1: #90252a;
+  --error-color-darken-2: #720115;
+  --error-color-darken-3: #570000;
+  --error-color-darken-4: #3f0000;
+
 }
 
 .main {
