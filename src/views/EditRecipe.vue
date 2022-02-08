@@ -428,16 +428,17 @@
                 <v-row
                   class="d-flex flex-row flex-wrap justify-center"
                 >
-                      <v-img
-                        v-for="(image, i) in recipeVersion.images" :key="image.id"
-                        :src="require('../assets/placeholders/' + image.image_url)"
-                        max-width="75"
-                        @click="selectedImage = i"
-                      ></v-img>
+                  <v-img
+                    v-for="(image, i) in recipeVersion.images" :key="image.id"
+                    :src="require('../assets/placeholders/' + image.image_url)"
+                    max-width="75"
+                    @click="selectedImage = i"
+                  ></v-img>
 
                   <v-tooltip top>
                     <template
-                      v-slot:activator="{ on, attrs }">
+                      v-slot:activator="{ on, attrs }"
+                    >
                       <v-img
                         :src="require('../assets/placeholders/placeholder_add.png')"
                         max-width="75"
@@ -636,8 +637,8 @@ export default {
     savedChanges: false,
 
     userId: 1,
-    editingVersionId: 1,
-    recipeId: 1,
+    editingVersionId: null,
+    recipeId: null,
 
     // Those times are separate from the rest of the recipeVersion, because
     // they are displayed in hours/minutes, but not saved that way.
@@ -1063,6 +1064,10 @@ export default {
   },
   mounted() {
     // ----- Populating data() with data from store -----
+
+    this.editingVersionId = parseInt(this.$route.params.version);
+    this.recipeId = parseInt(this.$route.params.recipe);
+
     if (this.editingVersionId) {
 
       this.recipes.forEach(recipe => {

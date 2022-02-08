@@ -26,6 +26,11 @@ export default new Vuex.Store({
             date: "2022/01/15",
             images: [
               {
+                id: 1,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 3
+              },
+              {
                 id: 10,
                 image_url: "veggie_lasagna.jpg",
                 order_number: 1
@@ -36,14 +41,165 @@ export default new Vuex.Store({
                 order_number: 10
               },
               {
+                id: 2,
+                image_url: "tapas.jpg",
+                order_number: 2
+              },
+              {
+                id: 3,
+                image_url: "re-cpo-full.png",
+                order_number: 4
+              },
+              {
+                id: 5,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 5
+              },
+              {
+                id: 6,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 6
+              },
+              {
+                id: 7,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 7
+              },
+              {
+                id: 8,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 8
+              },
+              {
+                id: 9,
+                image_url: "veggie_lasagna.jpg",
+                order_number: 9
+              }
+            ],
+            version_comment: `Removed the courgette because it got too soft
+            compared to the other ingredients. Also tested on Mona.`,
+            category: 2,
+            tags: [1, 2],
+            serving_type: 2,
+            time: {
+              work_time: 20,
+              idle_time: 90,
+              shelf_time: 5,
+              shelf_time_unit: 1
+            },
+            nutrition: {
+              calories: "320",
+              protein: "11",
+              carbohydrates: "5",
+              fat: "21",
+              salt: "0.6"
+            },
+            nutrition_unit: 2,
+            servings: 4,
+            description: "I'm a lasagna",
+            serving_suggestions: "Eat me",
+            storage: "In the fridge, please",
+            ingredients: [
+              {
+                id: 3,
+                order_number: 1,
+                name: null,
+                ingredients: [
+                  {
+                    id: 1,
+                    order_number: 1,
+                    name: "Carrots",
+                    amount: 300,
+                    measuring_unit: 2
+                  },
+                  {
+                    id: 4,
+                    order_number: 2,
+                    name: "Tomatoes",
+                    amount: 2,
+                    measuring_unit: 1
+                  }
+                ]
+              },
+              {
+                id: 2,
+                order_number: 2,
+                name: "Sauce",
+                ingredients: [
+                  {
+                    id: 3,
+                    order_number: 1,
+                    name: "Cauliflower",
+                    amount: 300,
+                    measuring_unit: 2
+                  },
+                  {
+                    id: 4,
+                    order_number: 2,
+                    name: "Water",
+                    amount: 2,
+                    measuring_unit: 1
+                  }
+                ]
+              }
+            ],
+            steps: [
+              {
+                id: 1,
+                order_number: 1,
+                description: "Peel the carrots.",
+                images: [
+                  {
+                    id: 1,
+                    image_url: "veggie_lasagna.jpg",
+                    order_number: 1
+                  },
+                  {
+                    id: 2,
+                    image_url: "veggie_lasagna.jpg",
+                    order_number: 2
+                  }
+                ]
+              }
+            ],
+            notes: [
+              {
+                id: 1,
+                date: "2021/11/04",
+                note: "This is a note"
+              }
+            ]
+          }
+        ]
+      },      {
+        id: 2,
+        user_id: 1,
+        created: "2022/01/13",
+        versions: [
+          {
+            id: 2,
+            title: "Tapas",
+            date: "2022/01/15",
+            images: [
+              {
+                id: 2,
+                image_url: "tapas.jpg",
+                order_number: 1
+              },
+              {
                 id: 1,
                 image_url: "veggie_lasagna.jpg",
                 order_number: 3
               },
               {
-                id: 2,
-                image_url: "tapas.jpg",
+                id: 10,
+                image_url: "veggie_lasagna.jpg",
                 order_number: 2
+              },
+              {
+                id: 4,
+                image_url: "placeholder_add.png",
+                order_number: 10
               },
               {
                 id: 3,

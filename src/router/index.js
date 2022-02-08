@@ -24,7 +24,7 @@ const routes = [
     component: WorkInProgressOverview,
   },
   {
-    path: "/edit-recipe",
+    path: "/recipes/:recipe/:version",
     name: "EditRecipe",
     component: EditRecipe,
   }

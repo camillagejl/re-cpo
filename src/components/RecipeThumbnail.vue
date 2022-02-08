@@ -110,7 +110,7 @@
                 :icon="'mdi-chevron-right'"
                 :text="'Go to recipe'"
                 :color="'primary'"
-                :to="'/edit-recipe'"
+                :to="{name: 'EditRecipe', params: {recipe: recipe.id, version: latest.id}}"
               ></IconButton>
             </v-card-actions>
 
