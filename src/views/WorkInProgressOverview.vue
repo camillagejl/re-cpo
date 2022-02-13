@@ -10,14 +10,14 @@
       Work in progress
     </h1>
 
-    <v-container v-if="!recipes">
+    <v-container v-if="!recipes_by_date">
       Loading
     </v-container>
 
     <v-container v-else>
       <v-row dense>
         <RecipeThumbnail
-          v-for="recipe in recipes.reverse()"
+          v-for="recipe in recipes_by_date"
           :key="recipe.id"
           :recipe="recipe"
         />
@@ -50,16 +50,7 @@
         dark
         small
         color="secondary"
-      >
-        <v-icon left>mdi-pencil</v-icon>
-        New from template
-      </v-btn>
-
-      <v-btn
-        dark
-        small
-        color="secondary"
-        to="/edit-recipe"
+        :to="{name: 'EditRecipe', params: {recipe: '0', version: '0'}}"
       >
         <v-icon left>mdi-plus</v-icon>
         New from scratch
@@ -72,7 +63,7 @@
 <script>
 
 import RecipeThumbnail from "../components/RecipeThumbnail";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "WorkInProgressOverview",
@@ -80,23 +71,24 @@ export default {
     RecipeThumbnail
   },
   computed: {
-    ...mapState([
-      "recipes"
+    ...mapGetters([
+      "recipes_by_date"
     ])
   },
   data: () => ({
     fab: false,
+    template_clicked: false,
 
     breadcrumbs: [
       {
         text: 'Home',
         disabled: false,
-        href: '/',
+        to: {name: 'Home'}
       },
       {
         text: '',
         disabled: true,
-        href: '',
+        to: '',
       },
     ],
   }),

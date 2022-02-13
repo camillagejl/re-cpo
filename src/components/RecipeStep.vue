@@ -11,19 +11,21 @@
         </v-icon>
       </TooltipIcon>
 
-      <v-text-field
+      <v-textarea
         v-model="step.description"
+        rows="3"
+        auto-grow
         style="width: 10%"
         outlined
         dense
         hide-details
       >
-      </v-text-field>
+      </v-textarea>
 
       <p class="mx-3 mb-0">
         <v-img
           v-if="step.images.length > 0"
-          :src="require('../assets/placeholders/' + step.images[0].image_url)"
+          :src="require('../assets/recipe_images/' + step.images[0].image_url)"
           height="40"
           width="40"
           class="pointer"
@@ -36,7 +38,7 @@
           :clickedTooltip="'Coming soon!'"
         >
         <v-img
-          :src="require('../assets/placeholders/placeholder_add.png')"
+          :src="require('../assets/placeholder_add.png')"
           height="40"
           width="40"
           class="pointer"
@@ -53,7 +55,7 @@
         >
           <v-img
             v-for="image in step.images" :key="image.id"
-            :src="require('../assets/placeholders/' + image.image_url)"
+            :src="require('../assets/recipe_images/' + image.image_url)"
             height="60"
             max-width="60"
             contain
@@ -83,7 +85,7 @@ export default {
   computed: {
     ...mapState([
       "categories",
-      "recipe_tags",
+      "tags",
       "serving_types",
       "nutrition_units",
       "recipes",

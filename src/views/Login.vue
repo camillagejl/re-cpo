@@ -4,26 +4,22 @@
   >
     <v-col
       cols="6"
-      style="
-      color: var(--primary-color-darken-4);
-      background-color: var(--primary-color);
-      background-image: url('../assets/placeholders/tapas.jpg');
-"
-      class="d-flex align-center justify-center pa-12"
+      :style="{backgroundImage: 'url(' + require('../assets/login_background.jpg') + ')'}"
+      class="d-flex align-center pa-12"
     >
-      <v-row>
         <v-col
-          cols="6"
+        cols="7"
         >
           <v-img
-            :src="require('../assets/placeholders/re-cpo-full.png')"
+            :src="require('../assets/re-cpo-full.png')"
           ></v-img>
         </v-col>
         <v-col
-          cols="6"
-          class="d-flex flex-column justify-space-between py-12"
+          cols="5"
+          class="d-flex flex-column justify-space-between "
         >
-          <p>Welcome back to...</p>
+          <p
+          class="pb-12">Welcome back to...</p>
           <v-container
             class="pa-0"
           >
@@ -38,7 +34,6 @@
           </v-container>
           <v-container></v-container>
         </v-col>
-      </v-row>
     </v-col>
     <v-col
       cols="6"
@@ -58,7 +53,6 @@
           prepend-inner-icon="mdi-chef-hat"
           hide-details
           class="my-3"
-          :rules="[v => !!v || 'Email is required']"
         ></v-text-field>
         <v-text-field
           filled
@@ -74,7 +68,7 @@
           color="primary"
           :text="'Log in'"
           :block="true"
-          @clickEvent="validate"
+          :to="{name: 'Home'}"
         ></IconButton>
         <p class="d-flex justify-end align-center">
           Not a member yet?
@@ -102,16 +96,7 @@ export default {
   components: { IconButton },
   data: () => ({
     showPassword: false,
-    user: {
-      email: 'camilla@dilling.co',
-      password: 'pass'
-    },
     signUpClicked: false
   }),
-  methods: {
-    validate() {
-      console.log(this.$refs.login.$el);
-    }
-  }
 };
 </script>

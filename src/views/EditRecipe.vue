@@ -94,14 +94,12 @@
                 <v-combobox
                   v-model="recipeVersion.tags"
                   label="Tags"
-                  :items="recipe_tags"
+                  :items="sorted_tags"
                   item-text="name"
-                  item-value="id"
                   outlined
-                  chips
-                  multiple
                   small-chips
                   deletable-chips
+                  multiple
                 ></v-combobox>
               </v-col>
 
@@ -412,7 +410,7 @@
                   class="mb-4 d-flex flex-column align-center"
                 >
                   <v-img
-                    :src="require('../assets/placeholders/' + recipeVersion.images[selectedImage].image_url)"
+                    :src="require('../assets/recipe_images/' + recipeVersion.images[selectedImage].image_url)"
                     height="400"
                     contain
                   ></v-img>
@@ -430,7 +428,7 @@
                 >
                   <v-img
                     v-for="(image, i) in recipeVersion.images" :key="image.id"
-                    :src="require('../assets/placeholders/' + image.image_url)"
+                    :src="require('../assets/recipe_images/' + image.image_url)"
                     max-width="75"
                     @click="selectedImage = i"
                   ></v-img>
@@ -440,7 +438,7 @@
                       v-slot:activator="{ on, attrs }"
                     >
                       <v-img
-                        :src="require('../assets/placeholders/placeholder_add.png')"
+                        :src="require('../assets/placeholder_add.png')"
                         max-width="75"
                         v-bind="attrs"
                         v-on="on"
@@ -685,7 +683,6 @@ export default {
               id: null,
               measuring_unit: 1,
               name: null,
-              order_number: null
             }
           ]
         }
@@ -693,7 +690,6 @@ export default {
       steps: [
         {
           id: null,
-          order_number: null,
           description: null,
           images: []
         }
@@ -711,13 +707,14 @@ export default {
       {
         text: "Home",
         disabled: false,
-        to: "/"
+        to: { name: "Home" }
+
 
       },
       {
         text: "Work in progress",
         disabled: false,
-        to: "/wip-overview"
+        to: { name: "WorkInProgressOverview" }
       },
       {
         text: "",
@@ -729,7 +726,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      "recipe_tags",
+      "tags",
       "serving_types",
       "nutrition_units",
       "recipes",
@@ -738,6 +735,7 @@ export default {
     ...mapGetters([
       "sorted_categories",
       "sorted_serving_types",
+      "sorted_tags",
       "recipe_ids",
       "version_ids",
       "category_ids",
@@ -787,25 +785,27 @@ export default {
       deep: true,
       handler(headers) {
 
-
         Object.entries(headers).forEach(header => {
           const ingredients = header[1].ingredients;
 
           // Finds the last ingredient, and if the ingredient is not empty,
           // a new empty ingredient will be added at the end.
-          const lastIngredient = ingredients.slice(-1)[0];
-          if (
-            lastIngredient.name !== null ||
-            lastIngredient.amount !== null
-          ) {
+          {
             const newIngredient = {
               id: null,
-              order_number: null,
               name: null,
               amount: null,
               measuring_unit: 1
             };
-            ingredients.push(newIngredient);
+
+            if (ingredients.length === 0) ingredients.push(newIngredient);
+
+            const lastIngredient = ingredients.slice(-1)[0];
+            if (
+              lastIngredient.name !== null ||
+              lastIngredient.amount !== null
+            )
+              ingredients.push(newIngredient);
           }
 
           // Deletes ingredient if it is not empty, except if it's the last one.
@@ -822,22 +822,26 @@ export default {
         });
       }
     },
+
     "recipeVersion.steps": {
       deep: true,
       handler(steps) {
         // Finds the last step, and if the step is not empty,
         // a new empty step will be added at the end.
+
+        const newStep = {
+          description: null,
+          id: null,
+          images: [],
+        };
+
+        if (steps.length === 0) steps.push(newStep);
+
         const lastStep = steps.slice(-1)[0];
         if (
           lastStep.description !== null ||
           lastStep.images.length !== 0
         ) {
-          const newStep = {
-            description: null,
-            id: null,
-            images: [],
-            order_number: null
-          };
           steps.push(newStep);
         }
 
@@ -853,20 +857,25 @@ export default {
         });
       }
     },
+
     "recipeVersion.notes": {
       deep: true,
       handler(notes) {
         // Finds the last note  , and if the note  is not empty,
         // a new empty note  will be added at the end.
+
+        const newNote = {
+          id: null,
+          date: this.thisDate,
+          note: null
+        };
+
+        if (notes.length === 0) notes.push(newNote);
+
         const lastNote = notes.slice(-1)[0];
         if (
           lastNote.note !== null
         ) {
-          const newNote = {
-            id: null,
-            date: this.thisDate,
-            note: null
-          };
           notes.push(newNote);
         }
 
@@ -903,7 +912,6 @@ export default {
         ingredients: [
           {
             id: null,
-            order_number: null,
             name: null,
             amount: null,
             measuring_unit: 1
@@ -927,7 +935,7 @@ export default {
       if (prop === "save") this.savedChanges = true;
       if (prop === "discard") this.discardedChanges = true;
       setTimeout(function() {
-        router.push("/wip-overview");
+        router.push({ name: "WorkInProgressOverview" });
       }, 3000);
     },
     getHoursAndMinutes(totalMinutes) {
@@ -964,52 +972,13 @@ export default {
         }
       }
 
-      // If the category is an object, we will only save the id.
+      // If the category is an object, we will only save the id
       else if (typeof this.recipeVersion.category === "object"
         && this.recipeVersion.category !== null) {
         this.recipeVersion.category = this.recipeVersion.category.id;
       }
 
-      // -----
-
-      if (this.recipeVersion.tags.length > 0) {
-
-        this.recipeVersion.tags.forEach((tag, i) => {
-          // Checks if any of the tags are not objects, and if so, creates a new
-          // tag in store and adds this object to recipe tags.
-          if (typeof tag !== "object") {
-
-            let tagExists = false;
-
-            // Checks if a category with that name already exists, and assigns this
-            // id to the recipe if it does.
-            this.recipe_tags.forEach(recipe_tag => {
-              if (recipe_tag.name === tag) {
-                tagExists = true;
-                this.recipeVersion.tags[i] = recipe_tag;
-              }
-            });
-
-            if (!tagExists) {
-              const newTag = {
-                id: this.tag_ids.slice(-1)[0] + 1,
-                user_id: this.userId,
-                name: tag[0].toUpperCase() + tag.slice(1)
-              };
-              this.addNewTag({ tag: newTag });
-              this.recipeVersion.tags[i] = newTag;
-            }
-          }
-
-          // ... and then, replaces tag objects with tag ids
-          this.recipeVersion.tags[i] = this.recipeVersion.tags[i].id;
-
-        });
-      }
-
-      // ----------
-
-      // Checks if the serving type is not an object, i.e. it is written manually
+      // Checks if the serving type is not an object, i.e. is written manually
       if (typeof this.recipeVersion.serving_type !== "object") {
         let servingTypeExists = false;
 
@@ -1036,7 +1005,49 @@ export default {
         }
       }
 
-      // Removes the last, empty ingredient, step and note.
+      // If the serving type is an object, we will only save the id
+      else if (typeof this.recipeVersion.serving_type === "object"
+        && this.recipeVersion.serving_type !== null) {
+        this.recipeVersion.serving_type = this.recipeVersion.serving_type.id;
+      }
+
+      // If the recipe has tags, saves them properly
+      if (this.recipeVersion.tags.length > 0) {
+
+        this.recipeVersion.tags.forEach((tag, i) => {
+          // Checks if any of the tags are not objects, and if so, creates a
+          // new tag in store and adds this object to recipe tags.
+          if (typeof tag !== "object") {
+
+            let tagExists = false;
+
+            // Checks if a category with that name already exists, and assigns
+            // this id to the recipe if it does.
+            this.tags.forEach(recipe_tag => {
+              if (recipe_tag.name === tag) {
+                tagExists = true;
+                this.recipeVersion.tags[i] = recipe_tag;
+              }
+            });
+
+            if (!tagExists) {
+              const newTag = {
+                id: this.tag_ids.slice(-1)[0] + 1,
+                user_id: this.userId,
+                name: tag[0].toUpperCase() + tag.slice(1)
+              };
+              this.addNewTag({ tag: newTag });
+              this.recipeVersion.tags[i] = newTag;
+            }
+          }
+
+          // ... and then, replaces tag objects with tag ids
+          this.recipeVersion.tags[i] = this.recipeVersion.tags[i].id;
+
+        });
+      }
+
+      // Removes the last empty ingredient, step and note
       this.recipeVersion.ingredients.forEach(header => {
         header.ingredients.pop();
       });
@@ -1046,11 +1057,11 @@ export default {
       this.recipeVersion.time.idle_time = this.overallTime([
         { hours: this.idleHours, minutes: this.idleMinutes }
       ]);
-
       this.recipeVersion.time.work_time = this.overallTime([
         { hours: this.workHours, minutes: this.workMinutes }
       ]);
 
+      if (this.recipeId === 0) this.recipeId = this.recipe_ids.slice(-1)[0] + 1;
 
       this.addNewRecipeVersion({
         recipeId: this.recipeId,
@@ -1058,23 +1069,19 @@ export default {
         userId: this.userId
       });
 
-
       this.updateRecipe("save");
     }
   },
   mounted() {
-    // ----- Populating data() with data from store -----
-
     this.editingVersionId = parseInt(this.$route.params.version);
     this.recipeId = parseInt(this.$route.params.recipe);
 
+    // ----- Populating data() with data from store -----
     if (this.editingVersionId) {
-
       this.recipes.forEach(recipe => {
         recipe.versions.forEach(version => {
           if (version.id === this.editingVersionId) {
             this.recipeVersion.recipeId = recipe.id;
-
             this.recipeVersion.title = version.title;
 
             // --- The below fields need to have the object added specifically to
@@ -1097,7 +1104,7 @@ export default {
 
             // Finds tag objects from recipe's tag id
             version.tags.forEach(tag => {
-              this.recipe_tags.forEach(tagObject => {
+              this.sorted_tags.forEach(tagObject => {
                 if (tag === tagObject.id) this.recipeVersion.tags.push(tagObject);
               });
             });

@@ -27,7 +27,7 @@ export default {
     block: Boolean,
     dense: Boolean,
     classProp: String,
-    to: String
+    to: Object
   }
 };
 </script>

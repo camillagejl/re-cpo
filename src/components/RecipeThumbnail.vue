@@ -9,7 +9,7 @@
         >
           <v-img
             v-if="latest.images.length > 0"
-            :src="require('../assets/placeholders/' + latest.images[0].image_url)"
+            :src="require('../assets/recipe_images/' + latest.images[0].image_url)"
           ></v-img>
           <v-img
             v-else
@@ -134,7 +134,7 @@
                     Changes
                   </th>
                   <th class="text-uppercase">
-                    Change comment
+                    Iteration comment
                   </th>
                   <th></th>
                 </tr>
@@ -156,6 +156,7 @@
                     <v-btn
                       color="primary"
                       plain
+                      :to="{name: 'EditRecipe', params: {recipe: recipe.id, version: version.id}}"
                     >
                       <v-icon left>
                         mdi-chevron-right

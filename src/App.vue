@@ -13,6 +13,13 @@
       color="primary lighten-1"
       class="d-flex justify-center"
     >
+      <v-img
+        :src="require('./assets/re-cpo-small.png')"
+        class="fill-height"
+        contain
+      ></v-img>
+
+
       <v-toolbar-title
         class="white--text"
       >
@@ -23,6 +30,7 @@
     <v-main
       v-if="currentRouteName !== 'Login'"
     >
+
       <v-container class="main">
         <router-view></router-view>
       </v-container>
@@ -97,6 +105,12 @@ export default {
 
 .pointer {
   cursor: pointer;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap');
+
+.v-application .text-h4 {
+  font-family: 'Roboto Mono' !important;
 }
 
 /* Disable inner arrows in number inputs
