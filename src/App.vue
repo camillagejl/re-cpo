@@ -21,7 +21,7 @@
 
 
       <v-toolbar-title
-        class="white--text"
+        class="white--text ma-12 pr-12"
       >
         RE-CPO
       </v-toolbar-title>
@@ -109,8 +109,10 @@ export default {
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap');
 
-.v-application .text-h4 {
-  font-family: 'Roboto Mono' !important;
+.v-application .text-h4,
+.v-application .text-h5,
+.v-application .text-h6 {
+  font-family: 'Roboto Mono', sans-serif !important;
 }
 
 /* Disable inner arrows in number inputs
