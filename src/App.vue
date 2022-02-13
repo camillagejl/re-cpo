@@ -111,7 +111,7 @@ export default {
 
 .v-application .text-h4,
 .v-application .text-h5,
-.v-application .text-h6 {
+.v-application .text-h6, {
   font-family: 'Roboto Mono', sans-serif !important;
 }
 
