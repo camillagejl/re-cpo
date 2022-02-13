@@ -70,7 +70,7 @@ export default {
 <style lang="scss">
 
 .disabled {
-  opacity: 70%;
+  opacity: 0.7;
   border: none !important;
 
   & .v-input__slot::before {
